@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wp annual report</title>
+	<head>
+	<style type="text/css">
+		@page {
+			/* size: A4 landscape; */
+			margin: 10px 10px;
+		}
+		@media print {
+            h3 {
+                page-break-before: always;
+            }
+        }
+        h3:first-of-type {
+            page-break-before: auto;
+        }
+		body{
+			width: 100%;
+			margin: 0;
+			padding: 0px;
+			font-size: 16px;
+			line-height: 16px;
+			font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			color: rgb(33,33,33);
+		}
+
+		.report-body .heders h3,h4,h5,h6 {
+			margin: 8px;
+			text-align: center;
+		}
+		.tables{
+
+		}
+		.tables .table{
+			width: 100%;
+			margin-top:10px;
+		}
+		.tables table,th,td{
+			border: 1px solid black;
+  			border-collapse: collapse;
+		}
+
+		.tables table th{
+			font-size: 8px;
+		}
+
+		.tables table td{
+			font-size: 14px;
+		}
+		.tables table thead {display: table-row-group;}
+		
+	</style>
+	<meta charset="utf-8">
+</head>
+<body>
+	<div class="report-header">
+		<div class="header-titul">
+		</div>
+	</div>
+	<div class="report-body">
+		<div class="tables">
+			<h3>Բաժին 1.  ԵԱՏՄ անդամ պետությունների քաղաքացիների ընտանիքի անդամների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման դիմումների հիման վրա ընդունված  որոշումներով ընդգրկված անձանց բաշխումն ըստ  քաղաքացիության երկրի, սեռի և տարիքային խմբի.</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="{{tableData.table_1_data.countries.length}}">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+					{{#if tableData.table_1_data.countries.length}}
+						{{#each tableData.table_1_data.countries}}
+								<td>{{this}}</td>	
+						{{/each}}
+					{{/if}}
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+					{{#if tableData.table_1_data.countries.length}}
+						{{#each tableData.table_1_data.countries}}
+							<th>{{incrementIndex @index}}</th>	
+						{{/each}}
+					{{/if}}
+					<th>{{sum tableData.table_1_data.countries.length  1}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						{{#if tableData.table_1_data.countries.length}}
+							{{#each tableData.table_1_data.countries}}
+									<td></td>	
+							{{/each}}
+						{{/if}}
+						<td></td>
+					</tr>
+					{{#if tableData.table_1_data.arrayOfObjects.length}}
+						{{#each tableData.table_1_data.arrayOfObjects}}
+							<tr>		
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								{{#each ../tableData.table_1_data.countries}}
+								<td>{{getCountryData ../this this}}</td>
+								{{/each}}
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+			<h3>Բաժին 2. ԵԱՏՄ անդամ պետությունների քաղաքացիների ընտանիքի անդամների՝ ՀՀ-ում բնակության օրինականությունը հավաստող, տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված դրական որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="{{tableData.table_2_data.countries.length}}">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+					{{#if tableData.table_2_data.countries.length}}
+						{{#each tableData.table_2_data.countries}}
+								<td>{{this}}</td>	
+						{{/each}}
+					{{/if}}
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+					{{#if tableData.table_2_data.countries.length}}
+						{{#each tableData.table_2_data.countries}}
+							<th>{{incrementIndex @index}}</th>	
+						{{/each}}
+					{{/if}}
+					<th>{{sum tableData.table_2_data.countries.length  1}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						{{#if tableData.table_2_data.countries.length}}
+							{{#each tableData.table_2_data.countries}}
+									<td></td>	
+							{{/each}}
+						{{/if}}
+						<td></td>
+					</tr>
+					{{#if tableData.table_2_data.arrayOfObjects.length}}
+						{{#each tableData.table_2_data.arrayOfObjects}}
+							<tr>		
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								{{#each ../tableData.table_2_data.countries}}
+								<td>{{getCountryData ../this this}}</td>
+								{{/each}}
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+			<h3>Բաժին 3.  ԵԱՏՄ անդամ պետությունների քաղաքացիների ընտանիքի անդամների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված կարճման որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="{{tableData.table_3_data.countries.length}}">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+					{{#if tableData.table_3_data.countries.length}}
+						{{#each tableData.table_3_data.countries}}
+								<td>{{this}}</td>	
+						{{/each}}
+					{{/if}}
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+					{{#if tableData.table_3_data.countries.length}}
+						{{#each tableData.table_3_data.countries}}
+							<th>{{incrementIndex @index}}</th>	
+						{{/each}}
+					{{/if}}
+					<th>{{sum tableData.table_3_data.countries.length  1}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						{{#if tableData.table_3_data.countries.length}}
+							{{#each tableData.table_3_data.countries}}
+									<td></td>	
+							{{/each}}
+						{{/if}}
+						<td></td>
+					</tr>
+					{{#if tableData.table_3_data.arrayOfObjects.length}}
+						{{#each tableData.table_3_data.arrayOfObjects}}
+							<tr>		
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								{{#each ../tableData.table_3_data.countries}}
+								<td>{{getCountryData ../this this}}</td>
+								{{/each}}
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+
+			<h3>Բաժին 4.  ԵԱՏՄ անդամ պետությունների քաղաքացիների ընտանիքի անդամների՝ ՀՀ-ում բնակության օրինականությունը հավաստող, տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված մերժման որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="{{tableData.table_4_data.countries.length}}">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+					{{#if tableData.table_4_data.countries.length}}
+						{{#each tableData.table_4_data.countries}}
+								<td>{{this}}</td>	
+						{{/each}}
+					{{/if}}
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+					{{#if tableData.table_4_data.countries.length}}
+						{{#each tableData.table_4_data.countries}}
+							<th>{{incrementIndex @index}}</th>	
+						{{/each}}
+					{{/if}}
+					<th>{{sum tableData.table_4_data.countries.length  1}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						{{#if tableData.table_4_data.countries.length}}
+							{{#each tableData.table_4_data.countries}}
+									<td></td>	
+							{{/each}}
+						{{/if}}
+						<td></td>
+					</tr>
+					{{#if tableData.table_4_data.arrayOfObjects.length}}
+						{{#each tableData.table_4_data.arrayOfObjects}}
+							<tr>		
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								{{#each ../tableData.table_4_data.countries}}
+								<td>{{getCountryData ../this this}}</td>
+								{{/each}}
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

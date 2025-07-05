@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wp annual report</title>
+	<head>
+	<style type="text/css">
+		@page {
+			/* size: A4 portrait; */
+			margin: 10px 10px;
+		}
+		@media print {
+            h3 {
+                page-break-before: always;
+            }
+        }
+        h3:first-of-type {
+            page-break-before: auto;
+        }
+		body{
+			width: 100%;
+			margin: 0;
+			padding: 0px;
+			font-size: 16px;
+			line-height: 24px;
+			font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			color: rgb(33,33,33);
+		}
+
+		.report-body .heders h3,h4,h5,h6 {
+			margin: 8px;
+			text-align: center;
+		}
+		.tables{
+
+		}
+		.tables .table{
+			width: 100%;
+			margin-top:10px;
+		}
+		.tables table,th,td{
+			border: 1px solid black;
+  			border-collapse: collapse;
+		}
+
+		.tables table th{
+			font-size: 8px;
+		}
+
+		.tables table td{
+			font-size: 14px;
+		}
+		.tables table thead {display: table-row-group;}
+	</style>
+	<meta charset="utf-8">
+</head>
+<body>
+	<div class="report-header">
+		<div class="header-titul">
+		</div>
+	</div>
+	<div class="report-body">
+		<div class="tables">
+			<h3>Բաժին 1.  ԵԱՏՄ անդամ պետությունների քաղաքացիների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման  դիմումների հիման վրա ընդունված  որոշումներով ընդգրկված անձանց բաշխումն ըստ քաղաքացիության երկրի, սեռի և տարիքային խմբի.</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="5">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+						<th>Բելառուս</th>
+						<th>Ռուսաստան</th>
+						<th>Ղազախստան</th>
+						<th>Ղրղզստան</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					{{#if tableData.table_1_data.length}}
+						{{#each tableData.table_1_data}}
+							<tr>
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								<td>{{this.Belarus}}</td>
+								<td>{{this.Russia}}</td>
+								<td>{{this.Kazakhstan}}</td>
+								<td>{{this.Kyrgyzstan}}</td>
+								<td></td>
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+			<h3>Բաժին 2. ԵԱՏՄ անդամ պետությունների քաղաքացիների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված դրական որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="5">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+						<th>Բելառուս</th>
+						<th>Ռուսաստան</th>
+						<th>Ղազախստան</th>
+						<th>Ղրղզստան</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					{{#if tableData.table_2_data.length}}
+						{{#each tableData.table_2_data}}
+							<tr>
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								<td>{{this.Belarus}}</td>
+								<td>{{this.Russia}}</td>
+								<td>{{this.Kazakhstan}}</td>
+								<td>{{this.Kyrgyzstan}}</td>
+								<td></td>
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+			<h3>Բաժին 3.    ԵԱՏՄ անդամ պետությունների քաղաքացիների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված կարճման որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="5">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+						<th>Բելառուս</th>
+						<th>Ռուսաստան</th>
+						<th>Ղազախստան</th>
+						<th>Ղրղզստան</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					{{#if tableData.table_3_data.length}}
+						{{#each tableData.table_3_data}}
+							<tr>
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								<td>{{this.Belarus}}</td>
+								<td>{{this.Russia}}</td>
+								<td>{{this.Kazakhstan}}</td>
+								<td>{{this.Kyrgyzstan}}</td>
+								<td></td>
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+
+			<h3>Բաժին 4.  ԵԱՏՄ անդամ պետությունների քաղաքացիների՝ ՀՀ-ում բնակության օրինականությունը հավաստող տեղեկանքի տրամադրման դիմումների վերաբերյալ ընդունված մերժման որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="5">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+						<th>Բելառուս</th>
+						<th>Ռուսաստան</th>
+						<th>Ղազախստան</th>
+						<th>Ղրղզստան</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					{{#if tableData.table_4_data.length}}
+						{{#each tableData.table_4_data}}
+							<tr>
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								<td>{{this.Belarus}}</td>
+								<td>{{this.Russia}}</td>
+								<td>{{this.Kazakhstan}}</td>
+								<td>{{this.Kyrgyzstan}}</td>
+								<td></td>
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+
+
+			<h3>Բաժին 5.  ԵԱՏՄ անդամ պետությունների քաղաքացիների՝ ՀՀ-ում բնակության օրինակա-նությունը հավաստող տեղեկանքն ուժը կորցրած ճանաչելու մասին ընդունված  որոշումների բաշխումն ըստ տվյալ անձանց քաղաքացիության երկրի, սեռի և տարիքային խմբի</h3>
+			
+			{{#if (eq period "annual")}}
+			<p>{{year}} թ.</p>
+			{{else if (eq period "h1")}}
+			<p>{{year}} թ. 1-ին կիսամյակ</p>
+			{{else if (eq period "h2")}}
+			<p>{{year}} թ. 2-րդ կիսամյակ</p>
+			{{/if}}
+			<table class="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Ցուցանիշի անվանումը</th>
+						<th rowspan="2">Տողի ծածկագիրը</th>
+						<th colspan="5">այդ թվում՝ ըստ քաղաքացիության երկրի</th>
+						<th rowspan="2">Ընդամենը</th>
+					</tr>
+					<tr>
+						<th>Բելառուս</th>
+						<th>Ռուսաստան</th>
+						<th>Ղազախստան</th>
+						<th>Ղրղզստան</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Ա</th>
+						<th>Բ</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Տարիքային խմբեր, սեռ</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					{{#if tableData.table_5_data.length}}
+						{{#each tableData.table_5_data}}
+							<tr>
+								<td>{{this.ageGender}}</td>
+								<td></td>
+								<td>{{this.Belarus}}</td>
+								<td>{{this.Russia}}</td>
+								<td>{{this.Kazakhstan}}</td>
+								<td>{{this.Kyrgyzstan}}</td>
+								<td></td>
+								<td>{{this.total}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

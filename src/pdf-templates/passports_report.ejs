@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html{
+        height: 296mm;
+        overflow: hidden;
+      }
+      body{
+        background-color: #fff;
+        font-family: Arial;
+        font-size: 12px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        width: 209mm;
+        height: 296mm;
+        overflow: hidden;
+        position: relative;
+      }
+      .container {
+          width: 90%;
+          margin: 20px auto 0;
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+      }
+      .table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      .table th, .table td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: center;
+      }
+      .footer {width: 100%}
+      .bold{
+        font-weight: bold;
+      }
+
+      .header-table{
+        width: 100%;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #000;
+        margin-top: 30px;
+      }
+      .header-table th{
+        vertical-align: bottom;
+      }
+      .gerb{
+        width: 60px;
+        height: 60px;
+      }
+      .h1{
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .sub-title{
+        margin-top: 40px;
+      }
+      .sub-title p{
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .main-table {
+          width: 100%;
+          margin-top: 30px;
+          border-collapse: collapse;
+          margin-bottom: 0;
+      }
+      .main-table th, .main-table td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: center;
+      }
+      .main-table th{
+        font-size: 14px;
+        padding: 20px;
+      }
+      .qr-table{
+        border: 1px solid #000;
+        border-top: 0;
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+      }
+      .qr-table th, .qr-table td {
+          vertical-align: middle;
+          padding: 8px;
+          text-align: center;
+      }
+      .qr-table td p{
+        text-align: justify;
+        font-size: 14px;
+      }
+      .half{
+        width: 50%;
+      }
+      .fat{
+        padding: 22px 0 !important;
+      }
+      .info-text{
+        font-size: 10px;
+      }
+      .uid{
+        font-size: 14px;
+      }
+      .pnum{
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .personal-info{
+        font-size: 16px;
+      }
+      .footer{
+        border-top: 1px solid #000;
+        padding-top: 10px;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+      }
+      .footer p{
+        text-align: center;
+      }
+      .tall-line-height{
+        line-height: 18px;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <!-- Header Section -->
+      <table class="header-table">
+        <tr>
+          <th><img src="<%= logoBase64 %>" alt="" class="gerb"></th>
+          <th class="h1">ՀՀ ՆԵՐՔԻՆ ԳՈՐԾԵՐԻ ՆԱԽԱՐԱՐՈՒԹՅԱՆ <br />
+            ՄԻԳՐԱՑԻԱՅԻ ԵՎ ՔԱՂԱՔԱՑԻՈՒԹՅԱՆ ԾԱՌԱՅՈՒԹՅՈՒՆ</th>
+        </tr>
+      </table>
+      <div class="sub-title">
+        <p>ՏԵՂԵԿԱՆՔ</p>
+        <p>ԱՆՁԸ ՀԱՍՏԱՏՈՂ ՓԱՍՏԱԹՂԹԵՐԻ ՎԵՐԱԲԵՐՅԱԼ</p>
+      </div>
+        <!-- Main Table -->
+        <table class="main-table">
+          <tr>
+            <td>Տրված (օր, ամիս, տարի)</th>
+            <td colspan="4"><%= createdAt %></th>
+          </tr>
+          <tr>
+            <td colspan="5">Տրվում է ներկայացնելու առ այն, որ (ազգանուն, անուն, հայրանուն)</td>
+          </tr>
+          <tr>
+            <td colspan="6" class="fat pnum"><%= person_lname %> <%= person_fname %> <% if (person_mname) { %> <%= person_mname %><% } %></td>
+          </tr>
+          <tr>
+            <td colspan="5" class="tall-line-height">Միգրացիայի եւ քաղաքացիության ծառայության բնակչության պետական ռեգիստրում առկա են անձը հաստատող վավերական փաստաթղթերի վերաբերյալ հետեւյալ տեղեկությունները</td>
+          </tr>
+          <tr>
+            <td>Տեսակ</td>
+            <td>Սերիան եւ համարը</td>
+            <td>Ում կողմից</td>
+            <td>Տրված <br />
+              (օր, ամիս, տարի)</td>
+            <td>
+              Վավեր է <br />
+              (օր, ամիս, տարի)
+            </td>
+          </tr>
+          <% if (validDocuments && validDocuments.length > 0) { %>
+              <% validDocuments.forEach(doc => { %>
+                <tr>
+                  <td><%= doc.Document_Type %></td>
+                  <td><%= doc.Document_Number %></td>
+                  <td><%= doc.Document_Department %></td>
+                  <td><%= doc.PassportData.Passport_Issuance_Date %></td>
+                  <td><%= doc.PassportData.Passport_Validity_Date %></td>
+                </tr>
+              <% }) %>
+          <% } %>
+          <tr>
+            <td colspan="5">Նշումներ նախկին անձը հաստատող փաստաթղթերի առկայության վերաբերյալ</td>
+          </tr>
+          <tr>
+            <td>Տեսակ</td>
+            <td>Սերիան եւ համարը</td>
+            <td>Ում կողմից</td>
+            <td>Տրված <br />
+              (օր, ամիս, տարի)</td>
+            <td>
+              Վավեր է <br />
+              (օր, ամիս, տարի)
+            </td>
+          </tr>
+          <% if (invalidDocuments && invalidDocuments.length > 0) { %>
+            <% invalidDocuments.forEach(doc => { %>
+              <tr>
+                <td><%= doc.Document_Type %></td>
+                <td><%= doc.Document_Number %></td>
+                <td><%= doc.Document_Department %></td>
+                <td><%= doc.PassportData.Passport_Issuance_Date %></td>
+                <td><%= doc.PassportData.Passport_Validity_Date %></td>
+              </tr>
+            <% }) %>
+        <% } %>
+        </table>
+        <table class="qr-table">
+          <tr>
+            <td class="no-border" style="padding:2px 12px"><img src="<%= qrUrl %>" alt="" /></td>
+            <td   rowspan="2">
+              <p class="tall-line-height">
+                Սույն տեղեկանքը տրվել է էլեկտրոնային եղանակով Հայաստանի Հանրապետության ներքին գործերի նախարարության Միգրացիայի եւ քաղաքացիության ծառայության կողմից:
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="uid"><%= uid %></td>
+          </tr>
+        </table>
+        <p class="info-text">
+          Եթե առկա է անճշտություն, խնդրում ենք դիմել ՀՀ Ներքին գործերի նախարարության Միգրացիայի եւ քաղաքացիության ծառայություն։
+        </p>
+        <p class="info-text">
+          In case of finding errors, please contact the Migration and Citizenship Service of the RA Ministry of Internal Affairs.
+        </p>
+        <!-- Footer Section -->
+        <div class="footer">
+          <p>Հասցե՝ 0054 Երեւան, Դավթաշեն, 4-րդ թաղամաս, 17/10 շենք, Էլ.փոստ՝ msc@gov.am, Հեռ.+374103702 64</p>
+          <p>Միգրացիայի եւ քաղաքացիության ծառայությունների հարթակ՝ migration.e-gov.am</p>
+        </div>
+    </div>
+</body>
+</html>

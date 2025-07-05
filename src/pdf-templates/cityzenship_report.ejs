@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html{
+        height: 296mm;
+        overflow: hidden;
+      }
+      body{
+        background-color: #fff;
+        font-family: Arial;
+        font-size: 12px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        width: 209mm;
+        height: 296mm;
+        overflow: hidden;
+        position: relative;
+      }
+      .container {
+          width: 90%;
+          margin: 20px auto 0;
+          
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+          box-sizing: border-box;
+      }
+      .title{
+        font-size: 12px;
+        text-align: right;
+        width: 240px;
+        position: absolute;
+        top: 20px;
+        right: 55px;
+        padding: 0 10px;
+      }
+      .headerText{
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+      }
+      .table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      .table th, .table td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: center;
+      }
+      .footer {width: 100%}
+      .user-credentials{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 40px;
+      }
+      .personalInfoRowContainer {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    .personalInfo {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 20px;
+      }
+      .signature {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+      }
+      .signatureInfoRow { display: flex; align-items: center }
+      .bold{
+        font-weight: bold;
+      }
+      .align-left{
+        text-align: left !important;
+      }
+      .hr{
+        width: 100%;
+        border: 1px solid #000;
+      }
+      .stamp{
+        margin-top: 20px;
+      }
+      .normal-font{
+        font-size: 16px;
+      }
+      .qr-row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .qr-container{
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .qr-info{
+        margin-top: 10px;
+      }
+      .qr-info p{
+        font-size: 16px;
+      }
+      .qr-container img{
+            width: 2.5cm;
+            height: 2.5cm;
+        }
+        .qr-container .qr-uid{
+          font-size: 16px;
+        }
+        .signature-table{
+          width: 100%;
+          margin: 20px auto;
+          border-collapse: separate; /* Required for border-spacing to work */
+          /* border-spacing: 155px 0; */
+          border-spacing: 35px 0;
+
+        }
+        .signature-table td{
+          text-align: center;
+          width: 50%;
+        }
+        .align-right{
+          text-align: right !important;
+        }
+
+        .align-justify{
+          text-align: justify !important;
+        }
+        .signature-table .border{
+          border-top: 1px solid #000;
+          border-collapse: collapse;
+          padding: 0 20px;
+        }
+        .border-right{
+          border-right: 1px solid #000 !important;
+        }
+        .pt{
+          padding-top: 10px;
+        }
+        .large-text{
+          font-size: 16px;
+        }
+        .qr-table{
+          width: 90%;
+          margin: 20px auto;
+
+        }
+        .qr-table .qr-img{
+          padding: 0 20px;
+        }
+        .qr-table .tracking-id{
+          text-align: center;
+          font-size: 16px;
+        }
+        .qr-table .qr-info{
+          font-size: 16px;
+          text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <h4 class="title">ՀՀ կառավարության 2007թ. Հոկտեմբերի 4-ի N1154-Ն որոշման Ձև N3</h4>
+        <div class="header">
+          <p class="headerText">ՏԵՂԵԿԱՆՔ</p>
+          <p class="headerText">ԱՆՁԻ ՔԱՂԱՔԱՑԻՈւԹՅԱՆ ՄԱՍԻՆ</p>
+        </div>
+
+        <!-- Main Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Տրամադրող մարմնի <br />անվանումը</th>
+                    <th colspan="4" class="normal-font">ՀԱՅԱՍՏԱՆԻ ՀԱՆՐԱՊԵՏՈՒԹՅԱՆ ՆԵՐՔԻՆ ԳՈՐԾԵՐԻ ՆԱԽԱՐԱՐՈՒԹՅԱՆ <br /> ՄԻԳՐԱՑԻԱՅԻ ԵՎ ՔԱՂԱՔԱՑԻՈՒԹՅԱՆ
+                      ԾԱՌԱՅՈՒԹՅՈՒՆ
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2" class="bold">Տրման ամսաթիվը</td>
+                    <td class="normal-font"><%= createdAt %></td>
+                    <td rowspan="2" class="bold border-right">Տեղեկանքի համարը N</td>
+                    <td style="width: 0px; padding: 0;"></td>
+                    <td rowspan="2" class="normal-font"><%= document_number %></td>
+                </tr>
+                <tr>
+                    <td class="bold">(օրը, ամիսը, տարեթիվը)</td>
+                    <td style="width: 0px;padding: 0;"></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="bold align-left" >Տրվում է այն մասին, որ</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="normal-font"><%= person_full_name %></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="bold">(անունը, ազգանունը և հայրանունը), եթե առկա է</td>
+                </tr>
+                <tr>
+                  <td rowspan="2" class="bold">Ծննդյան ամսաթիվը</td>
+                  <td class="normal-font"><%= person_birth %></td>
+                  <td rowspan="2" class="bold">Ծննդյան վայրը</td>
+                  <td style="width: 0px;padding: 0;"></td>
+                  <td rowspan="2" class="normal-font"><%= person_birth_place %></td>
+              </tr>
+              <tr>
+                  <td class="bold">(օրը, ամիսը, տարեթիվը)</td>
+                  <td style="width: 0px;padding: 0;"></td>
+              </tr>
+              <tr>
+                <td colspan="5" class="large-text align-justify" style="padding: 20px 10px;">
+                  <% if (documentText) { %>
+                    Հայաստանի Հանրապետության բնակչության պետական ռեգիստրում առկա տվյալների համաձայն՝ հանդիսանում է Հայաստանի Հանրապետության  քաղաքացի և <%= documentText %>
+                  <% } else { %>
+                    <p>Հայաստանի Հանրապետության բնակչության պետական ռեգիստրում առկա տվյալների համաձայն՝  Հայաստանի Հանրապետության  քաղաքացի չի հանդիսանում։</p>
+                    <p><span class="bold"><%= person_short_name %>`</span> Հայաստանի Հանրապետության քաղաքացիություն ձեռք բերելու համար չի դիմել, Հայաստանի Հանրապետության քաղաքացու անձնագրով չի փաստաթղթավորվել։</p>
+                  <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="bold align-left">Տեղեկանքն ուժի մեջ է տրման օրվանից վեց ամիս:</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="bold align-left">Տրվում է ներկայացնելու ըստ պահանջի:</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer Section -->
+        <div class="footer">
+          <table class="signature-table">
+            <tr>
+              <td class="large-text">
+                Սարգիս Հակոբյան
+              </td>
+              <td >
+                <img src="<%= signBase64 %>" alt="" style="width: 100px;height: 40px;" />
+            </td>
+            </tr>
+            <tr>
+              <td class="bold border">
+                (անունը, ազգանունը)
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="large-text pt">
+                <!-- <%= position %> -->
+                ՔՇՎ քաղաքացիության պարզման և հետընդունման բաժնի պետ
+              </td>
+              <td class="bold border">
+                (ստորագրությունը)
+              </td>
+          </tr>
+          <tr>
+            <td class="bold border">
+              (պաշտոնը)
+            </td>
+            <td rowspan="2" class="bold">
+              Կ.Տ.
+            </td>
+          </tr>
+          </table>
+          <table class="qr-table">
+            <tbody>
+              <tr>
+                <td class="qr-img">
+                  <img src="<%= qrUrl %>" alt="" />
+                </td>
+                <td rowspan="2" class="qr-info">
+                  Սույն տեղեկանքը տրվել է էլեկտրոնային եղանակով Հայաստանի Հանրապետության ներքին գործերի նախարարության Միգրացիայի եւ քաղաքացիության ծառայության կողմից:
+                </td>
+              </tr>
+              <tr>
+                <td class="tracking-id">
+                  <%= uid %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+</body>
+</html>
