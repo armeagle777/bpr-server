@@ -1,38 +1,23 @@
-const { Op, Sequelize } = require("sequelize");
-
 const {
-  getWpQuery,
-  getEatmQuery,
-  getEatmFamilyMemberQuery,
   extractData,
-  filterWpPersonsQuery,
   getFullInfoBaseQuery,
   getFinesQuery,
   formatBaseResult,
   getClaimsQuery,
   getCardsQuery,
   getFamilyMemberQuery,
+  fetchWpData,
 } = require("./helpers");
-const { wpSequelize } = require("../../config/wpDatabase");
 const { TABLE_NAMES } = require("./constants");
 
 const getWpDataDB = async (req) => {
   const { pnum } = req.params;
 
-  const wpResponse = await wpSequelize.query(getWpQuery(pnum), {
-    type: Sequelize.QueryTypes.SELECT,
-  });
+  const wpResponse = await fetchWpData();
 
-  const eatmResponse = await wpSequelize.query(getEatmQuery(pnum), {
-    type: Sequelize.QueryTypes.SELECT,
-  });
+  const eatmResponse = await fetchWpData();
 
-  const eatmFamilyResponse = await wpSequelize.query(
-    getEatmFamilyMemberQuery(pnum),
-    {
-      type: Sequelize.QueryTypes.SELECT,
-    }
-  );
+  const eatmFamilyResponse = await fetchWpData();
   const { cards: wpCards, data: wpData } = extractData(wpResponse);
   const { cards: eatmCards, data: eatmData } = extractData(eatmResponse);
   const { cards: eatmFamilyCards, data: eatmFamilyData } =
@@ -47,11 +32,7 @@ const getWpDataDB = async (req) => {
 };
 
 const getCountriesDB = async () => {
-  const query = "SELECT * FROM countries";
-
-  const countries = await wpSequelize.query(query, {
-    type: Sequelize.QueryTypes.SELECT,
-  });
+  const countries = await fetchWpData();
 
   return countries;
 };
@@ -62,20 +43,12 @@ const filterWpPersonsDB = async (body) => {
   const offset = (page - 1) * pageSize;
   const limit = pageSize;
 
-  const countSubQuery = filterWpPersonsQuery(filters);
-  const query = `${countSubQuery} LIMIT :limit OFFSET :offset`;
-
   // Get total count of records
-  const countResult = await wpSequelize.query(countSubQuery, {
-    type: Sequelize.QueryTypes.SELECT,
-  });
+  const countResult = await fetchWpData();
   const total = countResult?.length || 0;
 
   // Get paginated records
-  const persons = await wpSequelize.query(query, {
-    type: Sequelize.QueryTypes.SELECT,
-    replacements: { limit, offset },
-  });
+  const persons = await fetchWpData();
 
   // Calculate total pages
   const totalPages = Math.ceil(total / pageSize);
@@ -114,12 +87,8 @@ const getWpPersonFullInfoDB = async (req) => {
         ]
       : []), // conditional for tab 5
   ];
-  console.log("queries>>>>>", queries);
-  const resultsArray = await Promise.all(
-    queries.map((q) =>
-      wpSequelize.query(q.query, { type: Sequelize.QueryTypes.SELECT })
-    )
-  );
+
+  const resultsArray = await Promise.all(queries.map((q) => fetchWpData()));
 
   const results = {};
   queries.forEach((q, i) => {

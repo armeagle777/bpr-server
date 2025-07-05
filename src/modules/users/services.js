@@ -7,7 +7,6 @@ const { saveTokenDB, deleteTokenDB } = require("../token/services");
 const {
   createUserData,
   generateTokens,
-  sendActivationMail,
   validateRefreshToken,
 } = require("../../utils/common");
 const { User, Role, Permission } = require("../../config/sphereDatabase");
@@ -58,7 +57,6 @@ const registrationDB = async (body) => {
     ],
   });
 
-  // await sendActivationMail(body.email, activationLink);
   const userData = createUserData(createdUserWithRole);
   const tokens = await generateTokens(userData);
   const tokenData = await saveTokenDB(userData.id, tokens.refreshToken);
