@@ -11,68 +11,6 @@ const sphereSequelize = new Sequelize(DB, username, password, {
   logging: false,
 });
 
-const Sphere = sphereSequelize.define(
-  "Sphere",
-  {
-    name: {
-      type: DataTypes.STRING,
-      validate: { len: [0, 255] },
-    },
-    tin: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        args: [7, 8],
-        msg: "Display name must be between 3 and 30 characters in length",
-      },
-    },
-    sphere_code: {
-      type: DataTypes.STRING,
-    },
-    sphere_text: {
-      type: DataTypes.TEXT("long"),
-    },
-    is_inactive: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    is_blocked: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    is_checked: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    createdAt: {
-      type: "TIMESTAMP",
-      defaultValue: sphereSequelize.literal("CURRENT_TIMESTAMP"),
-      allowNull: false,
-    },
-    updatedAt: {
-      type: "TIMESTAMP",
-      defaultValue: sphereSequelize.literal(
-        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-      ),
-      allowNull: false,
-    },
-  },
-  {
-    timestamps: false,
-  }
-);
-
-const Office = sphereSequelize.define(
-  "Office",
-  {
-    name: { type: DataTypes.STRING, allowNull: false },
-    code: { type: DataTypes.STRING, allowNull: false },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const User = sphereSequelize.define(
   "User",
   {
@@ -109,14 +47,6 @@ const User = sphereSequelize.define(
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    officeId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Office,
-        key: "id",
-      },
       allowNull: true,
     },
   },
@@ -247,63 +177,6 @@ Like.belongsTo(User, {
   foreignKey: "userId",
 });
 
-const Texekanq = sphereSequelize.define(
-  "Texekanq",
-  {
-    uid: { type: DataTypes.STRING, allowNull: false },
-    document_number: { type: DataTypes.STRING, allowNull: false },
-    mul_number: { type: DataTypes.STRING, allowNull: true },
-    person_birth: { type: DataTypes.STRING, allowNull: false },
-    person_birth_place: { type: DataTypes.STRING, allowNull: true },
-    person_fname: { type: DataTypes.STRING, allowNull: false },
-    person_lname: { type: DataTypes.STRING, allowNull: false },
-    person_mname: { type: DataTypes.STRING, allowNull: true },
-    pnum: { type: DataTypes.STRING, allowNull: true },
-    file_name: { type: DataTypes.STRING, allowNull: true },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: User,
-        key: "id",
-      },
-      allowNull: false,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-User.hasMany(Texekanq, {
-  foreignKey: "userId",
-  onDelete: "CASCADE",
-});
-
-Texekanq.belongsTo(User, {
-  foreignKey: "userId",
-});
-
-Office.hasMany(User, {
-  foreignKey: "officeId",
-  onDelete: "CASCADE",
-});
-
-User.belongsTo(Office, {
-  foreignKey: "officeId",
-});
-
-const Texekanqtype = sphereSequelize.define(
-  "Texekanqtype",
-  {
-    name: { type: DataTypes.STRING, allowNull: false },
-  },
-  {
-    timestamps: true,
-  }
-);
-Texekanqtype.hasMany(Texekanq);
-Texekanq.belongsTo(Texekanqtype);
-
 const Share = sphereSequelize.define(
   "Share",
   {
@@ -371,7 +244,6 @@ sphereSequelize.authenticate();
 
 module.exports = {
   sphereSequelize,
-  Sphere,
   User,
   Token,
   Role,
@@ -380,6 +252,4 @@ module.exports = {
   Like,
   Share,
   Permission,
-  Texekanq,
-  Texekanqtype,
 };
