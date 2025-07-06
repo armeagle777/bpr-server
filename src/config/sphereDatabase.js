@@ -4,9 +4,11 @@ const host = process.env.DATABASE_HOST;
 const DB = process.env.DATABASE_NAME;
 const username = process.env.DATABASE_USERNAME;
 const password = process.env.DATABASE_PASSWORD;
+const port = process.env.DATABASE_PORT || 3306;
 
 const sphereSequelize = new Sequelize(DB, username, password, {
-  host: host,
+  host,
+  port,
   dialect: "mysql",
   logging: false,
 });
