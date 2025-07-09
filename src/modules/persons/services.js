@@ -68,8 +68,8 @@ const getPersonBySsnDb = async (req) => {
   if (status === "failed") {
     return [];
   }
-  const data = result.filter((res) => res.PNum !== "5201830811");
-  if (!data.length) return [];
+
+  if (!result.length) return [];
   const person = result[0];
 
   const { AVVDocuments, AVVAddresses, ...restInfo } = person;
