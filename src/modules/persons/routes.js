@@ -17,6 +17,12 @@ const {
 } = require("./controller");
 const { permissionsMap } = require("../../utils/constants");
 const {
+  ssnSanitizeMiddleware,
+} = require("../../middlewares/ssnSanitizeMiddleware");
+const {
+  pnumSanitizeMiddleware,
+} = require("../../middlewares/pnumSanitizeMiddleware");
+const {
   BPR,
   ADMIN,
   TAX,
@@ -34,6 +40,7 @@ personsRoute.get(
   "/:ssn/bpr",
   authMiddleware,
   rolesMiddleware([BPR.uid, ADMIN.uid]),
+  ssnSanitizeMiddleware,
   getPersonBySsn
 );
 personsRoute.post("/download", authMiddleware, downloadBprInfo);
@@ -47,12 +54,14 @@ personsRoute.get(
   "/:ssn/tax",
   authMiddleware,
   rolesMiddleware([TAX.uid, ADMIN.uid]),
+  ssnSanitizeMiddleware,
   getTaxBySsn
 );
 personsRoute.get(
   "/:ssn/roadpolice",
   authMiddleware,
   rolesMiddleware([ROADPOLICE.uid, ADMIN.uid]),
+  ssnSanitizeMiddleware,
   getRoadpoliceBySsn
 );
 
@@ -74,12 +83,14 @@ personsRoute.get(
   "/:pnum/police",
   authMiddleware,
   rolesMiddleware([POLICE.uid, ADMIN.uid]),
+  pnumSanitizeMiddleware,
   getPoliceByPnum
 );
 personsRoute.post(
   "/:ssn/qkag",
   authMiddleware,
   rolesMiddleware([ZAQS.uid, ADMIN.uid]),
+  ssnSanitizeMiddleware,
   getQkagInfoBySsn
 );
 personsRoute.get(
