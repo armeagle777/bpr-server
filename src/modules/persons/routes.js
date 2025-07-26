@@ -72,13 +72,6 @@ personsRoute.get(
   searchVehicle
 );
 
-personsRoute.post(
-  "/bordercross",
-  authMiddleware,
-  rolesMiddleware([BORDERCROSS.uid, ADMIN.uid]),
-  getBordercrossBySsn
-);
-
 personsRoute.get(
   "/:pnum/police",
   authMiddleware,
