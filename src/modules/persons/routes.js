@@ -29,7 +29,6 @@ const {
   ZAQS,
   POLICE,
   PETREGISTER,
-  BORDERCROSS,
   ROADPOLICE,
   ROADPOLICE_FULL_SEARCH,
 } = permissionsMap;
@@ -70,13 +69,6 @@ personsRoute.get(
   authMiddleware,
   rolesMiddleware([ADMIN.uid, ROADPOLICE_FULL_SEARCH.uid]),
   searchVehicle
-);
-
-personsRoute.post(
-  "/bordercross",
-  authMiddleware,
-  rolesMiddleware([BORDERCROSS.uid, ADMIN.uid]),
-  getBordercrossBySsn
 );
 
 personsRoute.get(
