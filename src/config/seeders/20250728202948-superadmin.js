@@ -2,33 +2,29 @@
 
 require("dotenv").config();
 const bcrypt = require("bcrypt");
-const { rolesMap } = require("../../utils/constants"); // Make sure ADMIN is inside rolesMap
-
-const { ADMIN } = rolesMap;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
+
     try {
-      // Insert ADMIN role if not exists
-      let roleId = await queryInterface.rawSelect(
-        "Roles",
-        {
-          where: { uid: ADMIN.uid },
-          transaction,
-        },
+      // 1. Create Permission with uid=9999 if not exists
+      const permissionUID = "9999";
+      let permissionId = await queryInterface.rawSelect(
+        "Permissions",
+        { where: { uid: permissionUID }, transaction },
         ["id"]
       );
 
-      if (!roleId) {
-        roleId = await queryInterface.bulkInsert(
-          "Roles",
+      if (!permissionId) {
+        await queryInterface.bulkInsert(
+          "Permissions",
           [
             {
-              uid: ADMIN.uid,
-              name: ADMIN.name,
-              description: ADMIN.description,
+              uid: permissionUID,
+              name: "Ադմինիստրատոր",
+              description: "Ադմինիստրատոր",
               createdAt: new Date(),
               updatedAt: new Date(),
             },
@@ -36,23 +32,77 @@ module.exports = {
           { transaction }
         );
 
-        // If `bulkInsert` doesn’t return ID, query it again
-        roleId =
-          roleId ||
-          (await queryInterface.rawSelect(
-            "Roles",
-            { where: { uid: ADMIN.uid }, transaction },
-            ["id"]
-          ));
+        permissionId = await queryInterface.rawSelect(
+          "Permissions",
+          { where: { uid: permissionUID }, transaction },
+          ["id"]
+        );
       }
 
-      // Insert superadmin user
+      // 2. Create Role if not exists
+      const roleName = "Administrator";
+
+      let roleId = await queryInterface.rawSelect(
+        "Roles",
+        { where: { name: roleName }, transaction },
+        ["id"]
+      );
+
+      if (!roleId) {
+        await queryInterface.bulkInsert(
+          "Roles",
+          [
+            {
+              name: roleName,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ],
+          { transaction }
+        );
+
+        roleId = await queryInterface.rawSelect(
+          "Roles",
+          { where: { name: roleName }, transaction },
+          ["id"]
+        );
+      }
+
+      // 3. Associate permission to role (Permission_Roles)
+      const rolePermissionExists = await queryInterface.rawSelect(
+        "Permission_Roles",
+        {
+          where: {
+            RoleId: roleId,
+            PermissionId: permissionId,
+          },
+          transaction,
+        },
+        ["RoleId"]
+      );
+
+      if (!rolePermissionExists) {
+        await queryInterface.bulkInsert(
+          "Permission_Roles",
+          [
+            {
+              RoleId: roleId,
+              PermissionId: permissionId,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ],
+          { transaction }
+        );
+      }
+
+      // 4. Create superadmin user
       const superAdminEmail = process.env.SUPER_ADMIN_USERNAME;
       const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD;
 
       if (!superAdminEmail || !superAdminPassword) {
         throw new Error(
-          "SUPER_ADMIN_USERNAME or SUPER_ADMIN_PASSWORD is missing from .env"
+          "SUPER_ADMIN_USERNAME or SUPER_ADMIN_PASSWORD is missing in .env"
         );
       }
 
@@ -97,8 +147,10 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    const email = process.env.SUPER_ADMIN_USERNAME;
-    await queryInterface.bulkDelete("Users", { email });
-    await queryInterface.bulkDelete("Roles", { uid: ADMIN.uid });
+    const superAdminEmail = process.env.SUPER_ADMIN_USERNAME;
+    await queryInterface.bulkDelete("Users", { email: superAdminEmail });
+    await queryInterface.bulkDelete("Permission_Roles", null, {});
+    await queryInterface.bulkDelete("Roles", { name: "Administrator" });
+    await queryInterface.bulkDelete("Permissions", { uid: "9999" });
   },
 };
