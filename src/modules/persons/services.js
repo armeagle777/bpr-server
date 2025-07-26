@@ -237,23 +237,6 @@ const searchVehiclesDb = async (req) => {
   return { vehicles };
 };
 
-const getBordercrossBySsnDb = async (passportNumber, citizenship) => {
-  const bordercrossAxiosConfigs = getBordercrossAxiosConfigs({
-    passportNumber,
-    citizenship,
-  });
-
-  const response = await axios.request(bordercrossAxiosConfigs);
-  const xmlData = response.data;
-  const parser = new xml2js.Parser({ explicitArray: false });
-  const jsonData = await parser.parseStringPromise(xmlData);
-  const data = jsonData?.data;
-  if (!data?.status || data.status !== "ok") return {};
-  const { visaList, crossingList, residencePermitList } = data;
-
-  return { visaList, crossingList, residencePermitList };
-};
-
 const getPoliceByPnumDb = async (pnum) => {
   const policeUrl = process.env.POLICE_URL;
 
@@ -318,7 +301,6 @@ module.exports = {
   getCompanyByHvhhDb,
   createPdfBySsn,
   getPoliceByPnumDb,
-  getBordercrossBySsnDb,
   getRoadpoliceBySsnDb,
   searchVehiclesDb,
 };
