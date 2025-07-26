@@ -16,7 +16,6 @@ const companiesRoute = require("./modules/companies/routes");
 const usersRouter = require("./modules/users/routes");
 const tokenRouter = require("./modules/token/routes");
 const likesRouter = require("./modules/like/routes");
-const sharesRouter = require("./modules/share/routes");
 const permissionsRouter = require("./modules/permission/routes");
 const rolesRouter = require("./modules/role/routes");
 const utilsRouter = require("./modules/utils/routes");
@@ -50,7 +49,6 @@ app.use(morgan("common"));
 app.use("/api/users", usersRouter);
 app.use("/api/token", tokenRouter);
 app.use("/api/likes", likesRouter);
-app.use("/api/shares", sharesRouter);
 app.use("/api/roles", rolesRouter);
 app.use("/api/permissions", permissionsRouter);
 
