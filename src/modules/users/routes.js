@@ -14,7 +14,7 @@ const {
   toggleUserActive,
   changePassword,
 } = require("./controller");
-const { BPR, ADMIN, TAX, ZAQS, POLICE, PETREGISTER } = permissionsMap;
+const { ADMIN, HR } = permissionsMap;
 
 // const {
 //   loginUserSchema,
@@ -28,19 +28,19 @@ router.get(
   // validateSchema(activateUserSchema),
   activate
 );
-router.get("/", rolesMiddleware([ADMIN.uid]), getUsers);
+router.get("/", rolesMiddleware([ADMIN.uid, HR.uid]), getUsers);
 router.get("/light", authMiddleware, getUsersLight);
 
 router.post(
   "/check/email",
   // authMiddleware,
-  rolesMiddleware([ADMIN.uid]),
+  rolesMiddleware([ADMIN.uid, HR.uid]),
   checkEmail
 );
 
 router.post(
   "/registration",
-  rolesMiddleware([ADMIN.uid]),
+  rolesMiddleware([ADMIN.uid, HR.uid]),
   // validateSchema(registerUserSchema),
   registration
 );
@@ -53,7 +53,7 @@ router.post(
 router.put(
   "/:id",
   // validateSchema(loginUserSchema),
-  rolesMiddleware([ADMIN.uid]),
+  rolesMiddleware([ADMIN.uid, HR.uid]),
   updateUser
 );
 
@@ -66,7 +66,7 @@ router.put(
 
 router.put(
   "/active/:id",
-  rolesMiddleware([ADMIN.uid]),
+  rolesMiddleware([ADMIN.uid, HR.uid]),
   // validateSchema(loginUserSchema),
   toggleUserActive
 );
