@@ -170,6 +170,11 @@ const permissionsMap = {
     name: "Ադմինիստրատոր",
     description: "Ադմինիստրատոր",
   },
+  HR: {
+    uid: "8888",
+    name: "HR",
+    description: "ՄՌԿ",
+  },
 };
 
 module.exports = {

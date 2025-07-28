@@ -22,15 +22,17 @@ const utilsRouter = require("./modules/utils/routes");
 const { sphereSequelize } = require("./config/sphereDatabase");
 
 const app = express();
+
+const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
 app.use(
   cors({
-    origin: [
-      "http://192.168.3.253:5173",
-      "http://localhost:5173",
-      "http://localhost",
-      "http://192.168.3.179:5173",
-      "http://102.102.100.5",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     optionsSuccessStatus: 200,
     credentials: true,
   })
@@ -58,8 +60,6 @@ app.use("/api/kadastr", kadastrRoutes);
 app.use("/api/artsakh", artsakhRoutes);
 app.use("/api/wp", wpRoutes);
 app.use("/api/utils", utilsRouter);
-
-//Statistics Endpoints
 
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 9000;
