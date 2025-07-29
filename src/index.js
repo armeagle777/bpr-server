@@ -22,14 +22,16 @@ const utilsRouter = require("./modules/utils/routes");
 const { sphereSequelize } = require("./config/sphereDatabase");
 
 const app = express();
-
+const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost",
-      "http://192.168.102.104",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     optionsSuccessStatus: 200,
     credentials: true,
   })
