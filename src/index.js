@@ -8,6 +8,7 @@ const morgan = require("morgan");
 dotenv.config();
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
+const metricsMiddleware = require("./modules/metrics/metricsMiddleware");
 const personsRoute = require("./modules/persons/routes");
 const kadastrRoutes = require("./modules/kadastr/routes");
 const artsakhRoutes = require("./modules/artsakh/routes");
@@ -19,13 +20,18 @@ const likesRouter = require("./modules/like/routes");
 const permissionsRouter = require("./modules/permission/routes");
 const rolesRouter = require("./modules/role/routes");
 const utilsRouter = require("./modules/utils/routes");
+const metricsRouter = require("./modules/metrics/routes");
 const { sphereSequelize } = require("./config/sphereDatabase");
 
 const app = express();
 // const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
 app.use(
   cors({
-    origin: ["http://localhost", "http://192.168.102.104"],
+    origin: [
+      "http://localhost",
+      "http://localhost:5173",
+      "http://192.168.102.104",
+    ],
     optionsSuccessStatus: 200,
     credentials: true,
   })
@@ -39,6 +45,7 @@ app.use(
     createParentPath: true,
   })
 );
+app.use(metricsMiddleware);
 
 app.use(morgan("common"));
 app.use("/api/users", usersRouter);
@@ -53,6 +60,7 @@ app.use("/api/kadastr", kadastrRoutes);
 app.use("/api/artsakh", artsakhRoutes);
 app.use("/api/wp", wpRoutes);
 app.use("/api/utils", utilsRouter);
+app.use("/api/metrics", metricsRouter);
 
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 9000;
