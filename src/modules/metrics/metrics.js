@@ -37,11 +37,20 @@ const requestSizeBytes = new client.Gauge({
   labelNames: ["method", "route"],
 });
 
+// Set health status to 1 at app start
+const healthGauge = new client.Gauge({
+  name: "app_health_status",
+  help: "1 if app is up",
+});
+
 // Register all metrics
 register.registerMetric(httpRequestCounter);
 register.registerMetric(httpRequestDuration);
 register.registerMetric(inflightRequests);
 register.registerMetric(requestSizeBytes);
+register.registerMetric(healthGauge);
+
+healthGauge.set(1);
 
 module.exports = {
   register,
