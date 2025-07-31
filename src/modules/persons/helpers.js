@@ -65,6 +65,7 @@ const searchVehiclesAxiosConfigs = (key, value) => {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
+    timeout: 5000,
     data: axiosBody,
   };
 };
