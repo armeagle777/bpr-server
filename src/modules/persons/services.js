@@ -281,9 +281,8 @@ const getCompanyByHvhhDb = async (req) => {
   };
 
   const { data } = await axios.post(petregistrUrl, options);
-
-  if (!data.result) {
-    return [];
+  if (!data.result || data.status === "failed") {
+    throw new ApiError(503, "Network Error");
   }
 
   const {
