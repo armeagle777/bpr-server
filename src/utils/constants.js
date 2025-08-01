@@ -177,9 +177,58 @@ const permissionsMap = {
   },
 };
 
+const logTypesMap = {
+  bpr: {
+    name: "ԲՊՌ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  tax: {
+    name: "ՊԵԿ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  qkag: {
+    name: "ՔԿԱԳ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  petRegister: {
+    name: "Պետական Ռեգիստրի Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  cadaster: {
+    name: "Կադաստրի Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  police: {
+    name: "Որոնվողների Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  wp: {
+    name: "Աշխ. Թույլտվության Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  roadPolice: {
+    name: "ՃՈ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  asyum: {
+    name: "Փախստականների Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+};
+
 module.exports = {
   defaultDocument,
   defaultAddress,
   ERROR_MESSAGES,
   permissionsMap,
+  logTypesMap,
 };
