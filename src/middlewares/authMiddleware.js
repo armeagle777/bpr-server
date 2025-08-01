@@ -1,4 +1,4 @@
-const { User } = require("../config/sphereDatabase");
+const { User } = require("../config/database");
 const { validateAccessToken } = require("../utils/common");
 const { ERROR_MESSAGES } = require("../utils/constants");
 

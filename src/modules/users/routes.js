@@ -16,58 +16,26 @@ const {
 } = require("./controller");
 const { ADMIN, HR } = permissionsMap;
 
-// const {
-//   loginUserSchema,
-//   activateUserSchema,
-//   registerUserSchema,
-// } = require("./validations");
-// const { validateSchema } = require("../../helpers/common");
-
-router.get(
-  "/active/:link",
-  // validateSchema(activateUserSchema),
-  activate
-);
+router.get("/active/:link", activate);
 router.get("/", rolesMiddleware([ADMIN.uid, HR.uid]), getUsers);
 router.get("/light", authMiddleware, getUsersLight);
 
-router.post(
-  "/check/email",
-  // authMiddleware,
-  rolesMiddleware([ADMIN.uid, HR.uid]),
-  checkEmail
-);
+router.post("/check/email", rolesMiddleware([ADMIN.uid, HR.uid]), checkEmail);
 
 router.post(
   "/registration",
   rolesMiddleware([ADMIN.uid, HR.uid]),
-  // validateSchema(registerUserSchema),
   registration
 );
-router.post(
-  "/login",
-  // validateSchema(loginUserSchema),
-  login
-);
+router.post("/login", login);
 
-router.put(
-  "/:id",
-  // validateSchema(loginUserSchema),
-  rolesMiddleware([ADMIN.uid, HR.uid]),
-  updateUser
-);
+router.put("/:id", rolesMiddleware([ADMIN.uid, HR.uid]), updateUser);
 
-router.put(
-  "/password/:id",
-  // validateSchema(loginUserSchema),
-  authMiddleware,
-  changePassword
-);
+router.put("/password/:id", authMiddleware, changePassword);
 
 router.put(
   "/active/:id",
   rolesMiddleware([ADMIN.uid, HR.uid]),
-  // validateSchema(loginUserSchema),
   toggleUserActive
 );
 

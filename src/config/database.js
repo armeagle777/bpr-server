@@ -6,14 +6,14 @@ const username = process.env.DATABASE_USERNAME;
 const password = process.env.DATABASE_PASSWORD;
 const port = process.env.DATABASE_PORT || 3306;
 
-const sphereSequelize = new Sequelize(DB, username, password, {
+const sequelize = new Sequelize(DB, username, password, {
   host,
   port,
   dialect: "mysql",
   logging: false,
 });
 
-const User = sphereSequelize.define(
+const User = sequelize.define(
   "User",
   {
     email: {
@@ -58,7 +58,7 @@ const User = sphereSequelize.define(
   }
 );
 
-const Token = sphereSequelize.define(
+const Token = sequelize.define(
   "Token",
   {
     refreshToken: { type: DataTypes.TEXT("long") },
@@ -76,7 +76,7 @@ const Token = sphereSequelize.define(
   }
 );
 
-const Role = sphereSequelize.define(
+const Role = sequelize.define(
   "Role",
   {
     name: { type: DataTypes.STRING, allowNull: false },
@@ -97,7 +97,7 @@ Token.belongsTo(User, {
   foreignKey: "userId",
 });
 
-const LogType = sphereSequelize.define(
+const LogType = sequelize.define(
   "LogType",
   {
     name: { type: DataTypes.STRING, allowNull: false },
@@ -107,7 +107,7 @@ const LogType = sphereSequelize.define(
   }
 );
 
-const Log = sphereSequelize.define(
+const Log = sequelize.define(
   "Log",
   {
     text: { type: DataTypes.STRING, allowNull: false },
@@ -151,7 +151,7 @@ Log.belongsTo(LogType, {
   foreignKey: "logTypeId",
 });
 
-const Like = sphereSequelize.define(
+const Like = sequelize.define(
   "Likes",
   {
     uid: { type: DataTypes.STRING, allowNull: false },
@@ -179,7 +179,7 @@ Like.belongsTo(User, {
   foreignKey: "userId",
 });
 
-const Permission = sphereSequelize.define(
+const Permission = sequelize.define(
   "Permission",
   {
     uid: { type: DataTypes.STRING, allowNull: false },
@@ -194,10 +194,10 @@ const Permission = sphereSequelize.define(
 Permission.belongsToMany(Role, { through: "Permission_Roles" });
 Role.belongsToMany(Permission, { through: "Permission_Roles" });
 
-sphereSequelize.authenticate();
+sequelize.authenticate();
 
 module.exports = {
-  sphereSequelize,
+  sequelize,
   User,
   Token,
   Role,

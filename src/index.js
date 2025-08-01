@@ -21,7 +21,7 @@ const permissionsRouter = require("./modules/permission/routes");
 const rolesRouter = require("./modules/role/routes");
 const utilsRouter = require("./modules/utils/routes");
 const metricsRouter = require("./modules/metrics/routes");
-const { sphereSequelize } = require("./config/sphereDatabase");
+const { sequelize } = require("./config/database");
 
 const app = express();
 // const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
@@ -67,7 +67,7 @@ const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, async () => {
   try {
-    await sphereSequelize.sync({ alter: true });
+    await sequelize.sync({ alter: true });
     console.log("Connections connected and synced successfully.");
     console.log("App is running on port ", PORT);
   } catch (err) {
