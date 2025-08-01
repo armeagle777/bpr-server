@@ -281,8 +281,14 @@ const getCompanyByHvhhDb = async (req) => {
   };
 
   const { data } = await axios.post(petregistrUrl, options);
+  if (data?.error?.code === -32004) {
+    throw new ApiError(404, "Նշված տվյալներով ոչինչ չի գտնվել։");
+  }
+  if (data?.error?.code === -32602) {
+    throw new ApiError(503, "Սխալ որոնման պարամետրեր։");
+  }
   if (!data.result || data.status === "failed") {
-    throw new ApiError(503, "Network Error");
+    throw new ApiError(503, "Կապի խափանում");
   }
 
   const {
