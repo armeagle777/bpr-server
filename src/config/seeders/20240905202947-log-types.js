@@ -6,7 +6,7 @@ const { logTypesMap } = require("../../utils/constants");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await Promise.all(
-      logTypesMap.map(async (log) => {
+      Object.values(logTypesMap)?.map(async (log) => {
         const logTypeExists = await queryInterface.rawSelect(
           "LogTypes",
           {
