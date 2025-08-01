@@ -5,22 +5,47 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const logTypeData = [
       {
-        name: "Որոնում",
+        name: "ԲՊՌ Որոնում",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "Այցելություն էջ",
+        name: "ՊԵԿ Որոնում",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "PDF գեներացում",
+        name: "ՔԿԱԳ Որոնում",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "Կադաստրի որոնում",
+        name: "Պետական Ռեգիստրի Որոնում",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Կադաստրի Որոնում",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Որոնվողների Բազայում Որոնում",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Աշխ. Թույլտվության Բազայում Որոնում",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "ՃՈ Որոնում",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Փախստականների Բազայում Որոնում",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
