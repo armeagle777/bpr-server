@@ -10,10 +10,8 @@ const {
   getCompanyByHvhh,
   downloadBprInfo,
   getPoliceByPnum,
-  getBordercrossBySsn,
   getRoadpoliceBySsn,
   searchVehicle,
-  searchBordercrossData,
 } = require("./controller");
 const { permissionsMap } = require("../../utils/constants");
 const {

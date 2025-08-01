@@ -1,9 +1,3 @@
-const fs = require("fs");
-const path = require("path");
-const puppeteer = require("puppeteer");
-const handlebars = require("handlebars");
-const { PDFDocument } = require("pdf-lib");
-
 const jwt = require("jsonwebtoken");
 // const ApiError = require('../exceptions/api-error');
 
@@ -67,136 +61,6 @@ const validateAccessToken = (accessToken) => {
 //     };
 // };
 
-const createPDF = async ({ data, statisticsType, period }) => {
-  const templatePeriodMap = {
-    h1: "first_half",
-    h2: "second_half",
-    annual: "annual",
-  };
-  const templateName =
-    statisticsType === "asylum"
-      ? `${statisticsType}_${templatePeriodMap[period]}`
-      : statisticsType;
-
-  const titulName =
-    statisticsType === "asylum"
-      ? `${statisticsType}_${templatePeriodMap[period]}_titul`
-      : `${statisticsType}_titul`;
-
-  const generatedPath = path.join(
-    process.cwd(),
-    `src/pdf-templates/${templateName}.html`
-  );
-  const titulGeneratedPath = path.join(
-    process.cwd(),
-    `src/pdf-templates/${titulName}.html`
-  );
-
-  // Register the 'sum' and 'eq' helpers
-  handlebars.registerHelper("sum", function (a, b) {
-    return a + b;
-  });
-  handlebars.registerHelper("sumAll", function () {
-    let sum = 0;
-    for (let i = 0; i < arguments.length - 1; i++) {
-      sum += arguments[i];
-    }
-    return sum;
-  });
-  handlebars.registerHelper("eq", function (a, b) {
-    return a === b;
-  });
-  handlebars.registerHelper("incrementIndex", function (index) {
-    return index + 1;
-  });
-  handlebars.registerHelper("getCountryData", function (data, countryName) {
-    return data[countryName] || 0;
-  });
-
-  var milis = new Date();
-  milis = milis.getTime();
-
-  var titulPath = path.join("src", "pdf", `titul.pdf`);
-  var contentPath = path.join("src", "pdf", `content.pdf`);
-  var responseFilePath = path.join("src", "pdf", `${milis}.pdf`);
-
-  const optionsPortrait = {
-    width: "210mm",
-    height: "297mm",
-    headerTemplate: "<p></p>",
-    footerTemplate: "<p></p>",
-    displayHeaderFooter: false,
-    printBackground: true,
-    path: titulPath,
-  };
-
-  const optionsLandscape = {
-    width: "297mm",
-    height: "210mm",
-    headerTemplate: "<p></p>",
-    footerTemplate: "<p></p>",
-    displayHeaderFooter: false,
-    printBackground: true,
-    path: contentPath,
-  };
-
-  const browser = await puppeteer.launch({
-    args: ["--no-sandbox"],
-    headless: "new",
-  });
-
-  const titulTemplateHtml = fs.readFileSync(titulGeneratedPath, "utf8");
-  var titulTemplate = handlebars.compile(titulTemplateHtml);
-  var firstPageHtml = titulTemplate(data);
-
-  var contentTemplateHtml = fs.readFileSync(generatedPath, "utf8");
-  var contentTemplate = handlebars.compile(contentTemplateHtml);
-  var contentPageHtml = contentTemplate(data);
-
-  var page = await browser.newPage();
-
-  await page.setContent(firstPageHtml, {
-    waitUntil: "networkidle0",
-  });
-  await page.pdf(optionsPortrait);
-
-  await page.setContent(contentPageHtml, {
-    waitUntil: "networkidle0",
-  });
-  await page.pdf(optionsLandscape);
-
-  // await page.pdf(options);
-  await browser.close();
-
-  // Combine the PDFs
-  const firstPagePdfBytes = fs.readFileSync(titulPath);
-  const remainingPagesPdfBytes = fs.readFileSync(contentPath);
-
-  const firstPagePdf = await PDFDocument.load(firstPagePdfBytes);
-  const remainingPagesPdf = await PDFDocument.load(remainingPagesPdfBytes);
-
-  const combinedPdf = await PDFDocument.create();
-  const [firstPage] = await combinedPdf.copyPages(firstPagePdf, [0]);
-  combinedPdf.addPage(firstPage);
-
-  const remainingPages = await combinedPdf.copyPages(
-    remainingPagesPdf,
-    remainingPagesPdf.getPageIndices()
-  );
-  for (const page of remainingPages) {
-    combinedPdf.addPage(page);
-  }
-
-  const combinedPdfBytes = await combinedPdf.save();
-  fs.writeFileSync(responseFilePath, combinedPdfBytes);
-
-  // Clean up temporary files
-  fs.unlinkSync(titulPath);
-  fs.unlinkSync(contentPath);
-
-  return responseFilePath;
-};
-
 function getCurrentDate() {
   const today = new Date();
 
@@ -208,7 +72,6 @@ function getCurrentDate() {
 }
 
 module.exports = {
-  createPDF,
   createUserData,
   generateTokens,
   getCurrentDate,
