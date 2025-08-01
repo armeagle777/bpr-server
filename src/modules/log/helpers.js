@@ -1,15 +1,16 @@
+const { logTypesMap } = require("../../utils/constants");
+
 const getLogType = (path) => {
   const pathArray = path.split("/");
 
   const majorPath = pathArray[pathArray.length - 1];
   switch (majorPath) {
-    case "download":
-      return "PDF գեներացում";
     case "bpr":
+      return logTypesMap.bpr.name;
     case "petregistr":
-      return "Որոնում";
+      return logTypesMap.petRegister.name;
     case "document":
-      return "Կադաստրի որոնում";
+      return logTypesMap.cadaster.name;
     default:
       return "Այցելություն էջ";
   }
