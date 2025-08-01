@@ -4,7 +4,7 @@ const {
   validateRefreshToken,
 } = require("../../utils/common");
 const ApiError = require("../../exceptions/api-error");
-const { Token } = require("../../config/sphereDatabase");
+const { Token } = require("../../config/database");
 
 const saveTokenDB = async (userId, refreshToken) => {
   try {

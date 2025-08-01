@@ -1,4 +1,4 @@
-const { Log, LogType } = require("../../config/sphereDatabase");
+const { Log, LogType } = require("../../config/database");
 const { getLogType } = require("./helpers");
 
 const createLog = async ({ req, logText }) => {

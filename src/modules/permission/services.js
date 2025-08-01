@@ -1,7 +1,7 @@
 const { Op, Sequelize } = require("sequelize");
 
 const ApiError = require("../../exceptions/api-error");
-const { Permission } = require("../../config/sphereDatabase");
+const { Permission } = require("../../config/database");
 
 const getPermissionsDB = async (req) => {
   const permissions = await Permission.findAll({

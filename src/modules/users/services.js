@@ -9,7 +9,7 @@ const {
   generateTokens,
   validateRefreshToken,
 } = require("../../utils/common");
-const { User, Role, Permission } = require("../../config/sphereDatabase");
+const { User, Role, Permission } = require("../../config/database");
 
 const registrationDB = async (body) => {
   const { firstName, lastName, email, pashton, password, role, phoneNumber } =
