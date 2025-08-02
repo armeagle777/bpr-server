@@ -1,19 +1,8 @@
 const {
-  getWpDataDB,
   getCountriesDB,
   filterWpPersonsDB,
   getWpPersonFullInfoDB,
 } = require("./services");
-
-const getWpData = async (req, res, next) => {
-  try {
-    const roles = await getWpDataDB(req);
-    res.status(200).json(roles);
-  } catch (err) {
-    console.log("Error crating User:", err);
-    next(err);
-  }
-};
 
 const getWpCountries = async (req, res, next) => {
   try {
@@ -27,7 +16,7 @@ const getWpCountries = async (req, res, next) => {
 
 const filterWpPersons = async (req, res, next) => {
   try {
-    const persons = await filterWpPersonsDB(req.body);
+    const persons = await filterWpPersonsDB(req);
     res.status(200).json(persons);
   } catch (err) {
     console.log("Error crating User:", err);
@@ -46,7 +35,6 @@ const getWpPersonFullInfo = async (req, res, next) => {
 };
 
 module.exports = {
-  getWpData,
   getWpCountries,
   getWpPersonFullInfo,
   filterWpPersons,

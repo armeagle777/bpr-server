@@ -1,42 +1,5 @@
 const { TABLE_NAMES } = require("./constants");
 
-
-
-
-const extractData = (row) => {
-  const cards = [];
-  const data = row?.map((row) => {
-    const {
-      serial_number,
-      issue_date,
-      expire_date,
-      printed_at,
-      card_status,
-      transferred_at,
-      ...rowData
-    } = row;
-    if (serial_number) {
-      cards.push({
-        serial_number,
-        issue_date,
-        expire_date,
-        printed_at,
-        card_status,
-        transferred_at,
-      });
-    }
-    return rowData;
-  });
-
-  return { cards, data: data ?? null };
-};
-
-function convertToMysqlDate(dateStr) {
-  const [day, month, year] = dateStr.split("/");
-  return `${year}-${month}-${day}`;
-}
-
-
 const getFullInfoBaseQuery = (tablename, emp_id) => {
   switch (tablename) {
     case TABLE_NAMES.FAMILY:
@@ -420,18 +383,17 @@ const formatBaseResult = (result) => {
   return data;
 };
 
-const fetchWpData = async () =>{
+const fetchWpData = async (pnum) => {
   // Modify to fetch data from Migration Service
-  return null
-}
+  return null;
+};
 
 module.exports = {
-  extractData,
   getFullInfoBaseQuery,
   getFinesQuery,
   formatBaseResult,
   getClaimsQuery,
   getCardsQuery,
   getFamilyMemberQuery,
-  fetchWpData
+  fetchWpData,
 };

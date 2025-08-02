@@ -8,10 +8,11 @@ const {
   getQkagInfoBySsn,
   getTaxBySsn,
   getCompanyByHvhh,
-  downloadBprInfo,
   getPoliceByPnum,
   getRoadpoliceBySsn,
   searchVehicle,
+  getPropertiesBySsn,
+  getWpData,
 } = require("./controller");
 const { permissionsMap } = require("../../utils/constants");
 const {
@@ -23,12 +24,14 @@ const {
 const {
   BPR,
   ADMIN,
+  KADASTR,
   TAX,
   ZAQS,
   POLICE,
   PETREGISTER,
   ROADPOLICE,
   ROADPOLICE_FULL_SEARCH,
+  WP,
 } = permissionsMap;
 
 const personsRoute = express.Router();
@@ -40,7 +43,6 @@ personsRoute.get(
   ssnSanitizeMiddleware,
   getPersonBySsn
 );
-personsRoute.post("/download", authMiddleware, downloadBprInfo);
 personsRoute.post(
   "/bpr",
   authMiddleware,
@@ -88,6 +90,20 @@ personsRoute.get(
   authMiddleware,
   rolesMiddleware([PETREGISTER.uid, ADMIN.uid]),
   getCompanyByHvhh
+);
+
+personsRoute.get(
+  "/:ssn/document",
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, KADASTR.uid]),
+  getPropertiesBySsn
+);
+
+personsRoute.get(
+  "/:pnum/wp",
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, WP.uid]),
+  getWpData
 );
 
 module.exports = personsRoute;

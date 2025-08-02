@@ -11,8 +11,20 @@ const getLogType = (path) => {
       return logTypesMap.petRegister.name;
     case "document":
       return logTypesMap.cadaster.name;
+    case "tax":
+      return logTypesMap.tax.name;
+    case "qkag":
+      return logTypesMap.qkag.name;
+    case "police":
+      return logTypesMap.police.name;
+    case "wp":
+    case "wp-data":
+      return logTypesMap.wp.name;
+    case "roadpolice":
+    case "vehicle":
+      return logTypesMap.roadPolice.name;
     default:
-      return "Այցելություն էջ";
+      return "";
   }
 };
 

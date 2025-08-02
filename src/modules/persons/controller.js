@@ -7,6 +7,8 @@ const {
   getDocumentsBySsnDb,
   getRoadpoliceBySsnDb,
   getSearchedPersonsDb,
+  getPropertiesBySsnDb,
+  getWpDataDB,
 } = require("./services");
 
 const getPersonBySsn = async (req, res, next) => {
@@ -31,8 +33,7 @@ const getSearchedPersons = async (req, res, next) => {
 
 const getTaxBySsn = async (req, res, next) => {
   try {
-    const { ssn } = req.params;
-    const person = await getTaxBySsnDb(ssn);
+    const person = await getTaxBySsnDb(req);
 
     res.status(200).json(person);
   } catch (err) {
@@ -42,8 +43,7 @@ const getTaxBySsn = async (req, res, next) => {
 
 const getRoadpoliceBySsn = async (req, res, next) => {
   try {
-    const { ssn } = req.params;
-    const person = await getRoadpoliceBySsnDb(ssn);
+    const person = await getRoadpoliceBySsnDb(req);
 
     res.status(200).json(person);
   } catch (err) {
@@ -63,8 +63,7 @@ const searchVehicle = async (req, res, next) => {
 
 const getPoliceByPnum = async (req, res, next) => {
   try {
-    const { pnum } = req.params;
-    const person = await getPoliceByPnumDb(pnum);
+    const person = await getPoliceByPnumDb(req);
 
     res.status(200).json(person);
   } catch (err) {
@@ -74,10 +73,7 @@ const getPoliceByPnum = async (req, res, next) => {
 
 const getQkagInfoBySsn = async (req, res, next) => {
   try {
-    const { ssn } = req.params;
-    const { firstName, lastName } = req.body;
-
-    const documents = await getDocumentsBySsnDb(ssn, firstName, lastName);
+    const documents = await getDocumentsBySsnDb(req);
 
     res.status(200).json(documents);
   } catch (err) {
@@ -95,6 +91,26 @@ const getCompanyByHvhh = async (req, res, next) => {
   }
 };
 
+const getPropertiesBySsn = async (req, res, next) => {
+  try {
+    const properties = await getPropertiesBySsnDb(req);
+
+    res.status(200).json(properties);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getWpData = async (req, res, next) => {
+  try {
+    const roles = await getWpDataDB(req);
+    res.status(200).json(roles);
+  } catch (err) {
+    console.log("Error crating User:", err);
+    next(err);
+  }
+};
+
 module.exports = {
   getPersonBySsn,
   getSearchedPersons,
@@ -104,4 +120,6 @@ module.exports = {
   getPoliceByPnum,
   getRoadpoliceBySsn,
   searchVehicle,
+  getPropertiesBySsn,
+  getWpData,
 };

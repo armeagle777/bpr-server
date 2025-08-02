@@ -1,5 +1,4 @@
 const {
-  extractData,
   getFullInfoBaseQuery,
   getFinesQuery,
   formatBaseResult,
@@ -9,27 +8,7 @@ const {
   fetchWpData,
 } = require("./helpers");
 const { TABLE_NAMES } = require("./constants");
-
-const getWpDataDB = async (req) => {
-  const { pnum } = req.params;
-
-  const wpResponse = await fetchWpData();
-
-  const eatmResponse = await fetchWpData();
-
-  const eatmFamilyResponse = await fetchWpData();
-  const { cards: wpCards, data: wpData } = extractData(wpResponse);
-  const { cards: eatmCards, data: eatmData } = extractData(eatmResponse);
-  const { cards: eatmFamilyCards, data: eatmFamilyData } =
-    extractData(eatmFamilyResponse);
-
-  return {
-    wpData,
-    eatmData,
-    eatmFamilyData,
-    cards: [...wpCards, ...eatmCards, ...eatmFamilyCards],
-  };
-};
+const { createLog } = require("../log/services");
 
 const getCountriesDB = async () => {
   const countries = await fetchWpData();
@@ -37,34 +16,14 @@ const getCountriesDB = async () => {
   return countries;
 };
 
-const filterWpPersonsDB = async (body) => {
-  const { page = 1, pageSize = 10, filters } = body;
+const filterWpPersonsDB = async (req) => {
+  const { page = 1, pageSize = 10, filters } = req.body;
+  const sanitizedFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => Boolean(v))
+  );
+  await createLog({ req, fields: sanitizedFilters });
 
-  const offset = (page - 1) * pageSize;
-  const limit = pageSize;
-
-  // Get total count of records
-  const countResult = await fetchWpData();
-  const total = countResult?.length || 0;
-
-  // Get paginated records
-  const persons = await fetchWpData();
-
-  // Calculate total pages
-  const totalPages = Math.ceil(total / pageSize);
-
-  // Return pagination response
-  const response = {
-    data: persons,
-    pagination: {
-      total,
-      page,
-      pageSize,
-      totalPages,
-      hasNextPage: page < totalPages,
-      hasPrevPage: page > 1,
-    },
-  };
+  const response = await fetchWpData();
 
   return response;
 };
@@ -101,7 +60,6 @@ const getWpPersonFullInfoDB = async (req) => {
 };
 
 module.exports = {
-  getWpDataDB,
   getCountriesDB,
   filterWpPersonsDB,
   getWpPersonFullInfoDB,

@@ -1,19 +1,4 @@
-const {
-  getPropertiesBySsnDb,
-  getPropertyByCertificateDb,
-} = require("./services");
-
-const getPropertiesBySsn = async (req, res, next) => {
-  try {
-    const { ssn } = req.params;
-
-    const properties = await getPropertiesBySsnDb(ssn);
-
-    res.status(200).json(properties);
-  } catch (err) {
-    next(err);
-  }
-};
+const { getPropertyByCertificateDb } = require("./services");
 
 const getPropertyByCertificate = async (req, res, next) => {
   try {
@@ -26,6 +11,5 @@ const getPropertyByCertificate = async (req, res, next) => {
 };
 
 module.exports = {
-  getPropertiesBySsn,
   getPropertyByCertificate,
 };
