@@ -110,7 +110,7 @@ const LogType = sequelize.define(
 const Log = sequelize.define(
   "Log",
   {
-    text: { type: DataTypes.STRING, allowNull: false },
+    fields: { type: DataTypes.JSON, allowNull: false },
     logTypeId: {
       type: DataTypes.INTEGER,
       references: {

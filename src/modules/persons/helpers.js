@@ -70,7 +70,42 @@ const searchVehiclesAxiosConfigs = (key, value) => {
   };
 };
 
+const extractData = (row) => {
+  const cards = [];
+  const data = row?.map((row) => {
+    const {
+      serial_number,
+      issue_date,
+      expire_date,
+      printed_at,
+      card_status,
+      transferred_at,
+      ...rowData
+    } = row;
+    if (serial_number) {
+      cards.push({
+        serial_number,
+        issue_date,
+        expire_date,
+        printed_at,
+        card_status,
+        transferred_at,
+      });
+    }
+    return rowData;
+  });
+
+  return { cards, data: data ?? null };
+};
+
+const fetchWpData = async (pnum) => {
+  // Modify to fetch data from Migration Service
+  return null;
+};
+
 module.exports = {
+  extractData,
+  fetchWpData,
   getBordercrossAxiosConfigs,
   getLicensesAxiosConfigs,
   getVehiclesAxiosConfigs,

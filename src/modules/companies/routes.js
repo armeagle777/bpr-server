@@ -9,7 +9,7 @@ const { BPR, ADMIN, TAX, ZAQS, POLICE, PETREGISTER } = permissionsMap;
 const companiesRoute = express.Router();
 
 companiesRoute.get(
-  "/:ssn/person",
+  "/:ssn/petregistr",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, PETREGISTER.uid]),
   getCompaniesBySsn
