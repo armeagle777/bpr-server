@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
+
 const { permissionsMap } = require("../../utils/constants");
 const { createRole, getRoles, updateRole } = require("./controller");
+const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 
 const { BPR, ADMIN, TAX, ZAQS, POLICE, PETREGISTER } = permissionsMap;
 

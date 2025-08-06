@@ -225,10 +225,15 @@ const logTypesMap = {
   },
 };
 
+const APPLICATION_JSON_HEADERS = {
+  "Content-Type": "application/json",
+};
+
 module.exports = {
   defaultDocument,
   defaultAddress,
   ERROR_MESSAGES,
   permissionsMap,
   logTypesMap,
+  APPLICATION_JSON_HEADERS,
 };
