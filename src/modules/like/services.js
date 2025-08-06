@@ -1,6 +1,3 @@
-const { Op } = require("sequelize");
-
-const ApiError = require("../../exceptions/api-error");
 const { Like } = require("../../config/database");
 
 const getLikesDB = async (req) => {

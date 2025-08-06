@@ -2,17 +2,12 @@ const { Op, Sequelize } = require("sequelize");
 
 const ApiError = require("../../exceptions/api-error");
 const { Role, Permission } = require("../../config/database");
+const { GetRolesIncludeModel } = require("./constants");
 
 const getRolesDB = async (req) => {
   const roles = await Role.findAll({
+    include: GetRolesIncludeModel,
     attributes: { exclude: ["createdAt", "updatedAt"] },
-    include: [
-      {
-        model: Permission,
-        through: { attributes: [] },
-        attributes: ["id", "name"],
-      },
-    ],
   });
 
   return {

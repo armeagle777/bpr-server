@@ -11,8 +11,8 @@ const createLog = async ({ req, fields }) => {
     });
     const newLog = await Log.create({
       userId,
-      logTypeId: logType.id,
       fields,
+      logTypeId: logType.id,
     });
     return newLog;
   } catch (error) {

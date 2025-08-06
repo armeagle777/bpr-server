@@ -202,16 +202,16 @@ const getPoliceByPnumDb = async (req) => {
   await createLog({ req, fields: { ssn: pnum } });
 
   const requestBody = {
-    first_name: "",
-    last_name: "",
+    Dzev: 9,
     HAYR: "",
     BDATE: "",
     SSN: pnum,
-    Dzev: 9,
-    USER_ID: "MQC_S",
-    PASSWORD: "mqc123",
-    User: "MQC_S",
-    STUGOX: "EKG",
+    last_name: "",
+    first_name: "",
+    STUGOX: process.env.POLICE_REQUEST_STUGOX,
+    User: process.env.POLICE_REQUEST_USER_NAME,
+    USER_ID: process.env.POLICE_REQUEST_USER_ID,
+    PASSWORD: process.env.POLICE_REQUEST_USER_PASSWORD,
   };
   const dataString = qs.stringify({ customer: JSON.stringify(requestBody) });
   const { data } = await axios.post(policeUrl, dataString, {
@@ -264,8 +264,14 @@ const getPropertiesBySsnDb = async (req) => {
   const { ssn } = req.params;
   await createLog({ req, fields: { ssn } });
 
-  const privateKey = fs.readFileSync("./src/ekeng-request.key", "utf8");
-  const certificate = fs.readFileSync("./src/ekeng-request.pem", "utf8");
+  const privateKey = fs.readFileSync(
+    "./src/certificates/ekeng-request.key",
+    "utf8"
+  );
+  const certificate = fs.readFileSync(
+    "./src/certificates/ekeng-request.pem",
+    "utf8"
+  );
 
   const postData = JSON.stringify({
     ssn,

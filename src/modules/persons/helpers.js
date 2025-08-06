@@ -23,7 +23,7 @@ const getLicensesAxiosConfigs = (psn) => {
   return {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${process.env.ROADPOLICE_URL}/get_driving_license_with_info`,
+    url: `${process.env.ROADPOLICE_URL}/${process.env.ROADPOLICE_URL_LICENSES_PATH}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -34,9 +34,6 @@ const getLicensesAxiosConfigs = (psn) => {
 const getVehiclesAxiosConfigs = (psn) => {
   const axiosBody = qs.stringify({
     psn,
-    // number: "37CJ131",
-    // vin: "YV1CT985681448638",
-    // cert_num: "YB813789",
   });
 
   return {
@@ -53,15 +50,12 @@ const getVehiclesAxiosConfigs = (psn) => {
 const searchVehiclesAxiosConfigs = (key, value) => {
   const axiosBody = qs.stringify({
     [key]: value,
-    // number: "37CJ131",
-    // vin: "YV1CT985681448638",
-    // cert_num: "YB813789",
   });
 
   return {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${process.env.ROADPOLICE_URL}/get_vehicle_info`,
+    url: `${process.env.ROADPOLICE_URL}/${process.env.ROADPOLICE_URL_VEHICLES_PATH}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
