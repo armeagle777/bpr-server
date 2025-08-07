@@ -1,13 +1,5 @@
-const {
-  getFullInfoBaseQuery,
-  getFinesQuery,
-  formatBaseResult,
-  getClaimsQuery,
-  getCardsQuery,
-  getFamilyMemberQuery,
-  fetchWpData,
-} = require("./helpers");
-const { TABLE_NAMES } = require("./constants");
+const { fetchWpData } = require("./helpers");
+
 const { createLog } = require("../log/services");
 
 const getCountriesDB = async () => {
@@ -31,32 +23,6 @@ const filterWpPersonsDB = async (req) => {
 const getWpPersonFullInfoDB = async (req) => {
   const { tablename: procedure, user_id } = req.body;
   const { id: emp_id } = req.params;
-
-  const queries = [
-    { key: "baseInfo", query: getFullInfoBaseQuery(procedure, emp_id) }, //for tab 1
-    { key: "fines", query: getFinesQuery(procedure, emp_id) }, //for tab 4
-    { key: "claims", query: getClaimsQuery(procedure, emp_id) }, // for tab 2
-    { key: "cards", query: getCardsQuery(procedure, emp_id) }, // for tab 3
-    ...(procedure === TABLE_NAMES.EAEU
-      ? [
-          {
-            key: "familyMembers",
-            query: getFamilyMemberQuery(procedure, user_id),
-          },
-        ]
-      : []), // conditional for tab 5
-  ];
-
-  const resultsArray = await Promise.all(queries.map((q) => fetchWpData()));
-
-  const results = {};
-  queries.forEach((q, i) => {
-    results[q.key] =
-      q.key === "baseInfo"
-        ? formatBaseResult(resultsArray[i])
-        : resultsArray[i];
-  });
-  return results;
 };
 
 module.exports = {
