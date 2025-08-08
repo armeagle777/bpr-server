@@ -11,10 +11,9 @@ const {
   getLicensesAxiosConfigs,
   getVehiclesAxiosConfigs,
   searchVehiclesAxiosConfigs,
-  extractData,
-  fetchWpData,
 } = require("./helpers");
 const { getCurrentDate } = require("../../utils/common");
+const { fetchPersonWpLightData } = require("../wp/helpers");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
@@ -312,21 +311,8 @@ const getWpDataDB = async (req) => {
   const { pnum } = req.params;
   await createLog({ req, fields: { ssn: pnum } });
 
-  const wpResponse = await fetchWpData(pnum);
-  const eatmResponse = await fetchWpData(pnum);
-  const eatmFamilyResponse = await fetchWpData(pnum);
-
-  const { cards: wpCards, data: wpData } = extractData(wpResponse);
-  const { cards: eatmCards, data: eatmData } = extractData(eatmResponse);
-  const { cards: eatmFamilyCards, data: eatmFamilyData } =
-    extractData(eatmFamilyResponse);
-
-  return {
-    wpData,
-    eatmData,
-    eatmFamilyData,
-    cards: [...wpCards, ...eatmCards, ...eatmFamilyCards],
-  };
+  const { data } = await fetchPersonWpLightData(pnum);
+  return data;
 };
 
 module.exports = {

@@ -1,10 +1,13 @@
-const { fetchWpData } = require("./helpers");
+const {
+  fetchCountriesData,
+  fetchFilterPersonData,
+  fetchPersonFullData,
+} = require("./helpers");
 
 const { createLog } = require("../log/services");
 
 const getCountriesDB = async () => {
-  const countries = await fetchWpData();
-
+  const { data: countries } = await fetchCountriesData();
   return countries;
 };
 
@@ -15,14 +18,20 @@ const filterWpPersonsDB = async (req) => {
   );
   await createLog({ req, fields: sanitizedFilters });
 
-  const response = await fetchWpData();
-
-  return response;
+  const response = await fetchFilterPersonData({
+    filters: sanitizedFilters,
+    page,
+    pageSize,
+  });
+  return response?.data;
 };
 
 const getWpPersonFullInfoDB = async (req) => {
-  const { tablename: procedure, user_id } = req.body;
-  const { id: emp_id } = req.params;
+  const { tablename, user_id } = req.body;
+  const { id } = req.params;
+
+  const response = await fetchPersonFullData(id, { tablename, user_id });
+  return response?.data;
 };
 
 module.exports = {
