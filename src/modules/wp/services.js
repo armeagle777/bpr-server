@@ -16,7 +16,11 @@ const filterWpPersonsDB = async (req) => {
   const sanitizedFilters = Object.fromEntries(
     Object.entries(filters).filter(([_, v]) => Boolean(v))
   );
-  await createLog({ req, fields: sanitizedFilters });
+  const createLogFields = {
+    filters: { ...sanitizedFilters },
+    pagination: { page, pageSize },
+  };
+  await createLog({ req, fields: createLogFields });
 
   const response = await fetchFilterPersonData({
     filters: sanitizedFilters,
@@ -27,10 +31,10 @@ const filterWpPersonsDB = async (req) => {
 };
 
 const getWpPersonFullInfoDB = async (req) => {
-  const { tablename, user_id } = req.body;
+  const { tablename: tableName, user_id } = req.body;
   const { id } = req.params;
-
-  const response = await fetchPersonFullData(id, { tablename, user_id });
+  await createLog({ req, fields: { id, tableName, user_id } });
+  const response = await fetchPersonFullData(id, { tableName, user_id });
   return response?.data;
 };
 

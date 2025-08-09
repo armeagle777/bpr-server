@@ -18,7 +18,8 @@ router.post(
   filterWpPersons
 );
 router.post(
-  "/person/:id/detail",
+  "/person/:id/wp-data",
+  authMiddleware,
   rolesMiddleware([ADMIN.uid, WP_PERSON_SEARCH.uid]),
   getWpPersonFullInfo
 );
