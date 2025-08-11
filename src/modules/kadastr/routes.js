@@ -4,7 +4,7 @@ const { getPropertyByCertificate } = require("./controller");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { permissionsMap } = require("../../utils/constants");
-const { ADMIN, KADASTR, KADASTR_CERTIFICATE } = permissionsMap;
+const { ADMIN, KADASTR_CERTIFICATE } = permissionsMap;
 
 const kadastrRoutes = express.Router();
 
