@@ -1,17 +1,10 @@
 const axios = require("axios");
 const qs = require("qs");
-const fs = require("fs");
-const crypto = require("crypto");
-const https = require("https");
 const { defaultAddress, defaultDocument } = require("../../utils/constants");
 
 const ApiError = require("../../exceptions/api-error");
 const { createLog } = require("../log/services");
-const {
-  getLicensesAxiosConfigs,
-  getVehiclesAxiosConfigs,
-  searchVehiclesAxiosConfigs,
-} = require("./helpers");
+const { getRoadPoliceRequestOptions } = require("./helpers");
 const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { getCurrentDate } = require("../../utils/common");
 const { fetchPersonWpLightData } = require("../wp/helpers");
@@ -165,17 +158,30 @@ const getTaxBySsnDb = async (req) => {
 const getRoadpoliceBySsnDb = async (req) => {
   const { ssn } = req.params;
   await createLog({ req, fields: { ssn } });
-  const licensesAxiosConfigs = getLicensesAxiosConfigs(ssn);
-  const licensesResponse = await axios.request(licensesAxiosConfigs);
-  const license = licensesResponse?.data?.result || null;
+  // const licensesAxiosConfigs = getRoadPoliceRequestOptions(
+  //   {
+  //     key: "psn",
+  //     value: ssn,
+  //   },
+  //   process.env.ROADPOLICE_URL_LICENSES_PATH
+  // );
+  // const { data: licenseData } = await axios(licensesAxiosConfigs);
+  // const license = licenseData?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
-  const vehiclesAxiosConfigs = getVehiclesAxiosConfigs(ssn);
-  const vehiclesResponse = await axios.request(vehiclesAxiosConfigs);
-  const vehicles = vehiclesResponse?.data?.result?.length
-    ? vehiclesResponse?.data?.result
-    : null;
+  const vehiclesAxiosConfigs = getRoadPoliceRequestOptions(
+    {
+      key: "psn",
+      value: ssn,
+    },
+    process.env.ROADPOLICE_URL_VEHICLES_PATH
+  );
+  const { data } = await axios(vehiclesAxiosConfigs);
+  const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
-  return { license, vehicles };
+  return {
+    // license,
+    vehicles,
+  };
 };
 
 const searchVehiclesDb = async (req) => {
@@ -184,14 +190,15 @@ const searchVehiclesDb = async (req) => {
 
   await createLog({ req, fields: { [searchBase]: paramValue } });
 
-  const vehiclesAxiosConfigs = searchVehiclesAxiosConfigs(
-    searchBase,
-    paramValue
+  const vehiclesAxiosConfigs = getRoadPoliceRequestOptions(
+    {
+      key: searchBase,
+      value: paramValue,
+    },
+    process.env.ROADPOLICE_URL_VEHICLES_PATH
   );
-  const vehiclesResponse = await axios.request(vehiclesAxiosConfigs);
-  const vehicles = vehiclesResponse?.data?.result?.length
-    ? vehiclesResponse?.data?.result
-    : null;
+  const { data } = await axios(vehiclesAxiosConfigs);
+  const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
   return { vehicles };
 };
