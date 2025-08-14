@@ -10,6 +10,7 @@ const {
   validateRefreshToken,
 } = require("../../utils/common");
 const { User, Role, Permission } = require("../../config/database");
+const { createLog } = require("../log/services");
 
 const registrationDB = async (body) => {
   const { firstName, lastName, email, pashton, password, role, phoneNumber } =
@@ -196,6 +197,7 @@ const loginDB = async (email, password) => {
   const userData = createUserData(candidate);
   const tokens = await generateTokens(userData);
   await saveTokenDB(userData.id, tokens.refreshToken);
+  await createLog({ req, fields: { email } });
   return { ...tokens, userData };
 };
 
