@@ -20,6 +20,7 @@ const likesRouter = require("./modules/like/routes");
 const permissionsRouter = require("./modules/permission/routes");
 const rolesRouter = require("./modules/role/routes");
 const utilsRouter = require("./modules/utils/routes");
+const logsRouter = require("./modules/log/routes");
 const metricsRouter = require("./modules/metrics/routes");
 const { sequelize } = require("./config/database");
 
@@ -48,6 +49,7 @@ app.use(
 app.use(metricsMiddleware);
 
 app.use(morgan("common"));
+app.use("/api/logs", logsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/token", tokenRouter);
 app.use("/api/likes", likesRouter);

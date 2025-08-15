@@ -158,15 +158,17 @@ const getTaxBySsnDb = async (req) => {
 const getRoadpoliceBySsnDb = async (req) => {
   const { ssn } = req.params;
   await createLog({ req, fields: { ssn } });
-  // const licensesAxiosConfigs = getRoadPoliceRequestOptions(
-  //   {
-  //     key: "psn",
-  //     value: ssn,
-  //   },
-  //   process.env.ROADPOLICE_URL_LICENSES_PATH
-  // );
-  // const { data: licenseData } = await axios(licensesAxiosConfigs);
-  // const license = licenseData?.rp_get_vehicle_info_response?.rp_vehicles || null;
+  const licensesAxiosConfigs = getRoadPoliceRequestOptions(
+    {
+      key: "psn",
+      value: ssn,
+    },
+    process.env.ROADPOLICE_URL_LICENSES_PATH
+  );
+  const { data: licenseData } = await axios(licensesAxiosConfigs);
+  console.log("licenseData>>>>>>", licenseData);
+  const license =
+    licenseData?.rp_get_driving_license_with_info_response?.result || null;
 
   const vehiclesAxiosConfigs = getRoadPoliceRequestOptions(
     {
@@ -179,7 +181,7 @@ const getRoadpoliceBySsnDb = async (req) => {
   const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
   return {
-    // license,
+    license,
     vehicles,
   };
 };

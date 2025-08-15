@@ -223,6 +223,31 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  login: {
+    name: "Մուտք համակարգ",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  logout: {
+    name: "Ելք համակարգից",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  createUser: {
+    name: "Նոր օգտատիրոջ գրանցում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  updateUser: {
+    name: "Օգտատիրոջ տվյալների փոփոխում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  pdfDownload: {
+    name: "PDF գեներացում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 };
 
 const APPLICATION_JSON_HEADERS = {
