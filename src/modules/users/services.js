@@ -11,10 +11,11 @@ const {
 } = require("../../utils/common");
 const { User, Role, Permission } = require("../../config/database");
 const { createLog } = require("../log/services");
+const { logTypesMap } = require("../../utils/constants");
 
-const registrationDB = async (body) => {
+const registrationDB = async (req) => {
   const { firstName, lastName, email, pashton, password, role, phoneNumber } =
-    body;
+    req.body;
 
   const candidate = await User.findOne({
     where: {
@@ -25,7 +26,7 @@ const registrationDB = async (body) => {
     throw ApiError.BadRequest("User already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(body.password, 7);
+  const hashedPassword = await bcrypt.hash(password, 7);
   const activationLink = uuid.v4();
   const foundRole = await Role.findByPk(parseInt(role, 10));
 
@@ -61,6 +62,12 @@ const registrationDB = async (body) => {
   const userData = createUserData(createdUserWithRole);
   const tokens = await generateTokens(userData);
   const tokenData = await saveTokenDB(userData.id, tokens.refreshToken);
+
+  await createLog({
+    req,
+    fields: userData,
+    LOG_TYPE_NAME: logTypesMap.createUser.name,
+  });
 
   return {
     ...tokens,
@@ -131,6 +138,11 @@ const updateUserDB = async (req) => {
     delete body.password;
   }
 
+  await createLog({
+    req,
+    fields: body,
+    LOG_TYPE_NAME: logTypesMap.updateUser.name,
+  });
   const updatedCandidate = await user.update(body);
 
   return updatedCandidate;
@@ -197,7 +209,11 @@ const loginDB = async (email, password) => {
   const userData = createUserData(candidate);
   const tokens = await generateTokens(userData);
   await saveTokenDB(userData.id, tokens.refreshToken);
-  await createLog({ req, fields: { email } });
+  await createLog({
+    fields: { email },
+    USER_ID: userData.id,
+    LOG_TYPE_NAME: logTypesMap.login.name,
+  });
   return { ...tokens, userData };
 };
 
@@ -205,6 +221,13 @@ const logoutDB = async (refreshToken) => {
   const userInfo = await validateRefreshToken(refreshToken);
 
   const deletedToken = await deleteTokenDB(userInfo.id);
+
+  await createLog({
+    fields: { email: userInfo.email },
+    USER_ID: userInfo.id,
+    LOG_TYPE_NAME: logTypesMap.logout.name,
+  });
+
   return deletedToken;
 };
 

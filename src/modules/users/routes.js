@@ -24,12 +24,18 @@ router.post("/check/email", rolesMiddleware([ADMIN.uid, HR.uid]), checkEmail);
 
 router.post(
   "/registration",
+  authMiddleware,
   rolesMiddleware([ADMIN.uid, HR.uid]),
   registration
 );
 router.post("/login", login);
 
-router.put("/:id", rolesMiddleware([ADMIN.uid, HR.uid]), updateUser);
+router.put(
+  "/:id",
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, HR.uid]),
+  updateUser
+);
 
 router.put("/password/:id", authMiddleware, changePassword);
 
