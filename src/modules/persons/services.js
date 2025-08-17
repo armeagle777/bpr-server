@@ -166,7 +166,6 @@ const getRoadpoliceBySsnDb = async (req) => {
     process.env.ROADPOLICE_URL_LICENSES_PATH
   );
   const { data: licenseData } = await axios(licensesAxiosConfigs);
-  console.log("licenseData>>>>>>", licenseData);
   const license =
     licenseData?.rp_get_driving_license_with_info_response?.result || null;
 
