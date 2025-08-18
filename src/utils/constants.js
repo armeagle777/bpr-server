@@ -138,10 +138,10 @@ const permissionsMap = {
     name: "Սեփականության վկայական",
     description: "Կադաստր ըստ սեփ. վկայականի",
   },
-  ARTSAKH: {
-    uid: "8000",
-    name: "Տեղահանություն",
-    description: "Արցախի տեղահանության տեղեկատվություն",
+  ASYLUM: {
+    uid: "20000",
+    name: "Փախստականներ",
+    description: "Փախստականների բազայում որոնում",
   },
   WP: {
     uid: "9000",
@@ -245,6 +245,11 @@ const logTypesMap = {
   },
   pdfDownload: {
     name: "PDF գեներացում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  asylum: {
+    name: "Փախստականների Բազայում Որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
