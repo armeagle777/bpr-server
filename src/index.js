@@ -11,7 +11,6 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 const metricsMiddleware = require("./modules/metrics/metricsMiddleware");
 const personsRoute = require("./modules/persons/routes");
 const kadastrRoutes = require("./modules/kadastr/routes");
-const artsakhRoutes = require("./modules/artsakh/routes");
 const wpRoutes = require("./modules/wp/routes");
 const companiesRoute = require("./modules/companies/routes");
 const usersRouter = require("./modules/users/routes");
@@ -59,8 +58,8 @@ app.use("/api/permissions", permissionsRouter);
 app.use("/api/persons", personsRoute);
 app.use("/api/petregistr", companiesRoute);
 app.use("/api/kadastr", kadastrRoutes);
-app.use("/api/artsakh", artsakhRoutes);
 app.use("/api/wp", wpRoutes);
+app.use("/api/asylum", wpRoutes);
 app.use("/api/utils", utilsRouter);
 app.use("/api/metrics", metricsRouter);
 
