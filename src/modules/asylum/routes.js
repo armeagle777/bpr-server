@@ -12,15 +12,15 @@ const { ADMIN, ASYLUM } = permissionsMap;
 
 router.get("/countries/all", getAsylumCountries);
 router.post(
-  "/filter/wp-data",
+  "/filter/asylum-data",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   filterAsylumLightData
 );
 router.post(
-  "/person/:id/wp-data",
-  authMiddleware,
-  rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
+  "/person/:id/asylum-data",
+  // authMiddleware,
+  // rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   getAsylumFullData
 );
 
