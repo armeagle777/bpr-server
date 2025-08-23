@@ -17,8 +17,8 @@ router.post(
   rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   filterAsylumLightData
 );
-router.post(
-  "/person/:id/wp-data",
+router.get(
+  "/person/:id/asylum-data",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   getAsylumFullData

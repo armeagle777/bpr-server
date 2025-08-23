@@ -13,21 +13,8 @@ const migrationApiHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const fetchCountriesData = async () => {
-  return migrationAxiosInstance.get("/work-permit/countries");
-};
-
 const fetchAsylumCountriesData = async () => {
   return migrationAxiosInstance.get("/asylum/countries");
-};
-
-const fetchFilterPersonData = async (body) => {
-  const postData = JSON.stringify(body);
-  const axiosOptions = createAxiosOptionsWithSignature(
-    postData,
-    "/work-permit/persons/filter"
-  );
-  return migrationAxiosInstance(axiosOptions);
 };
 
 const fetchAsylumPersonsFilterData = async (body) => {
@@ -39,15 +26,6 @@ const fetchAsylumPersonsFilterData = async (body) => {
   return migrationAxiosInstance(axiosOptions);
 };
 
-const fetchPersonFullData = async (id, body) => {
-  const postData = JSON.stringify(body);
-  const axiosOptions = createAxiosOptionsWithSignature(
-    postData,
-    `/work-permit/persons/detail/${id}`
-  );
-  return migrationAxiosInstance(axiosOptions);
-};
-
 const fetchAsylumPersonFullData = async (personalId) => {
   const fakeBody = { personalId };
   const postData = JSON.stringify(fakeBody);
@@ -55,16 +33,6 @@ const fetchAsylumPersonFullData = async (personalId) => {
     postData,
     `/asylum/persons/detail/${personalId}`
   );
-  return migrationAxiosInstance(axiosOptions);
-};
-
-const fetchPersonWpLightData = async (pnum) => {
-  const postData = JSON.stringify({ pnum });
-  const axiosOptions = createAxiosOptionsWithSignature(
-    postData,
-    `/work-permit/persons/detail/pnum`
-  );
-
   return migrationAxiosInstance(axiosOptions);
 };
 
@@ -102,10 +70,6 @@ function createAxiosOptionsWithSignature(postData, url) {
 }
 
 module.exports = {
-  fetchCountriesData,
-  fetchPersonFullData,
-  fetchFilterPersonData,
-  fetchPersonWpLightData,
   fetchAsylumCountriesData,
   fetchAsylumPersonFullData,
   fetchAsylumPersonsFilterData,
