@@ -18,7 +18,7 @@ const fetchCountriesData = async () => {
 };
 
 const fetchAsylumCountriesData = async () => {
-  return migrationAxiosInstance.get("/asylum/countries");
+  return migrationAxiosInstance.get("/asylum/filter/options");
 };
 
 const fetchFilterPersonData = async (body) => {

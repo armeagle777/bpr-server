@@ -1,13 +1,13 @@
 const {
-  getCountriesDB,
   getAsylumFullDataDB,
   filterAsylumLightDataDB,
+  getAsylumFilterOptionsDB,
 } = require("./services");
 
-const getAsylumCountries = async (req, res, next) => {
+const getAsylumFilterOptions = async (req, res, next) => {
   try {
-    const countries = await getCountriesDB();
-    res.status(200).json(countries);
+    const filterOptions = await getAsylumFilterOptionsDB();
+    res.status(200).json(filterOptions);
   } catch (err) {
     console.log("Error crating User:", err);
     next(err);
@@ -36,6 +36,6 @@ const getAsylumFullData = async (req, res, next) => {
 
 module.exports = {
   getAsylumFullData,
-  getAsylumCountries,
+  getAsylumFilterOptions,
   filterAsylumLightData,
 };

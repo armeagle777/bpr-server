@@ -7,9 +7,9 @@ const {
 const { createLog } = require("../log/services");
 const { logTypesMap } = require("../../utils/constants");
 
-const getCountriesDB = async () => {
-  const { data: countries } = await fetchAsylumCountriesData();
-  return countries;
+const getAsylumFilterOptionsDB = async () => {
+  const { data } = await fetchAsylumCountriesData();
+  return data;
 };
 
 const filterAsylumLightDataDB = async (req) => {
@@ -48,7 +48,7 @@ const getAsylumFullDataDB = async (req) => {
 };
 
 module.exports = {
-  getCountriesDB,
+  getAsylumFilterOptionsDB,
   filterAsylumLightDataDB,
   getAsylumFullDataDB,
 };

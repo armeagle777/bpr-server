@@ -4,13 +4,13 @@ const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
 const {
   getAsylumFullData,
-  getAsylumCountries,
+  getAsylumFilterOptions,
   filterAsylumLightData,
 } = require("./controller");
 
 const { ADMIN, ASYLUM } = permissionsMap;
 
-router.get("/countries/all", getAsylumCountries);
+router.get("/filter/options", getAsylumFilterOptions);
 router.post(
   "/filter/asylum-data",
   authMiddleware,
