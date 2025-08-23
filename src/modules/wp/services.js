@@ -31,7 +31,7 @@ const filterWpPersonsDB = async (req) => {
 };
 
 const getWpPersonFullInfoDB = async (req) => {
-  const { tablename: tableName, user_id } = req.body;
+  const { tableName, user_id } = req.body;
   const { id } = req.params;
   await createLog({ req, fields: { id, tableName, user_id } });
   const response = await fetchPersonFullData(id, { tableName, user_id });
