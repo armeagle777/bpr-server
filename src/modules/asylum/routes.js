@@ -17,10 +17,10 @@ router.post(
   rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   filterAsylumLightData
 );
-router.post(
+router.get(
   "/person/:id/asylum-data",
-  // authMiddleware,
-  // rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   getAsylumFullData
 );
 
