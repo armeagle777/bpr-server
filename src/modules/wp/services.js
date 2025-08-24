@@ -12,9 +12,9 @@ const getCountriesDB = async () => {
 };
 
 const filterWpPersonsDB = async (req) => {
-  const { page = 1, pageSize = 10, filters } = req.body;
+  const { page = 1, pageSize = 10, filters = {} } = req.body;
   const sanitizedFilters = Object.fromEntries(
-    Object.entries(filters).filter(([_, v]) => Boolean(v))
+    Object.entries(filters)?.filter(([_, v]) => Boolean(v))
   );
   const createLogFields = {
     filters: { ...sanitizedFilters },

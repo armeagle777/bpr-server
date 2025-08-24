@@ -19,7 +19,10 @@ const filterAsylumLightData = async (req, res, next) => {
     const persons = await filterAsylumLightDataDB(req);
     res.status(200).json(persons);
   } catch (err) {
-    console.log("Error crating User:", err);
+    console.log(
+      "Error Fetching Refugee Light Data:",
+      err?.data?.message || err.message
+    );
     next(err);
   }
 };
