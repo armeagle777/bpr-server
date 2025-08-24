@@ -37,7 +37,7 @@ const filterAsylumLightDataDB = async (req) => {
 };
 
 const getAsylumFullDataDB = async (req) => {
-  const { id: personalId } = req.params;
+  const { personalId } = req.params;
   await createLog({
     req,
     fields: { personalId },

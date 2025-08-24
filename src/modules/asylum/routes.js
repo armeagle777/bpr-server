@@ -18,7 +18,7 @@ router.post(
   filterAsylumLightData
 );
 router.get(
-  "/person/:id/asylum-data",
+  "/person/:personalId/asylum-data",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, ASYLUM.uid]),
   getAsylumFullData
