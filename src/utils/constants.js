@@ -118,6 +118,11 @@ const permissionsMap = {
     name: "ՆԳՆ",
     description: "Ոստիկանության Որոնում",
   },
+  WEAPON: {
+    uid: "3100",
+    name: "Զենք",
+    description: "Զենքի տեղեկատվության որոնում",
+  },
   TAX: {
     uid: "4000",
     name: "ՊԵԿ",
