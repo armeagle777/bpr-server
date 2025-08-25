@@ -1,6 +1,6 @@
 const qs = require("qs");
 
-const EkengIntegration = require("../../integrations");
+const EkengIntegration = require("../../integrations/EkengIntegration");
 
 const getBordercrossAxiosConfigs = ({ passportNumber, citizenship }) => {
   const axiosData = `<?xml version="1.0" encoding="UTF-8"?>\r\n <data>\r\n    <citizenship>${citizenship}</citizenship>\r\n    <passportNumber>${passportNumber}</passportNumber>\r\n </data>`;
