@@ -21,6 +21,8 @@ const permissionsRouter = require("./modules/permission/routes");
 const rolesRouter = require("./modules/role/routes");
 const utilsRouter = require("./modules/utils/routes");
 const logsRouter = require("./modules/log/routes");
+const policeRouter = require("./modules/Police/routes");
+
 const metricsRouter = require("./modules/metrics/routes");
 const { sequelize } = require("./config/database");
 
@@ -61,6 +63,7 @@ app.use("/api/petregistr", companiesRoute);
 app.use("/api/kadastr", kadastrRoutes);
 app.use("/api/wp", wpRoutes);
 app.use("/api/asylum", asylumRoutes);
+app.use("/api/police", policeRouter);
 app.use("/api/utils", utilsRouter);
 app.use("/api/metrics", metricsRouter);
 

@@ -1,15 +1,15 @@
-const { getPropertyByCertificateDb } = require("./services");
+const { getWeaponsDataDB } = require("./services");
 
-const getPropertyByCertificate = async (req, res, next) => {
+const getWeaponsData = async (req, res, next) => {
   try {
-    const property = await getPropertyByCertificateDb(req);
+    const weaponse = await getWeaponsDataDB(req);
 
-    res.status(200).json(property);
+    res.status(200).json(weaponse);
   } catch (err) {
     next(err);
   }
 };
 
 module.exports = {
-  getPropertyByCertificate,
+  getWeaponsData,
 };

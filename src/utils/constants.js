@@ -213,6 +213,11 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  weapon: {
+    name: "Զենքերի Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
   wp: {
     name: "Աշխ. Թույլտվության Բազայում Որոնում",
     createdAt: new Date(),

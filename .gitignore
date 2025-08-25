@@ -10,3 +10,9 @@ pdf
 # Ignore pm2 ecosystem files
 ecosystem.config.js
 .prettierrc.json
+
+
+
+
+
+response.json

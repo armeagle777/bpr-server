@@ -1,24 +1,25 @@
 const axios = require("axios");
 
 const { createLog } = require("../log/services");
-const { getCadastreRequestOptions } = require("./helpers");
+const { getPoliceRequestOptions } = require("./helpers");
+const { logTypesMap } = require("../../utils/constants");
 
-const getPropertyByCertificateDb = async (req) => {
-  const { searchBase } = req.query;
-  const { certificateNumber } = req.params;
+const getWeaponsDataDB = async (req) => {
+  const body = req.body;
 
   await createLog({
     req,
-    fields: { [searchBase]: certificateNumber },
+    fields: body,
+    LOG_TYPE_NAME: logTypesMap.weapon.name,
   });
 
-  const axiosOptions = getCadastreRequestOptions(searchBase, certificateNumber);
+  const axiosOptions = getPoliceRequestOptions(body);
   const { data } = await axios(axiosOptions);
 
-  if (!data?.cad_get_realty_gip_response?.cad_get_realty) return [];
-  return data.cad_get_realty_gip_response.cad_get_realty;
+  if (!data?.get_weapon_info_response) return [];
+  return data.get_weapon_info_response.data;
 };
 
 module.exports = {
-  getPropertyByCertificateDb,
+  getWeaponsDataDB,
 };
