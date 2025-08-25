@@ -1,7 +1,6 @@
 const qs = require("qs");
-const fs = require("fs");
-const https = require("https");
-const crypto = require("crypto");
+
+const EkengIntegration = require("../../integrations");
 
 const getBordercrossAxiosConfigs = ({ passportNumber, citizenship }) => {
   const axiosData = `<?xml version="1.0" encoding="UTF-8"?>\r\n <data>\r\n    <citizenship>${citizenship}</citizenship>\r\n    <passportNumber>${passportNumber}</passportNumber>\r\n </data>`;
@@ -36,43 +35,14 @@ const getLicensesAxiosConfigs = (psn) => {
 
 const getRoadPoliceRequestOptions = ({ key, value }, path) => {
   const url = `${process.env.ROADPOLICE_URL}/${path}`;
-
-  const privateKey = fs.readFileSync(
-    "./src/certificates/ekeng-request.key",
-    "utf8"
-  );
-  const certificate = fs.readFileSync(
-    "./src/certificates/ekeng-request.pem",
-    "utf8"
-  );
-
   const postData = JSON.stringify({
     [key]: value,
   });
 
-  const sign = crypto.createSign("RSA-SHA256");
-  sign.update(postData);
-  sign.end();
-  const signature = sign.sign(privateKey, "base64");
+  const ekeng = new EkengIntegration();
+  const options = ekeng.buildRequestOptions(url, postData);
 
-  const agent = new https.Agent({
-    key: privateKey,
-    cert: certificate,
-    rejectUnauthorized: false,
-  });
-
-  return {
-    method: "post",
-    url: url,
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": Buffer.byteLength(postData),
-      "X-Signature-Algorithm": "RSA-SHA256",
-      "X-Signature": signature,
-    },
-    data: postData,
-    httpsAgent: agent,
-  };
+  return options;
 };
 
 module.exports = {
