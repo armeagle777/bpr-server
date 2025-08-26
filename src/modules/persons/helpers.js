@@ -35,9 +35,9 @@ const getLicensesAxiosConfigs = (psn) => {
 
 const getRoadPoliceRequestOptions = ({ key, value }, path) => {
   const url = `${process.env.ROADPOLICE_URL}/${path}`;
-  const postData = JSON.stringify({
+  const postData = {
     [key]: value,
-  });
+  };
 
   const ekeng = new EkengIntegration();
   const options = ekeng.buildRequestOptions(url, postData);
