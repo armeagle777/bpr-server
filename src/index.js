@@ -23,6 +23,7 @@ const utilsRouter = require("./modules/utils/routes");
 const logsRouter = require("./modules/log/routes");
 const icRouter = require("./modules/IC/routes");
 const roadPoliceRouter = require("./modules/RoadPolice/routes");
+const territorialMinistryRouter = require("./modules/TerritorialMinistry/routes");
 
 const metricsRouter = require("./modules/metrics/routes");
 const { sequelize } = require("./config/database");
@@ -66,6 +67,7 @@ app.use("/api/wp", wpRoutes);
 app.use("/api/asylum", asylumRoutes);
 app.use("/api/ic", icRouter);
 app.use("/api/road-police", roadPoliceRouter);
+app.use("/api/territorial-ministry", territorialMinistryRouter);
 app.use("/api/utils", utilsRouter);
 app.use("/api/metrics", metricsRouter);
 
