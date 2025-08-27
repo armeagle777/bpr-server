@@ -14,13 +14,17 @@ const getTransactionsDataDB = async (req) => {
   });
 
   const axiosOptions = getRoadPoliceRequestOptions(
-    body,
+    { psn },
     "get_owner_changes_info/v1"
   );
   const { data } = await axios(axiosOptions);
 
-  if (data?.get_owner_changes_info_response?.status !== "ok") return [];
-  return data.get_owner_changes_info_response.result;
+  if (
+    data?.get_owner_changes_info_response?.status !== "ok" ||
+    !data.get_owner_changes_info_response?.result?.length
+  )
+    return [];
+  return data.get_owner_changes_info_response.result[0];
 };
 
 module.exports = {
