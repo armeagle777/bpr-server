@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const { createLog } = require("../log/services");
-const { getPoliceRequestOptions } = require("./helpers");
+const { getICRequestOptions } = require("./helpers");
 const { logTypesMap } = require("../../utils/constants");
 
 const getWeaponsDataDB = async (req) => {
@@ -13,7 +13,7 @@ const getWeaponsDataDB = async (req) => {
     LOG_TYPE_NAME: logTypesMap.weapon.name,
   });
 
-  const axiosOptions = getPoliceRequestOptions(body);
+  const axiosOptions = getICRequestOptions(body);
   const { data } = await axios(axiosOptions);
 
   if (!data?.get_weapon_info_response) return [];
