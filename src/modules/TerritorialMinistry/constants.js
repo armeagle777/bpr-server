@@ -9,8 +9,8 @@ const personTypesMap = {
 };
 
 const identKeysMap = {
-  physical: "psn",
-  legal: "tax_id",
+  PHYSICAL: "psn",
+  LEGAL: "tax_id",
 };
 
 module.exports = { serviceTypesMap, personTypesMap, identKeysMap };

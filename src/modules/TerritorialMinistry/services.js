@@ -40,12 +40,12 @@ const getPropertyTaxesDB = async (req) => {
   );
   const { data } = await axios(axiosOptions);
 
-  if (
-    data?.get_owner_changes_info_response?.status !== "ok" ||
-    !data.get_owner_changes_info_response?.result?.length
-  )
-    return [];
-  return data.get_owner_changes_info_response.result[0];
+  return (
+    data?.mta_get_taxes_response?.physical_vehicles?.physical_vehicles_data ||
+    data?.mta_get_taxes_response?.physical_real_estate
+      ?.physical_real_estate_data ||
+    []
+  );
 };
 
 module.exports = {
