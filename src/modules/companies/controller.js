@@ -1,4 +1,4 @@
-const { getCompaniesBySsnDb } = require("./services");
+const { getCompaniesBySsnDb, searchCompaniesDb } = require("./services");
 
 const getCompaniesBySsn = async (req, res, next) => {
   try {
@@ -10,6 +10,17 @@ const getCompaniesBySsn = async (req, res, next) => {
   }
 };
 
+const searchCompanies = async (req, res, next) => {
+  try {
+    const companies = await searchCompaniesDb(req);
+
+    res.status(200).json(companies);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
+  searchCompanies,
   getCompaniesBySsn,
 };
