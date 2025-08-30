@@ -175,6 +175,12 @@ const permissionsMap = {
     description:
       "Անձի  որոնում աշխ թույլտվության համակարգում բոլոր պարամետրերով",
   },
+  MTA_PROPERTY_TAXES: {
+    uid: "61000",
+    name: "Գույքահարկ",
+    description:
+      "Ֆիզ։ և իրավաբանական անձանց մեքենայի, անշարժ գույքի գույքահարկեր",
+  },
   ADMIN: {
     uid: "9999",
     name: "Ադմինիստրատոր",
@@ -235,6 +241,11 @@ const logTypesMap = {
   },
   roadPoliceTransactions: {
     name: "Տ/Մ Հաշվառումների Պատմության Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  territorialMinPropertyTaxes: {
+    name: "Մեքենայի և անշարժ գույքի գույքահարկերի որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
