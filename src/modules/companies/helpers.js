@@ -1,3 +1,4 @@
+const EkengIntegration = require("../../integrations/EkengIntegration");
 const { APPLICATION_JSON_HEADERS } = require("../../utils/constants");
 
 const getPetRegisterRequestOptions = (ssn) => {
@@ -23,6 +24,7 @@ const formatCompaniesSearchParams = (searchParams) => {
     ...(searchParams.taxId && { tax_id: searchParams.taxId }),
     ...(searchParams.name && { name: searchParams.name }),
     ...(searchParams.type && { type: searchParams.type }),
+    exclude_docs: true,
   };
 };
 

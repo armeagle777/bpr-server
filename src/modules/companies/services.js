@@ -6,6 +6,7 @@ const {
   getPetRegisterRequestOptions,
   formatPetRegisterResponse,
   getCompanySearchRequestOptions,
+  formatCompaniesSearchParams,
 } = require("./helpers");
 const { logTypesMap } = require("../../utils/constants");
 
@@ -41,8 +42,8 @@ const searchCompaniesDb = async (req) => {
   if (data.error) {
     return [];
   }
-  const company = br_company_info_response?.br_company;
-  if (!company || !Object.keys(company)) return [];
+  const company = data?.br_company_info_response?.br_company;
+  if (!company || !Object.keys(company)?.length) return [];
 
   return [company];
 };
