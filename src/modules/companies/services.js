@@ -5,7 +5,9 @@ const { createLog } = require("../log/services");
 const {
   getPetRegisterRequestOptions,
   formatPetRegisterResponse,
+  getCompanySearchRequestOptions,
 } = require("./helpers");
+const { logTypesMap } = require("../../utils/constants");
 
 const getCompaniesBySsnDb = async (req) => {
   const { ssn } = req.params;
@@ -25,19 +27,24 @@ const getCompaniesBySsnDb = async (req) => {
 
 const searchCompaniesDb = async (req) => {
   const searchParams = req.query;
-  console.log(";searchParams", searchParams);
-  // await createLog({ req, fields: { ssn } });
+  const formatedParams = formatCompaniesSearchParams(searchParams);
 
-  // const config = getPetRegisterRequestOptions(ssn);
-  // const { data } = await axios(config);
+  await createLog({
+    req,
+    fields: formatedParams,
+    LOG_TYPE_NAME: logTypesMap.petRegister.name,
+  });
 
-  // if (data.error) {
-  //   return [];
-  // }
+  const config = getCompanySearchRequestOptions(formatedParams);
+  const { data } = await axios(config);
 
-  // const result = formatPetRegisterResponse(data);
+  if (data.error) {
+    return [];
+  }
+  const company = br_company_info_response?.br_company;
+  if (!company || !Object.keys(company)) return [];
 
-  // return result;
+  return [company];
 };
 
 module.exports = {
