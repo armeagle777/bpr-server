@@ -18,6 +18,23 @@ const getPetRegisterRequestOptions = (ssn) => {
   };
 };
 
+const formatCompaniesSearchParams = (searchParams) => {
+  return {
+    ...(searchParams.taxId && { tax_id: searchParams.taxId }),
+    ...(searchParams.name && { name: searchParams.name }),
+    ...(searchParams.type && { type: searchParams.type }),
+  };
+};
+
+const getCompanySearchRequestOptions = (body) => {
+  const petRegisterSearchUrl = `${process.env.PETREGISTER_NEW_URL}/company_info/v1`;
+
+  const ekeng = new EkengIntegration();
+  const options = ekeng.buildRequestOptions(petRegisterSearchUrl, body);
+
+  return options;
+};
+
 const formatPetRegisterResponse = (response) => {
   const {
     result: { person },
@@ -27,4 +44,9 @@ const formatPetRegisterResponse = (response) => {
   return { ...rest, companies: Object.values(companies) };
 };
 
-module.exports = { getPetRegisterRequestOptions, formatPetRegisterResponse };
+module.exports = {
+  formatPetRegisterResponse,
+  formatCompaniesSearchParams,
+  getPetRegisterRequestOptions,
+  getCompanySearchRequestOptions,
+};
