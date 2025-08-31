@@ -33,7 +33,7 @@ const getPropertyTaxesDB = async (req) => {
     fields: searchParams,
     LOG_TYPE_NAME: logTypesMap.territorialMinPropertyTaxes.name,
   });
-
+  console.log("searchParams>>>>>>", searchParams);
   const axiosOptions = getTerritorialMinistryRequestOptions(
     searchParams,
     "get_taxes/v1"
@@ -44,6 +44,8 @@ const getPropertyTaxesDB = async (req) => {
     data?.mta_get_taxes_response?.physical_vehicles?.physical_vehicles_data ||
     data?.mta_get_taxes_response?.physical_real_estate
       ?.physical_real_estate_data ||
+    data?.mta_get_taxes_response?.legal_vehicles?.legal_vehicles_data ||
+    data?.mta_get_taxes_response?.legal_real_estate?.legal_real_estate_data ||
     []
   );
 };
