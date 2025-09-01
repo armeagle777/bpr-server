@@ -294,6 +294,11 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  mlsa: {
+    name: "Սոցիալական վճարումների որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 };
 
 const APPLICATION_JSON_HEADERS = {

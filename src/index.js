@@ -23,6 +23,7 @@ const utilsRouter = require("./modules/utils/routes");
 const logsRouter = require("./modules/log/routes");
 const icRouter = require("./modules/IC/routes");
 const mojCesRouter = require("./modules/MojCes/routes");
+const mlsaRouter = require("./modules/MLSA/routes");
 const roadPoliceRouter = require("./modules/RoadPolice/routes");
 const territorialMinistryRouter = require("./modules/TerritorialMinistry/routes");
 
@@ -68,6 +69,7 @@ app.use("/api/wp", wpRoutes);
 app.use("/api/asylum", asylumRoutes);
 app.use("/api/ic", icRouter);
 app.use("/api/moj-ces", mojCesRouter);
+app.use("/api/mlsa", mlsaRouter);
 app.use("/api/road-police", roadPoliceRouter);
 app.use("/api/territorial-ministry", territorialMinistryRouter);
 app.use("/api/utils", utilsRouter);
