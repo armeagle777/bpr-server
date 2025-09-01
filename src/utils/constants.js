@@ -133,6 +133,11 @@ const permissionsMap = {
     name: "ՔԿԱԳ",
     description: "ՔԿԱԳ Որոնում",
   },
+  MOJ_CES: {
+    uid: "6001",
+    name: "ԴԱՀԿ",
+    description: "ԴԱՀԿ Համակարգի Որոնում",
+  },
   KADASTR: {
     uid: "7000",
     name: "Կադաստր",
@@ -279,8 +284,8 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-  asylum: {
-    name: "Փախստականների Բազայում Որոնում",
+  mojCes: {
+    name: "ԴԱՀԿ բազայում որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },

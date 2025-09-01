@@ -1,16 +1,16 @@
-const roadPoliceRoute = require("express").Router();
+const mojCesRoute = require("express").Router();
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
-const { getTransactionsData } = require("./controller");
+const { getDebtorData } = require("./controller");
 
-const { ROADPOLICE_TRANSACTIONS, ADMIN } = permissionsMap;
+const { MOJ_CES, ADMIN } = permissionsMap;
 
-roadPoliceRoute.get(
-  "/persons/:psn/transactions",
+mojCesRoute.post(
+  "/debtor-info",
   authMiddleware,
-  rolesMiddleware([ADMIN.uid, ROADPOLICE_TRANSACTIONS.uid]),
-  getTransactionsData
+  rolesMiddleware([ADMIN.uid, MOJ_CES.uid]),
+  getDebtorData
 );
 
-module.exports = roadPoliceRoute;
+module.exports = mojCesRoute;

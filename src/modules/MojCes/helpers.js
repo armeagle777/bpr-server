@@ -1,12 +1,12 @@
 const EkengIntegration = require("../../integrations/EkengIntegration");
 
-const getRoadPoliceRequestOptions = (body, path) => {
-  const roadPoliceUrl = `${process.env.ROADPOLICE_URL}/${path}`;
+const getMojCesRequestOptions = (body, path) => {
+  const mojCesURl = `${process.env.MOJ_CES_API_URL}/${path}`;
 
   const ekeng = new EkengIntegration();
-  const options = ekeng.buildRequestOptions(roadPoliceUrl, body);
+  const options = ekeng.buildRequestOptions(mojCesURl, body);
 
   return options;
 };
 
-module.exports = { getRoadPoliceRequestOptions };
+module.exports = { getMojCesRequestOptions };

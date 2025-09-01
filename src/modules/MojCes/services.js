@@ -1,32 +1,29 @@
 const axios = require("axios");
 
 const { createLog } = require("../log/services");
-const { getRoadPoliceRequestOptions } = require("./helpers");
+const { getMojCesRequestOptions } = require("./helpers");
 const { logTypesMap } = require("../../utils/constants");
 
-const getTransactionsDataDB = async (req) => {
-  const psn = req.params.psn;
+const getDebtorDataDB = async (req) => {
+  const { body } = req;
 
+  const sanitizedProps = Object.fromEntries(
+    Object.entries(body)?.filter(([_, v]) => Boolean(v))
+  );
   await createLog({
     req,
-    fields: { psn },
-    LOG_TYPE_NAME: logTypesMap.roadPoliceTransactions.name,
+    fields: sanitizedProps,
+    LOG_TYPE_NAME: logTypesMap.mojCes.name,
   });
 
-  const axiosOptions = getRoadPoliceRequestOptions(
-    { psn },
-    "get_owner_changes_info/v1"
+  const axiosOptions = getMojCesRequestOptions(
+    sanitizedProps,
+    "get_debtor_info/v1"
   );
   const { data } = await axios(axiosOptions);
-
-  if (
-    data?.get_owner_changes_info_response?.status !== "ok" ||
-    !data.get_owner_changes_info_response?.result?.length
-  )
-    return [];
-  return data.get_owner_changes_info_response.result[0];
+  return data?.cer_get_debtor_response?.cer_get_debtor_inquests || [];
 };
 
 module.exports = {
-  getTransactionsDataDB,
+  getDebtorDataDB,
 };

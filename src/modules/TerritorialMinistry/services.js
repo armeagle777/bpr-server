@@ -33,7 +33,6 @@ const getPropertyTaxesDB = async (req) => {
     fields: searchParams,
     LOG_TYPE_NAME: logTypesMap.territorialMinPropertyTaxes.name,
   });
-  console.log("searchParams>>>>>>", searchParams);
   const axiosOptions = getTerritorialMinistryRequestOptions(
     searchParams,
     "get_taxes/v1"

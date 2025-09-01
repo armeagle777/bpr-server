@@ -1,8 +1,8 @@
-const { getTransactionsDataDB } = require("./services");
+const { getDebtorDataDB } = require("./services");
 
-const getTransactionsData = async (req, res, next) => {
+const getDebtorData = async (req, res, next) => {
   try {
-    const transactions = await getTransactionsDataDB(req);
+    const transactions = await getDebtorDataDB(req);
 
     res.status(200).json(transactions);
   } catch (err) {
@@ -11,5 +11,5 @@ const getTransactionsData = async (req, res, next) => {
 };
 
 module.exports = {
-  getTransactionsData,
+  getDebtorData,
 };
