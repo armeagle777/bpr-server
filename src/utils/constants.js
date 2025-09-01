@@ -138,6 +138,11 @@ const permissionsMap = {
     name: "ԴԱՀԿ",
     description: "ԴԱՀԿ Համակարգի Որոնում",
   },
+  MLSA: {
+    uid: "6100",
+    name: "Սոցապ",
+    description: "Սոցիալական Վճարումների Որոնում",
+  },
   KADASTR: {
     uid: "7000",
     name: "Կադաստր",
