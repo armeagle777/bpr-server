@@ -1,4 +1,7 @@
-const { searchTaxPayerInfoDB } = require("./services");
+const {
+  searchTaxPayerInfoDB,
+  searchPersonIncomeInfoDB,
+} = require("./services");
 
 const searchTaxPayerInfo = async (req, res, next) => {
   try {
@@ -10,4 +13,14 @@ const searchTaxPayerInfo = async (req, res, next) => {
   }
 };
 
-module.exports = { searchTaxPayerInfo };
+const searchPersonIncomeInfo = async (req, res, next) => {
+  try {
+    const personIncomeData = await searchPersonIncomeInfoDB(req);
+
+    res.status(200).json(personIncomeData);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { searchPersonIncomeInfo, searchTaxPayerInfo };

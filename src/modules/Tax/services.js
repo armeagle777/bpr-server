@@ -4,6 +4,7 @@ const { getTaxRequestOptions } = require("./helpers");
 
 const { createLog } = require("../log/services");
 const { logTypesMap } = require("../../utils/constants");
+const { getEkengRequestsEndDate } = require("../../utils/common");
 
 const getTaxPayerGeneralInfoDB = async (taxId) => {
   try {
@@ -55,8 +56,27 @@ const searchTaxPayerInfoDB = async (req, tax_id) => {
   }
 };
 
+const searchPersonIncomeInfoDB = async (req) => {
+  const ssn = req.params.ssn;
+  const start_date = req.query.startDate || "1970-01-01";
+  const end_date = req.query.endDate || getEkengRequestsEndDate();
+
+  const ekengRequestProps = { ssn, start_date, end_date };
+
+  await createLog({
+    req,
+    fields: ekengRequestProps,
+    LOG_TYPE_NAME: logTypesMap.taxPersonIncomes.name,
+  });
+
+  const axiosOptions = getTaxRequestOptions(ekengRequestProps, "ssn/v1");
+  const { data } = await axios(axiosOptions);
+  console.log("DATA", data);
+};
+
 module.exports = {
-  getTaxPayerGeneralInfoDB,
-  getTaxPayerLegalInfoDB,
   searchTaxPayerInfoDB,
+  getTaxPayerLegalInfoDB,
+  getTaxPayerGeneralInfoDB,
+  searchPersonIncomeInfoDB,
 };

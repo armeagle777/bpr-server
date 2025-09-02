@@ -71,10 +71,16 @@ function getCurrentDate() {
   return `${day}/${month}/${year}`;
 }
 
+const getEkengRequestsEndDate = () => {
+  const today = new Date();
+  return today.toISOString().split("T")[0];
+};
+
 module.exports = {
   createUserData,
   generateTokens,
   getCurrentDate,
   validateRefreshToken,
   validateAccessToken,
+  getEkengRequestsEndDate,
 };

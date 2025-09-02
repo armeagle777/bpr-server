@@ -131,8 +131,12 @@ const permissionsMap = {
   TAX_TAXPAYER_INFO: {
     uid: "4100",
     name: "ՊԵԿ Հարկ Վճարողի Տվյալներ",
-    description:
-      "Հարկ վճարողի հիմնական տվյալներ( անհրաժեշտ է նաև ՊետՌեգիստրի որոնման համար)",
+    description: "Հարկ վճարողի հիմնական տվյալներ",
+  },
+  TAX_PERSON_ALL_INCOMES: {
+    uid: "4200",
+    name: "Անձի աշխատավայրերը",
+    description: "Անձի բոլոր գրանցված աշխատավայրերը",
   },
   ZAQS: {
     uid: "5000",
@@ -307,6 +311,11 @@ const logTypesMap = {
   },
   taxPayerInfo: {
     name: "Հարկ վճարողի տվյալների որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  taxPersonIncomes: {
+    name: "Անձի աշխատավայրերի տվյալների որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
