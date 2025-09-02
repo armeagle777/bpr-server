@@ -71,7 +71,7 @@ const searchPersonIncomeInfoDB = async (req) => {
 
   const axiosOptions = getTaxRequestOptions(ekengRequestProps, "ssn/v1");
   const { data } = await axios(axiosOptions);
-  console.log("DATA", data);
+  return data?.tax_ssn_response?.taxPayerInfo || [];
 };
 
 module.exports = {
