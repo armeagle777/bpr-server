@@ -18,9 +18,10 @@ const getPensionDataDB = async (ssn) => {
     return null;
   }
 };
+
 const getSocialPaymentsDataDB = async (req) => {
   const ssn = req.params.ssn;
-  console.log("ssn", ssn);
+
   await createLog({
     req,
     fields: { ssn },

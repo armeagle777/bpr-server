@@ -299,6 +299,11 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  taxPayerInfo: {
+    name: "Հարկ վճարողի տվյալների որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 };
 
 const APPLICATION_JSON_HEADERS = {
