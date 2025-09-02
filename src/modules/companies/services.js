@@ -9,6 +9,7 @@ const {
   formatCompaniesSearchParams,
 } = require("./helpers");
 const { logTypesMap } = require("../../utils/constants");
+const { searchTaxPayerInfoDB } = require("../Tax/services");
 
 const getCompaniesBySsnDb = async (req) => {
   const { ssn } = req.params;
@@ -43,9 +44,22 @@ const searchCompaniesDb = async (req) => {
     return [];
   }
   const company = data?.br_company_info_response?.br_company;
-  if (!company || !Object.keys(company)?.length) return [];
+  const companiesFountInRegister = company && !!Object.keys(company)?.length;
 
-  return [company];
+  // Company found in State Register
+  if (companiesFountInRegister) return [company];
+
+  //Company not found and taxId not provided in search params
+  if (!formatedParams.tax_id) return [];
+
+  // Try to find company lightData from Tax api
+  const taxPayerCompany = await searchTaxPayerInfoDB(
+    req,
+    formatedParams.tax_id
+  );
+  if (!taxPayerCompany) return [];
+  taxPayerCompany.isLightData = true;
+  return [taxPayerCompany];
 };
 
 module.exports = {

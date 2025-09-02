@@ -36,9 +36,9 @@ const getTaxPayerLegalInfoDB = async (taxId) => {
   }
 };
 
-const searchTaxPayerInfoDB = async (req) => {
+const searchTaxPayerInfoDB = async (req, tax_id) => {
   try {
-    const taxId = req.params.taxId;
+    const taxId = tax_id || req.params.taxId;
     await createLog({
       req,
       fields: { tax_id: taxId },
@@ -47,7 +47,7 @@ const searchTaxPayerInfoDB = async (req) => {
 
     const generalInfo = await getTaxPayerGeneralInfoDB(taxId);
     const legalInfo = await getTaxPayerLegalInfoDB(taxId);
-
+    if (!generalInfo && !legalInfo) return null;
     return { generalInfo, legalInfo };
   } catch (error) {
     console.log("Error searching TaxPayer  info: ", error);

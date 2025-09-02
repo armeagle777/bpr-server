@@ -128,6 +128,12 @@ const permissionsMap = {
     name: "ՊԵԿ",
     description: "Հարկային Որոնում",
   },
+  TAX_TAXPAYER_INFO: {
+    uid: "4100",
+    name: "ՊԵԿ Հարկ Վճարողի Տվյալներ",
+    description:
+      "Հարկ վճարողի հիմնական տվյալներ( անհրաժեշտ է նաև ՊետՌեգիստրի որոնման համար)",
+  },
   ZAQS: {
     uid: "5000",
     name: "ՔԿԱԳ",

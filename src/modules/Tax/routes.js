@@ -5,12 +5,12 @@ const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
 const { searchTaxPayerInfo } = require("./controller");
 
-const { TAX, ADMIN } = permissionsMap;
+const { TAX_TAXPAYER_INFO, ADMIN } = permissionsMap;
 
 taxRoute.get(
   "/taxpayer-info/:taxId",
   authMiddleware,
-  rolesMiddleware([ADMIN.uid, TAX.uid]),
+  rolesMiddleware([ADMIN.uid, TAX_TAXPAYER_INFO.uid]),
   searchTaxPayerInfo
 );
 
