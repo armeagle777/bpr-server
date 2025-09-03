@@ -3,7 +3,11 @@ const taxRoute = require("express").Router();
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
-const { searchTaxPayerInfo, searchPersonIncomeInfo } = require("./controller");
+const {
+  searchTaxPayerInfo,
+  searchPersonIncomeInfo,
+  searchPersonEmployers,
+} = require("./controller");
 
 const {
   TAX_TAXPAYER_INFO,
@@ -31,7 +35,7 @@ taxRoute.get(
   "/person/:ssn/employers",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, TAX_PERSON_ALL_EMPLOYERS.uid, TAX.uid]),
-  searchPersonIncomeInfo
+  searchPersonEmployers
 );
 
 module.exports = taxRoute;

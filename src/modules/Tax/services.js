@@ -4,7 +4,10 @@ const { getTaxRequestOptions } = require("./helpers");
 
 const { createLog } = require("../log/services");
 const { logTypesMap } = require("../../utils/constants");
-const { getEkengRequestsEndDate } = require("../../utils/common");
+const {
+  getEkengRequestsEndDate,
+  getEndDateWithDots,
+} = require("../../utils/common");
 
 const getTaxPayerGeneralInfoDB = async (taxId) => {
   try {
@@ -76,8 +79,8 @@ const searchPersonIncomeInfoDB = async (req) => {
 
 const searchPersonEmployersDB = async (req) => {
   const ssn = req.params.ssn;
-  const start_date = req.query.startDate || "1970-01-01";
-  const end_date = req.query.endDate || getEkengRequestsEndDate();
+  const start_date = req.query.startDate || "01.01.1970";
+  const end_date = req.query.endDate || getEndDateWithDots();
 
   const ekengRequestProps = { ssn, start_date, end_date };
 
