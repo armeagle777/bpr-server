@@ -143,6 +143,11 @@ const permissionsMap = {
     name: "Անձի աշխատավայրերը",
     description: "Անձի բոլոր գրանցված աշխատավայրերը",
   },
+  TAX_COMPANY_OBLIGATIONS: {
+    uid: "4400",
+    name: "Ընկերության պարտավորությունները",
+    description: "Ընկերության պարտավորությունները",
+  },
   ZAQS: {
     uid: "5000",
     name: "ՔԿԱԳ",
@@ -326,6 +331,11 @@ const logTypesMap = {
   },
   taxPersonEmployers: {
     name: "Անձի աշխատավայրերի տվյալների որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  taxCompanyObligations: {
+    name: "Ընկերության պարտավորությունների որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },

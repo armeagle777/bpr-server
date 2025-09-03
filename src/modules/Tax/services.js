@@ -74,6 +74,30 @@ const searchPersonIncomeInfoDB = async (req) => {
   return data?.tax_ssn_response?.taxPayerInfo || [];
 };
 
+const getCompanyObligationsDB = async (req) => {
+  const tin = req.params.tin;
+  const start_date = req.query.startDate || "1970-01-01";
+  const end_date = req.query.endDate || getEkengRequestsEndDate();
+
+  const ekengRequestProps = { tin, start_date, end_date };
+
+  await createLog({
+    req,
+    fields: ekengRequestProps,
+    LOG_TYPE_NAME: logTypesMap.taxCompanyObligations.name,
+  });
+
+  const axiosOptions = getTaxRequestOptions(
+    ekengRequestProps,
+    "tin_info_obligation/v1"
+  );
+  const { data } = await axios(axiosOptions);
+  return data?.ssn_obligations_response?.statusCode === 1 &&
+    data?.ssn_obligations_response
+    ? data.ssn_obligations_response
+    : null;
+};
+
 const searchPersonEmployersDB = async (req) => {
   const ssn = req.params.ssn;
   const start_date = req.query.startDate || "1970-01-01";
@@ -99,6 +123,7 @@ module.exports = {
   searchTaxPayerInfoDB,
   getTaxPayerLegalInfoDB,
   getTaxPayerGeneralInfoDB,
+  getCompanyObligationsDB,
   searchPersonIncomeInfoDB,
   searchPersonEmployersDB,
 };
