@@ -5,8 +5,9 @@ const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
 const {
   searchTaxPayerInfo,
-  getCompanyObligations,
   searchPersonIncomeInfo,
+  searchPersonEmployers,
+  getCompanyObligations,
 } = require("./controller");
 
 const {
@@ -36,7 +37,7 @@ taxRoute.get(
   "/person/:ssn/employers",
   authMiddleware,
   rolesMiddleware([ADMIN.uid, TAX_PERSON_ALL_EMPLOYERS.uid, TAX.uid]),
-  searchPersonIncomeInfo
+  searchPersonEmployers
 );
 
 taxRoute.get(
