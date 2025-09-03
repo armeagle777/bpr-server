@@ -74,9 +74,31 @@ const searchPersonIncomeInfoDB = async (req) => {
   return data?.tax_ssn_response?.taxPayerInfo || [];
 };
 
+const searchPersonEmployersDB = async (req) => {
+  const ssn = req.params.ssn;
+  const start_date = req.query.startDate || "1970-01-01";
+  const end_date = req.query.endDate || getEkengRequestsEndDate();
+
+  const ekengRequestProps = { ssn, start_date, end_date };
+
+  await createLog({
+    req,
+    fields: ekengRequestProps,
+    LOG_TYPE_NAME: logTypesMap.taxPersonEmployers.name,
+  });
+
+  const axiosOptions = getTaxRequestOptions(
+    ekengRequestProps,
+    "get_tax_info/v1"
+  );
+  const { data } = await axios(axiosOptions);
+  return data?.get_tax_info_response?.EmployerInfo || [];
+};
+
 module.exports = {
   searchTaxPayerInfoDB,
   getTaxPayerLegalInfoDB,
   getTaxPayerGeneralInfoDB,
   searchPersonIncomeInfoDB,
+  searchPersonEmployersDB,
 };

@@ -135,6 +135,11 @@ const permissionsMap = {
   },
   TAX_PERSON_ALL_INCOMES: {
     uid: "4200",
+    name: "Անձի եկամուտները",
+    description: "Անձի բոլոր գրանցված եկամուտները",
+  },
+  TAX_PERSON_ALL_EMPLOYERS: {
+    uid: "4300",
     name: "Անձի աշխատավայրերը",
     description: "Անձի բոլոր գրանցված աշխատավայրերը",
   },
@@ -315,6 +320,11 @@ const logTypesMap = {
     updatedAt: new Date(),
   },
   taxPersonIncomes: {
+    name: "Անձի եկամուտների տվյալների որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  taxPersonEmployers: {
     name: "Անձի աշխատավայրերի տվյալների որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
