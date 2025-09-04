@@ -8,6 +8,7 @@ const {
   searchPersonIncomeInfo,
   searchPersonEmployers,
   getCompanyObligations,
+  getCompnayAllEmployees,
 } = require("./controller");
 
 const {
@@ -17,6 +18,7 @@ const {
   TAX,
   TAX_PERSON_ALL_EMPLOYERS,
   TAX_COMPANY_OBLIGATIONS,
+  TAX_COMPANY_EMPLOYEES,
 } = permissionsMap;
 
 taxRoute.get(
@@ -43,8 +45,15 @@ taxRoute.get(
 taxRoute.get(
   "/company/:tin/obligations",
   authMiddleware,
-  rolesMiddleware([ADMIN.uid, TAX_COMPANY_OBLIGATIONS.uid]),
+  rolesMiddleware([ADMIN.uid, TAX_COMPANY_OBLIGATIONS.uid, TAX.uid]),
   getCompanyObligations
+);
+
+taxRoute.get(
+  "/company/:taxId/all-employees",
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, TAX_COMPANY_OBLIGATIONS.uid, TAX.uid]),
+  getCompnayAllEmployees
 );
 
 module.exports = taxRoute;

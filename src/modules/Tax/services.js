@@ -121,6 +121,37 @@ const searchPersonEmployersDB = async (req) => {
   return data?.get_tax_info_response?.EmployerInfo || [];
 };
 
+const getCompanyAllEmployeesDB = async (req) => {
+  const tax_id = req.params.taxId;
+
+  const ekengRequestProps = { tax_id };
+
+  await createLog({
+    req,
+    fields: ekengRequestProps,
+    LOG_TYPE_NAME: logTypesMap.taxCompanyEmployees.name,
+  });
+
+  const activeEmployeesAxiosOptions = getTaxRequestOptions(
+    ekengRequestProps,
+    "get_org_active_employees/v1"
+  );
+
+  const allEmployeesAxiosOptions = getTaxRequestOptions(
+    ekengRequestProps,
+    "get_org_employees/v1"
+  );
+
+  const [allEmployeesResponse, activeEmployeesResponse] =
+    await Promise.allSettled([
+      axios(allEmployeesAxiosOptions),
+      axios(activeEmployeesAxiosOptions),
+    ]);
+
+  console.log("allEmployeesResponse>>", allEmployeesResponse);
+  console.log("activeEmployeesResponse>>", activeEmployeesResponse);
+};
+
 module.exports = {
   searchTaxPayerInfoDB,
   getTaxPayerLegalInfoDB,
@@ -128,4 +159,5 @@ module.exports = {
   getCompanyObligationsDB,
   searchPersonIncomeInfoDB,
   searchPersonEmployersDB,
+  getCompanyAllEmployeesDB,
 };
