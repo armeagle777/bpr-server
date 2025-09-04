@@ -79,10 +79,10 @@ const searchPersonIncomeInfoDB = async (req) => {
 
 const getCompanyObligationsDB = async (req) => {
   const tin = req.params.tin;
-  const start_date = req.query.startDate || "1970-01-01";
-  const end_date = req.query.endDate || getEkengRequestsEndDate();
+  const startDate = req.query.startDate || "1970-01-01";
+  const endDate = req.query.endDate || getEkengRequestsEndDate();
 
-  const ekengRequestProps = { tin, start_date, end_date };
+  const ekengRequestProps = { tin, startDate, endDate };
 
   await createLog({
     req,
@@ -95,8 +95,7 @@ const getCompanyObligationsDB = async (req) => {
     "tin_info_obligation/v1"
   );
   const { data } = await axios(axiosOptions);
-  return data?.ssn_obligations_response?.statusCode === 1 &&
-    data?.ssn_obligations_response
+  return data?.ssn_obligations_response?.responseStatus?.statusCode === 1
     ? data.ssn_obligations_response
     : null;
 };
