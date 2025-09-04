@@ -3,6 +3,7 @@ const {
   searchPersonIncomeInfoDB,
   searchPersonEmployersDB,
   getCompanyObligationsDB,
+  getCompanyAllEmployeesDB,
 } = require("./services");
 
 const searchTaxPayerInfo = async (req, res, next) => {
@@ -45,9 +46,20 @@ const searchPersonEmployers = async (req, res, next) => {
   }
 };
 
+const getCompnayAllEmployees = async (req, res, next) => {
+  try {
+    const companyAllEmployees = await getCompanyAllEmployeesDB(req);
+
+    res.status(200).json(companyAllEmployees);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   searchPersonIncomeInfo,
   searchTaxPayerInfo,
   searchPersonEmployers,
   getCompanyObligations,
+  getCompnayAllEmployees,
 };
