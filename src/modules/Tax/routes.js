@@ -52,7 +52,7 @@ taxRoute.get(
 taxRoute.get(
   "/company/:taxId/all-employees",
   authMiddleware,
-  rolesMiddleware([ADMIN.uid, TAX_COMPANY_OBLIGATIONS.uid, TAX.uid]),
+  rolesMiddleware([ADMIN.uid, TAX_COMPANY_EMPLOYEES.uid, TAX.uid]),
   getCompnayAllEmployees
 );
 
