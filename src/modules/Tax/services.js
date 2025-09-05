@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const { getTaxRequestOptions } = require("./helpers");
+const { getTaxRequestOptions, mapActivePropToEmployees } = require("./helpers");
 
 const { createLog } = require("../log/services");
 const { logTypesMap } = require("../../utils/constants");
@@ -148,8 +148,30 @@ const getCompanyAllEmployeesDB = async (req) => {
       axios(activeEmployeesAxiosOptions),
     ]);
 
-  console.log("allEmployeesResponse>>", allEmployeesResponse);
-  console.log("activeEmployeesResponse>>", activeEmployeesResponse);
+  const allEmployeesData =
+    allEmployeesResponse.status === "fulfilled"
+      ? allEmployeesResponse.value.data
+      : null;
+
+  const activeEmployeesData =
+    activeEmployeesResponse.status === "fulfilled"
+      ? activeEmployeesResponse.value.data
+      : null;
+
+  const activeEmployees =
+    activeEmployeesData?.tax_get_org_active_employees_response?.employees ||
+    null;
+  const allEmployees =
+    allEmployeesData?.tax_get_org_employees_response?.employees || null;
+
+  if (!activeEmployees?.length) return allEmployees;
+
+  // Add isActiveEmployee prop  to allEmployees objects
+  const mappedEmployees = mapActivePropToEmployees(
+    activeEmployees,
+    allEmployees
+  );
+  return mappedEmployees;
 };
 
 module.exports = {

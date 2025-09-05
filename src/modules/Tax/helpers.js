@@ -9,4 +9,16 @@ const getTaxRequestOptions = (body, path) => {
   return options;
 };
 
-module.exports = { getTaxRequestOptions };
+const mapActivePropToEmployees = (activeEmployees, allEmployees) => {
+  if (!allEmployees?.length) return null;
+  activeEmployees?.forEach((activeEmployee) => {
+    const employee = allEmployees?.find(
+      (emp) => emp.personalinfo?.ssn === activeEmployee.personalinfo?.ssn
+    );
+    if (employee) employee.isActiveEmployee = true;
+  });
+
+  return allEmployees;
+};
+
+module.exports = { getTaxRequestOptions, mapActivePropToEmployees };
