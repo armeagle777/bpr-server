@@ -7,6 +7,7 @@ const { getRoadPoliceRequestOptions, formatBprData } = require("./helpers");
 const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { fetchPersonWpLightData } = require("../wp/helpers");
 const { getPersonAVVDataDB } = require("../AVV/services");
+const { getECivilDocumentsDB } = require("../ECivil/services");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
@@ -61,40 +62,18 @@ const getSearchedPersonsDb = async (req) => {
 };
 
 const getDocumentsBySsnDb = async (req) => {
-  const qkagUrl = process.env.QKAG_URL;
   const { ssn } = req.params;
   const { firstName, lastName } = req.body;
   await createLog({ req, fields: { ssn } });
 
-  var queryData = qs.stringify(
-    {
-      ssn,
-      first_name: firstName,
-      last_name: lastName,
-    },
-    { encode: true }
-  );
-
-  var config = {
-    method: "post",
-    url: qkagUrl,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: queryData,
+  const queryData = {
+    ssn,
+    first_name: firstName,
+    last_name: lastName,
   };
 
-  const response = await axios(config);
-
-  const { status, result } = response.data;
-
-  const documents = Object.values(result);
-
-  if (documents.length === 0) {
-    return [];
-  }
-
-  return documents;
+  const documents = await getECivilDocumentsDB(queryData);
+  return documents || [];
 };
 
 const getTaxBySsnDb = async (req) => {
