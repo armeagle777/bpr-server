@@ -1,5 +1,4 @@
 const {
-  getTaxBySsnDb,
   getPersonBySsnDb,
   searchVehiclesDb,
   getPoliceByPnumDb,
@@ -26,16 +25,6 @@ const getSearchedPersons = async (req, res, next) => {
     const persons = await getSearchedPersonsDb(req);
 
     res.status(200).json(persons);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getTaxBySsn = async (req, res, next) => {
-  try {
-    const person = await getTaxBySsnDb(req);
-
-    res.status(200).json(person);
   } catch (err) {
     next(err);
   }
@@ -115,7 +104,6 @@ module.exports = {
   getPersonBySsn,
   getSearchedPersons,
   getQkagInfoBySsn,
-  getTaxBySsn,
   getCompanyByHvhh,
   getPoliceByPnum,
   getRoadpoliceBySsn,

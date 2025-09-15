@@ -6,7 +6,6 @@ const {
   getPersonBySsn,
   getSearchedPersons,
   getQkagInfoBySsn,
-  getTaxBySsn,
   getCompanyByHvhh,
   getPoliceByPnum,
   getRoadpoliceBySsn,
@@ -48,13 +47,6 @@ personsRoute.post(
   authMiddleware,
   rolesMiddleware([BPR.uid, ADMIN.uid]),
   getSearchedPersons
-);
-personsRoute.get(
-  "/:ssn/tax",
-  authMiddleware,
-  rolesMiddleware([TAX.uid, ADMIN.uid]),
-  ssnSanitizeMiddleware,
-  getTaxBySsn
 );
 personsRoute.get(
   "/:ssn/roadpolice",

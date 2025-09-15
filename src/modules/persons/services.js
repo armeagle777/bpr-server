@@ -76,24 +76,6 @@ const getDocumentsBySsnDb = async (req) => {
   return documents || [];
 };
 
-const getTaxBySsnDb = async (req) => {
-  const { ssn } = req.params;
-  await createLog({ req, fields: { ssn } });
-  const taxUrl = process.env.TAX_URL;
-
-  const { data } = await axios.post(`${taxUrl}`, { ssn });
-
-  if (!data.taxPayersInfo) {
-    return [];
-  }
-
-  const {
-    taxPayersInfo: { taxPayerInfo },
-  } = data;
-
-  return taxPayerInfo;
-};
-
 const getRoadpoliceBySsnDb = async (req) => {
   const { ssn } = req.params;
   await createLog({ req, fields: { ssn } });
@@ -102,7 +84,7 @@ const getRoadpoliceBySsnDb = async (req) => {
       key: "psn",
       value: ssn,
     },
-    process.env.ROADPOLICE_URL_LICENSES_PATH
+    "get_driving_license_with_info/v1"
   );
   const { data: licenseData } = await axios(licensesAxiosConfigs);
   const license =
@@ -113,7 +95,7 @@ const getRoadpoliceBySsnDb = async (req) => {
       key: "psn",
       value: ssn,
     },
-    process.env.ROADPOLICE_URL_VEHICLES_PATH
+    "get_vehicle_info/v1"
   );
   const { data } = await axios(vehiclesAxiosConfigs);
   const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
@@ -135,7 +117,7 @@ const searchVehiclesDb = async (req) => {
       key: searchBase,
       value: paramValue,
     },
-    process.env.ROADPOLICE_URL_VEHICLES_PATH
+    "get_vehicle_info/v1"
   );
   const { data } = await axios(vehiclesAxiosConfigs);
   const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
@@ -230,7 +212,6 @@ module.exports = {
   getPersonBySsnDb,
   getSearchedPersonsDb,
   getDocumentsBySsnDb,
-  getTaxBySsnDb,
   getCompanyByHvhhDb,
   getPoliceByPnumDb,
   getRoadpoliceBySsnDb,

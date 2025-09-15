@@ -21,4 +21,7 @@ const mapActivePropToEmployees = (activeEmployees, allEmployees) => {
   return allEmployees;
 };
 
-module.exports = { getTaxRequestOptions, mapActivePropToEmployees };
+module.exports = {
+  getTaxRequestOptions,
+  mapActivePropToEmployees,
+};

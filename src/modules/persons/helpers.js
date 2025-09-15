@@ -26,7 +26,7 @@ const getLicensesAxiosConfigs = (psn) => {
   return {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${process.env.ROADPOLICE_URL}/${process.env.ROADPOLICE_URL_LICENSES_PATH}`,
+    url: `${process.env.ROADPOLICE_URL}/get_driving_license_with_info/v1`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
