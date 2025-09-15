@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const { getAVVRequestOptions } = require("./helpers");
 
-const getPersonBPRDataDB = async (params) => {
+const getPersonAVVDataDB = async (params) => {
   try {
     const axiosOptions = getAVVRequestOptions(params, "search");
     const response = await axios(axiosOptions);
@@ -21,5 +21,5 @@ const getPersonBPRDataDB = async (params) => {
 };
 
 module.exports = {
-  getPersonBPRDataDB,
+  getPersonAVVDataDB,
 };

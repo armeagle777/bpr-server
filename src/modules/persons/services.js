@@ -6,17 +6,20 @@ const { createLog } = require("../log/services");
 const { getRoadPoliceRequestOptions, formatBprData } = require("./helpers");
 const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { fetchPersonWpLightData } = require("../wp/helpers");
-const { getPersonBPRDataDB } = require("../BPR/services");
+const { getPersonAVVDataDB } = require("../AVV/services");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
   const { ssn } = params;
+
   await createLog({ req, fields: { ssn } });
-  var queryData = qs.stringify({
+
+  const queryData = {
     psn: ssn,
     addresses: "ALL",
-  });
-  const persons = await getPersonBPRDataDB(queryData);
+  };
+
+  const persons = await getPersonAVVDataDB(queryData);
   if (!persons) return [];
 
   const person = persons[0];
@@ -27,15 +30,14 @@ const getPersonBySsnDb = async (req) => {
 
 const getSearchedPersonsDb = async (req) => {
   const body = req.body;
-  const bprUrl = process.env.BPR_URL;
 
   const {
-    firstName,
+    ssn,
     lastName,
-    patronomicName,
+    firstName,
     birthDate,
     documentNumber,
-    ssn,
+    patronomicName,
   } = body;
 
   const searchData = {
@@ -48,36 +50,14 @@ const getSearchedPersonsDb = async (req) => {
     ...(documentNumber && { docnum: documentNumber }),
   };
 
-  var queryData = qs.stringify(searchData);
-
   await createLog({ req, fields: searchData });
 
-  var config = {
-    method: "post",
-    url: bprUrl,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: queryData,
-  };
+  const persons = await getPersonAVVDataDB(searchData);
+  if (!persons) return [];
 
-  const response = await axios(config);
+  const formatedPersons = persons.map((person) => formatBprData(person));
 
-  const { status, result } = response.data;
-
-  if (status === "failed") {
-    return [];
-  }
-
-  const persons = result.map((person) => {
-    const { AVVDocuments, AVVAddresses, ...restInfo } = person;
-
-    const addresses = AVVAddresses?.AVVAddress || [];
-    const documents = AVVDocuments?.Document || [];
-    return { addresses, documents, ...restInfo };
-  });
-
-  return persons;
+  return formatedPersons;
 };
 
 const getDocumentsBySsnDb = async (req) => {
