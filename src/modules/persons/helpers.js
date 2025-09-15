@@ -1,6 +1,7 @@
 const qs = require("qs");
 
 const EkengIntegration = require("../../integrations/EkengIntegration");
+const { defaultAddress, defaultDocument } = require("../../utils/constants");
 
 const getBordercrossAxiosConfigs = ({ passportNumber, citizenship }) => {
   const axiosData = `<?xml version="1.0" encoding="UTF-8"?>\r\n <data>\r\n    <citizenship>${citizenship}</citizenship>\r\n    <passportNumber>${passportNumber}</passportNumber>\r\n </data>`;
@@ -45,8 +46,16 @@ const getRoadPoliceRequestOptions = ({ key, value }, path) => {
   return options;
 };
 
+const formatBprData = (data) => {
+  const { AVVDocuments, AVVAddresses, ...restInfo } = data;
+  const addresses = AVVAddresses?.AVVAddress || defaultAddress;
+  const documents = AVVDocuments?.Document || defaultDocument;
+  return { addresses, documents, ...restInfo };
+};
+
 module.exports = {
-  getBordercrossAxiosConfigs,
+  formatBprData,
   getLicensesAxiosConfigs,
+  getBordercrossAxiosConfigs,
   getRoadPoliceRequestOptions,
 };

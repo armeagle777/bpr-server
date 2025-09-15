@@ -1,48 +1,28 @@
 const axios = require("axios");
 const qs = require("qs");
-const { defaultAddress, defaultDocument } = require("../../utils/constants");
 
 const ApiError = require("../../exceptions/api-error");
 const { createLog } = require("../log/services");
-const { getRoadPoliceRequestOptions } = require("./helpers");
+const { getRoadPoliceRequestOptions, formatBprData } = require("./helpers");
 const { getCadastreRequestOptions } = require("../kadastr/helpers");
-const { getCurrentDate } = require("../../utils/common");
 const { fetchPersonWpLightData } = require("../wp/helpers");
+const { getPersonBPRDataDB } = require("../BPR/services");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
-  const bprUrl = process.env.BPR_URL;
   const { ssn } = params;
   await createLog({ req, fields: { ssn } });
   var queryData = qs.stringify({
     psn: ssn,
     addresses: "ALL",
   });
+  const persons = await getPersonBPRDataDB(queryData);
+  if (!persons) return [];
 
-  var config = {
-    method: "post",
-    url: bprUrl,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: queryData,
-  };
+  const person = persons[0];
 
-  const response = await axios(config);
-
-  const { status, result } = response.data;
-
-  if (status === "failed") {
-    return [];
-  }
-
-  if (!result.length) return [];
-  const person = result[0];
-
-  const { AVVDocuments, AVVAddresses, ...restInfo } = person;
-  const addresses = AVVAddresses?.AVVAddress || defaultAddress;
-  const documents = AVVDocuments?.Document || defaultDocument;
-  return { addresses, documents, ...restInfo };
+  const formatedData = formatBprData(person);
+  return formatedData;
 };
 
 const getSearchedPersonsDb = async (req) => {
