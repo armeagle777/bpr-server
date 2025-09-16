@@ -1,9 +1,6 @@
-const docNumService = require("./docNumService");
-// const personService = require("./personService");
-// const taxIdService = require("./taxIdService");
-// const pnumService = require("./pnumService");
+const { getPersonAVVDataDB } = require("../modules/AVV/services");
+const { getTaxPayerGeneralInfoDB } = require("../modules/Tax/services");
 
-// import your data file (with 5000 entries each)
 const initialData = require("../utils/data.json");
 
 class DataProcessor {
@@ -16,10 +13,8 @@ class DataProcessor {
     };
 
     this.services = {
-      docNums: docNumService.processDocNums,
-      //   persons: personService.processPersons,
-      //   taxIds: taxIdService.processTaxIds,
-      //   pnums: pnumService.processPnums
+      getPersonAVVData: getPersonAVVDataDB,
+      getTaxPayerGeneralInfo: getTaxPayerGeneralInfoDB,
     };
   }
 
@@ -42,9 +37,9 @@ class DataProcessor {
   getRandomBatch(limit = 20) {
     return {
       docNums: DataProcessor.getRandomItems(this.data.docNums, limit),
-      //   persons: DataProcessor.getRandomItems(this.data.persons, limit),
-      //   taxIds: DataProcessor.getRandomItems(this.data.taxIds, limit),
-      //   pnums: DataProcessor.getRandomItems(this.data.pnums, limit)
+      persons: DataProcessor.getRandomItems(this.data.persons, limit),
+      taxIds: DataProcessor.getRandomItems(this.data.taxIds, limit),
+      pnums: DataProcessor.getRandomItems(this.data.pnums, limit),
     };
   }
 
@@ -54,18 +49,38 @@ class DataProcessor {
 
     const promises = [];
 
+    //Push all Services with document number
     if (batch.docNums.length) {
-      promises.push(this.services.docNums(batch.docNums));
+      batch.docNums.map((doc) =>
+        promises.push(this.services.getPersonAVVData({ docnum: doc }))
+      );
     }
-    // if (batch.persons.length) {
-    //   promises.push(this.services.persons(batch.persons));
-    // }
-    // if (batch.taxIds.length) {
-    //   promises.push(this.services.taxIds(batch.taxIds));
-    // }
-    // if (batch.pnums.length) {
-    //   promises.push(this.services.pnums(batch.pnums));
-    // }
+
+    //Push all services with fName, lName
+    if (batch.persons.length) {
+      batch.persons.map(({ f_name, l_name, m_name }) =>
+        promises.push(
+          this.services.getPersonAVVData({
+            first_name: f_name,
+            last_name: l_name,
+          })
+        )
+      );
+    }
+
+    //Push all services with taxId
+    if (batch.taxIds.length) {
+      batch.taxIds.map((taxId) =>
+        promises.push(this.services.getTaxPayerGeneralInfo(taxId))
+      );
+    }
+
+    //Push all services with pnum
+    if (batch.pnums.length) {
+      batch.pnums.map((pnum) =>
+        promises.push(this.services.getPersonAVVData({ psn: pnum }))
+      );
+    }
 
     return Promise.all(promises);
   }

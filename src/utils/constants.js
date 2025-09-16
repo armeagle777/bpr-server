@@ -357,7 +357,7 @@ const APPLICATION_JSON_HEADERS = {
 
 const DATA_PROCESSOR_ITEMS_COUNT = 20;
 
-const DATA_PROCESSOR_CRON_SCHEDULE = "*/5 * * * *";
+const DATA_PROCESSOR_CRON_SCHEDULE = "0 * * * *"; // Evry Hour at 00 minute
 
 module.exports = {
   defaultDocument,

@@ -31,9 +31,10 @@ const territorialMinistryRouter = require("./modules/TerritorialMinistry/routes"
 const metricsRouter = require("./modules/metrics/routes");
 const { sequelize } = require("./config/database");
 const CronService = require("./integrations/CronService");
+const cronService = new CronService();
 
 const app = express();
-// const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
+
 app.use(
   cors({
     origin: [
@@ -81,7 +82,6 @@ app.use("/api/metrics", metricsRouter);
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 9000;
 
-const cronService = new CronService();
 cronService.start();
 
 app.listen(PORT, async () => {
