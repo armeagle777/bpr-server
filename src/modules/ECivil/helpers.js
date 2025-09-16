@@ -1,4 +1,4 @@
-const PreviousEkengIntegration = require("../../integrations/previousEkengIntegration");
+const PreviousEkengIntegration = require("../../integrations/PrevEkengIntegration");
 
 const getECivilRequestOptions = (body, path) => {
   const civilUrl = `ecivil/${path}`;

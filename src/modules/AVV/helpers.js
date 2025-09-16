@@ -1,4 +1,4 @@
-const PreviousEkengIntegration = require("../../integrations/previousEkengIntegration");
+const PreviousEkengIntegration = require("../../integrations/PrevEkengIntegration");
 
 const getAVVRequestOptions = (body, path) => {
   const avvUrl = `avv/${path}`;

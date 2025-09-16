@@ -355,6 +355,10 @@ const APPLICATION_JSON_HEADERS = {
   "Content-Type": "application/json",
 };
 
+const DATA_PROCESSOR_ITEMS_COUNT = 20;
+
+const DATA_PROCESSOR_CRON_SCHEDULE = "*/5 * * * *";
+
 module.exports = {
   defaultDocument,
   defaultAddress,
@@ -362,4 +366,6 @@ module.exports = {
   permissionsMap,
   logTypesMap,
   APPLICATION_JSON_HEADERS,
+  DATA_PROCESSOR_ITEMS_COUNT,
+  DATA_PROCESSOR_CRON_SCHEDULE,
 };
