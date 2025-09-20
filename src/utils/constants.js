@@ -284,7 +284,7 @@ const logTypesMap = {
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-  asyum: {
+  asylum: {
     name: "Փախստականների Բազայում Որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
