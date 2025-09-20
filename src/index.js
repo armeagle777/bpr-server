@@ -27,6 +27,7 @@ const taxRouter = require("./modules/Tax/routes");
 const mlsaRouter = require("./modules/MLSA/routes");
 const roadPoliceRouter = require("./modules/RoadPolice/routes");
 const territorialMinistryRouter = require("./modules/TerritorialMinistry/routes");
+const filesRouter = require("./modules/Files/routes");
 
 const metricsRouter = require("./modules/metrics/routes");
 const { sequelize } = require("./config/database");
@@ -78,6 +79,7 @@ app.use("/api/road-police", roadPoliceRouter);
 app.use("/api/territorial-ministry", territorialMinistryRouter);
 app.use("/api/utils", utilsRouter);
 app.use("/api/metrics", metricsRouter);
+app.use("/api/files", filesRouter);
 
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 9000;
