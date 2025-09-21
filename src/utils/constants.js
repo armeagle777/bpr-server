@@ -163,6 +163,11 @@ const permissionsMap = {
     name: "ԴԱՀԿ",
     description: "ԴԱՀԿ Համակարգի Որոնում",
   },
+  MOJ_CIVIL: {
+    uid: "6002",
+    name: "Արդարադատության նախ.",
+    description: "Արդարադատության նախ.",
+  },
   MLSA: {
     uid: "6100",
     name: "Սոցապ",
@@ -326,6 +331,11 @@ const logTypesMap = {
   },
   mojCes: {
     name: "ԴԱՀԿ բազայում որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  mojCivil: {
+    name: "Արդարադատության նախ.",
     createdAt: new Date(),
     updatedAt: new Date(),
   },

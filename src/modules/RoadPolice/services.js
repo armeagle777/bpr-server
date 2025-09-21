@@ -40,6 +40,7 @@ const getViolationsDataDB = async (req) => {
     { psn },
     "get_violations/v1"
   );
+  console.log("axiosOptions>>>>>", axiosOptions);
   const { data } = await axios(axiosOptions);
 
   return data?.rp_get_violations_response?.rp_violations || [];
