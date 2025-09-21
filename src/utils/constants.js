@@ -199,6 +199,11 @@ const permissionsMap = {
     name: "Տ/Մ հաշվառումներ",
     description: "Անձի կատարած բոլոր հաշվառման գործարքների պատմության հարցում",
   },
+  ROADPOLICE_VIOLATIONS: {
+    uid: "32000",
+    name: "ՃՈ իրավախախտումներ",
+    description: "Անձի կատարած իրավախախտումների հարցում",
+  },
   ROADPOLICE_FULL_SEARCH: {
     uid: "40000",
     name: "ՃՈ ամբողջական որոնում",
@@ -276,6 +281,11 @@ const logTypesMap = {
   },
   roadPoliceTransactions: {
     name: "Տ/Մ Հաշվառումների Պատմության Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  roadPoliceViolations: {
+    name: "ՃՈ Իրավախախտումների Որոնում",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
