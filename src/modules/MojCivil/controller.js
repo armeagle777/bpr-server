@@ -1,4 +1,4 @@
-const { getCivilCaseDataDB } = require("./services");
+const { getCivilCaseDataDB, getBeneficiaryDataDB } = require("./services");
 
 const getCivilCasesData = async (req, res, next) => {
   try {
@@ -10,6 +10,17 @@ const getCivilCasesData = async (req, res, next) => {
   }
 };
 
+const getBeneficiaryData = async (req, res, next) => {
+  try {
+    const data = await getBeneficiaryDataDB(req);
+
+    res.status(200).json(data);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getCivilCasesData,
+  getBeneficiaryData,
 };
