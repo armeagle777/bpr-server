@@ -53,11 +53,11 @@ const searchDrivingLicenseDB = async (req) => {
     Object.entries(body)?.filter(([_, v]) => Boolean(v))
   );
 
-  // await createLog({
-  //   req,
-  //   fields: sanitizedProps,
-  //   LOG_TYPE_NAME: logTypesMap.roadPolice.name,
-  // });
+  await createLog({
+    req,
+    fields: sanitizedProps,
+    LOG_TYPE_NAME: logTypesMap.roadPolice.name,
+  });
 
   const axiosOptions = getRoadPoliceRequestOptions(
     sanitizedProps,
