@@ -1,4 +1,4 @@
-const { Like } = require("../../config/database");
+const { Like, LikeType } = require("../../config/database");
 
 const getLikesDB = async (req) => {
   const { user } = req;
@@ -14,29 +14,28 @@ const getLikesDB = async (req) => {
 };
 
 const createLikeDb = async (req) => {
-  const { user, params, body } = req;
+  const { user, body } = req;
   const { id: userId } = user;
-  const { uid } = params;
-  const { text } = body;
-  let responseData;
 
-  const likeRow = await Like.findOne({
-    where: { uid, userId },
+  const { fields, likeTypeName } = body;
+  const sanitizedFields = Object.fromEntries(
+    Object.entries(fields)?.filter(([_, v]) => Boolean(v))
+  );
+
+  // find the LikeType row
+  const likeType = await LikeType.findOne({ where: { name: likeTypeName } });
+  if (!likeType) {
+    throw new Error(`LikeType '${likeTypeName}' not found`);
+  }
+
+  const newLikeRow = await Like.create({
+    fields: sanitizedFields,
+    userId,
+    likeTypeId: likeType.id,
   });
 
-  if (likeRow) {
-    responseData = likeRow;
-    await likeRow.destroy();
-  } else {
-    const newLikeRow = await Like.create({
-      uid,
-      userId,
-      text,
-    });
-    responseData = newLikeRow;
-  }
   return {
-    data: responseData,
+    data: newLikeRow,
   };
 };
 

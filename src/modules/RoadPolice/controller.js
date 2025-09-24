@@ -1,4 +1,8 @@
-const { getTransactionsDataDB, getViolationsDataDB } = require("./services");
+const {
+  getTransactionsDataDB,
+  getViolationsDataDB,
+  searchDrivingLicenseDB,
+} = require("./services");
 
 const getTransactionsData = async (req, res, next) => {
   try {
@@ -20,7 +24,18 @@ const getViolationsData = async (req, res, next) => {
   }
 };
 
+const searchDrivingLicenses = async (req, res, next) => {
+  try {
+    const licenses = await searchDrivingLicenseDB(req);
+
+    res.status(200).json(licenses);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getViolationsData,
   getTransactionsData,
+  searchDrivingLicenses,
 };

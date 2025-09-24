@@ -371,6 +371,44 @@ const logTypesMap = {
   },
 };
 
+const likeTypesMap = {
+  bpr: {
+    name: "ԲՊՌ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  stateRegister: {
+    name: "ԻԱՊՌ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  cadaster: {
+    name: "Կադաստրի Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  weapon: {
+    name: "Զենքերի Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  wp: {
+    name: "Աշխ. Թույլտվության Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  roadPolice: {
+    name: "ՃՈ Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  asylum: {
+    name: "Փախստականների Բազայում Որոնում",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+};
+
 const APPLICATION_JSON_HEADERS = {
   "Content-Type": "application/json",
 };
@@ -385,6 +423,7 @@ module.exports = {
   ERROR_MESSAGES,
   permissionsMap,
   logTypesMap,
+  likeTypesMap,
   APPLICATION_JSON_HEADERS,
   DATA_PROCESSOR_ITEMS_COUNT,
   DATA_PROCESSOR_CRON_SCHEDULE,

@@ -151,11 +151,28 @@ Log.belongsTo(LogType, {
   foreignKey: "logTypeId",
 });
 
-const Like = sequelize.define(
-  "Likes",
+const LikeType = sequelize.define(
+  "LikeType",
   {
-    uid: { type: DataTypes.STRING, allowNull: false },
-    text: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Like = sequelize.define(
+  "Savings",
+  {
+    fields: { type: DataTypes.JSON, allowNull: false },
+    likeTypeId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: LikeType,
+        key: "id",
+      },
+      allowNull: false,
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -177,6 +194,15 @@ User.hasMany(Like, {
 
 Like.belongsTo(User, {
   foreignKey: "userId",
+});
+
+LikeType.hasMany(Like, {
+  foreignKey: "likeTypeId",
+  onDelete: "CASCADE",
+});
+
+Like.belongsTo(LikeType, {
+  foreignKey: "likeTypeId",
 });
 
 const Permission = sequelize.define(
@@ -204,5 +230,6 @@ module.exports = {
   Log,
   LogType,
   Like,
+  LikeType,
   Permission,
 };

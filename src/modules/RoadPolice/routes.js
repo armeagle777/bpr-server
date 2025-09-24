@@ -2,10 +2,18 @@ const roadPoliceRoute = require("express").Router();
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { permissionsMap } = require("../../utils/constants");
-const { getTransactionsData, getViolationsData } = require("./controller");
+const {
+  getTransactionsData,
+  getViolationsData,
+  searchDrivingLicenses,
+} = require("./controller");
 
-const { ROADPOLICE_TRANSACTIONS, ADMIN, ROADPOLICE_VIOLATIONS } =
-  permissionsMap;
+const {
+  ROADPOLICE_TRANSACTIONS,
+  ADMIN,
+  ROADPOLICE_VIOLATIONS,
+  ROADPOLICE_FULL_SEARCH,
+} = permissionsMap;
 
 roadPoliceRoute.get(
   "/persons/:psn/transactions",
@@ -19,6 +27,13 @@ roadPoliceRoute.get(
   authMiddleware,
   rolesMiddleware([ADMIN.uid, ROADPOLICE_VIOLATIONS.uid]),
   getViolationsData
+);
+
+roadPoliceRoute.post(
+  "/persons/driving-licenses",
+  authMiddleware,
+  rolesMiddleware([ADMIN.uid, ROADPOLICE_FULL_SEARCH.uid]),
+  searchDrivingLicenses
 );
 
 module.exports = roadPoliceRoute;

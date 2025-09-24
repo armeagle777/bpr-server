@@ -40,13 +40,39 @@ const getViolationsDataDB = async (req) => {
     { psn },
     "get_violations/v1"
   );
-  console.log("axiosOptions>>>>>", axiosOptions);
+
   const { data } = await axios(axiosOptions);
 
   return data?.rp_get_violations_response?.rp_violations || [];
 };
 
+const searchDrivingLicenseDB = async (req) => {
+  const { body } = req;
+
+  const sanitizedProps = Object.fromEntries(
+    Object.entries(body)?.filter(([_, v]) => Boolean(v))
+  );
+
+  // await createLog({
+  //   req,
+  //   fields: sanitizedProps,
+  //   LOG_TYPE_NAME: logTypesMap.roadPolice.name,
+  // });
+
+  const axiosOptions = getRoadPoliceRequestOptions(
+    sanitizedProps,
+    "get_driving_license/v1"
+  );
+
+  const { data } = await axios(axiosOptions);
+
+  return data?.rp_get_driving_license_response
+    ? [data.rp_get_driving_license_response]
+    : [];
+};
+
 module.exports = {
   getViolationsDataDB,
   getTransactionsDataDB,
+  searchDrivingLicenseDB,
 };
