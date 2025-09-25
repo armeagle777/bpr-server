@@ -46,21 +46,21 @@ const getViolationsDataDB = async (req) => {
   return data?.rp_get_violations_response?.rp_violations || [];
 };
 
-const searchDrivingLicenseDB = async (req) => {
-  const { body } = req;
+const searchDrivingLicenseDB = async (licenseNumber) => {
+  // const { body } = req;
 
-  const sanitizedProps = Object.fromEntries(
-    Object.entries(body)?.filter(([_, v]) => Boolean(v))
-  );
+  // const sanitizedProps = Object.fromEntries(
+  //   Object.entries(body)?.filter(([_, v]) => Boolean(v))
+  // );
 
-  await createLog({
-    req,
-    fields: sanitizedProps,
-    LOG_TYPE_NAME: logTypesMap.roadPolice.name,
-  });
+  // await createLog({
+  //   req,
+  //   fields: sanitizedProps,
+  //   LOG_TYPE_NAME: logTypesMap.roadPolice.name,
+  // });
 
   const axiosOptions = getRoadPoliceRequestOptions(
-    sanitizedProps,
+    { rp_license_reg_num: licenseNumber },
     "get_driving_license/v1"
   );
 

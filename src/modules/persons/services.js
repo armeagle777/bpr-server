@@ -8,6 +8,7 @@ const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { fetchPersonWpLightData } = require("../wp/helpers");
 const { getPersonAVVDataDB } = require("../AVV/services");
 const { getECivilDocumentsDB } = require("../ECivil/services");
+const { searchDrivingLicenseDB } = require("../RoadPolice/services");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
@@ -111,6 +112,11 @@ const searchVehiclesDb = async (req) => {
   const { searchBase } = req.query;
 
   await createLog({ req, fields: { [searchBase]: paramValue } });
+
+  if (searchBase === "rp_license_reg_num") {
+    const drivingLicense = await searchDrivingLicenseDB(paramValue);
+    return { licenses: drivingLicense };
+  }
 
   const vehiclesAxiosConfigs = getRoadPoliceRequestOptions(
     {
