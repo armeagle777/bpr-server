@@ -3,9 +3,20 @@ const { Like, LikeType } = require("../../config/database");
 const getLikesDB = async (req) => {
   const { user } = req;
   const { id: userId } = user;
+  const likeTypeName = req.query?.likeTypeName;
+
   const likes = await Like.findAll({
     where: { userId },
     attributes: { exclude: ["userId"] },
+    include: [
+      {
+        model: LikeType,
+        where: likeTypeName ? { name: likeTypeName } : undefined,
+        attributes: [],
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit: 5,
   });
 
   return {
