@@ -1,26 +1,27 @@
-const { getWeaponsDataDB, searchPersonsByImageDB } = require('./services');
+const { getWeaponsDataDB, searchPersonsByImageDB } = require("./services");
 
 const getWeaponsData = async (req, res, next) => {
-    try {
-        const weaponse = await getWeaponsDataDB(req);
+  try {
+    const weaponse = await getWeaponsDataDB(req);
 
-        res.status(200).json(weaponse);
-    } catch (err) {
-        next(err);
-    }
+    res.status(200).json(weaponse);
+  } catch (err) {
+    next(err);
+  }
 };
 
 const searchPersonsByImage = async (req, res, next) => {
-    try {
-        const persons = await searchPersonsByImageDB(req);
+  try {
+    const persons = await searchPersonsByImageDB(req);
 
-        res.status(200).json(persons);
-    } catch (err) {
-        next(err);
-    }
+    res.status(200).json(persons);
+  } catch (err) {
+    console.log("Error Searching by Image: ", err);
+    next(err);
+  }
 };
 
 module.exports = {
-    getWeaponsData,
-    searchPersonsByImage,
+  getWeaponsData,
+  searchPersonsByImage,
 };

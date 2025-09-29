@@ -16,7 +16,7 @@ const getLikesDB = async (req) => {
       },
     ],
     order: [["createdAt", "DESC"]],
-    limit: 5,
+    limit: 3,
   });
 
   return {
