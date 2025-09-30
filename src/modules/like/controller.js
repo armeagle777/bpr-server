@@ -1,4 +1,4 @@
-const { createLikeDb, getLikesDB } = require("./services");
+const { createLikeDb, getLikesDB, deleteLikeDB } = require("./services");
 
 const createLike = async (req, res, next) => {
   try {
@@ -20,7 +20,18 @@ const getLikes = async (req, res, next) => {
   }
 };
 
+const deleteLike = async (req, res, next) => {
+  try {
+    const deletedLike = await deleteLikeDB(req);
+    res.status(200).json(deletedLike);
+  } catch (err) {
+    console.log("Error crating User:", err);
+    next(err);
+  }
+};
+
 module.exports = {
   createLike,
   getLikes,
+  deleteLike,
 };

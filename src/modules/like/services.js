@@ -5,23 +5,70 @@ const getLikesDB = async (req) => {
   const { id: userId } = user;
   const likeTypeName = req.query?.likeTypeName;
 
-  const likes = await Like.findAll({
+  const pageSize = req?.query?.pageSize ? Number(req.query?.pageSize) : 3;
+  const page = req?.query?.page ? Number(req.query?.page) : 1;
+
+  // const likes = await Like.findAll({
+  //   where: { userId },
+  //   attributes: { exclude: ["userId"] },
+  //   include: [
+  //     {
+  //       model: LikeType,
+  //       where: likeTypeName ? { name: likeTypeName } : undefined,
+  //       attributes: ["name"],
+  //     },
+  //   ],
+  //   order: [["createdAt", "DESC"]],
+  //   limit: pageSize,
+  // });
+
+  // return {
+  //   likes,
+  // };
+
+  const { count, rows } = await Like.findAndCountAll({
     where: { userId },
     attributes: { exclude: ["userId"] },
     include: [
       {
         model: LikeType,
         where: likeTypeName ? { name: likeTypeName } : undefined,
-        attributes: [],
+        attributes: ["name"],
       },
     ],
     order: [["createdAt", "DESC"]],
-    limit: 3,
+    offset: (page - 1) * pageSize,
+    limit: +pageSize,
   });
 
   return {
-    likes,
+    data: rows,
+    pagination: {
+      total: count,
+      page: +page,
+      pageSize: +pageSize,
+      totalPages: Math.ceil(count / pageSize),
+    },
   };
+};
+
+const deleteLikeDB = async (req) => {
+  const id = req.params.id;
+
+  const like = await Like.findByPk(id, {
+    include: [
+      {
+        model: LikeType,
+        attributes: ["name"],
+      },
+    ],
+  });
+
+  if (!like) {
+    return { success: false, message: "Like not found" };
+  }
+  await like.destroy();
+  return like;
 };
 
 const createLikeDb = async (req) => {
@@ -53,4 +100,5 @@ const createLikeDb = async (req) => {
 module.exports = {
   createLikeDb,
   getLikesDB,
+  deleteLikeDB,
 };
