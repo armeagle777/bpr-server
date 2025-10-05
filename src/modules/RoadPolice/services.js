@@ -3,6 +3,7 @@ const axios = require("axios");
 const { createLog } = require("../log/services");
 const { getRoadPoliceRequestOptions } = require("./helpers");
 const { logTypesMap } = require("../../utils/constants");
+const { vehicleBlockInfoParamsMap } = require("./constants");
 
 const getTransactionsDataDB = async (req) => {
   const psn = req.params.psn;
@@ -46,6 +47,46 @@ const getViolationsDataDB = async (req) => {
   return data?.rp_get_violations_response?.rp_violations || [];
 };
 
+const getVehicleBlockInfoDB = async (searchProps) => {
+  // Ensure `searchProps` is an object
+  if (!searchProps || typeof searchProps !== "object") {
+    console.error("searchProps must be an object.");
+    return null;
+  }
+
+  // Get all keys of searchProps
+  const keys = Object.keys(searchProps);
+
+  // Ensure there is exactly one key
+  if (keys.length !== 1) {
+    console.error("searchProps must contain exactly one search parameter.");
+    return null;
+  }
+
+  const [key] = keys;
+
+  // Validate that the key is in the map
+  if (!vehicleBlockInfoParamsMap[key]) {
+    console.error(
+      `Invalid search parameter "${key}". Allowed keys: ${Object.keys(
+        vehicleBlockInfoParamsMap
+      ).join(", ")}`
+    );
+    return null;
+  }
+
+  const axiosOptions = getRoadPoliceRequestOptions(
+    searchProps,
+    "get_vehicle_block_info/v1"
+  );
+
+  const { data } = await axios(axiosOptions);
+
+  return !!data?.get_vehicle_block_info_response?.result?.length
+    ? data.get_vehicle_block_info_response.result
+    : null;
+};
+
 const searchDrivingLicenseDB = async (licenseNumber) => {
   // const { body } = req;
 
@@ -74,5 +115,6 @@ const searchDrivingLicenseDB = async (licenseNumber) => {
 module.exports = {
   getViolationsDataDB,
   getTransactionsDataDB,
+  getVehicleBlockInfoDB,
   searchDrivingLicenseDB,
 };

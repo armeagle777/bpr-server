@@ -8,7 +8,10 @@ const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { fetchPersonWpLightData } = require("../wp/helpers");
 const { getPersonAVVDataDB } = require("../AVV/services");
 const { getECivilDocumentsDB } = require("../ECivil/services");
-const { searchDrivingLicenseDB } = require("../RoadPolice/services");
+const {
+  searchDrivingLicenseDB,
+  getVehicleBlockInfoDB,
+} = require("../RoadPolice/services");
 
 const getPersonBySsnDb = async (req) => {
   const params = req.params;
@@ -101,6 +104,14 @@ const getRoadpoliceBySsnDb = async (req) => {
   const { data } = await axios(vehiclesAxiosConfigs);
   const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
+  // Add Vehicle Block info if exists
+  if (vehicles && !!vehicles.length) {
+    const vehicleBlockData = await getVehicleBlockInfoDB({
+      psn: ssn,
+    });
+    vehicles[0].blockData = vehicleBlockData;
+  }
+
   return {
     license,
     vehicles,
@@ -126,8 +137,16 @@ const searchVehiclesDb = async (req) => {
     "get_vehicle_info/v1"
   );
   const { data } = await axios(vehiclesAxiosConfigs);
+
   const vehicles = data?.rp_get_vehicle_info_response?.rp_vehicles || null;
 
+  // Add Vehicle Block info if exists
+  if (vehicles && !!vehicles.length) {
+    const vehicleBlockData = await getVehicleBlockInfoDB({
+      [searchBase]: paramValue,
+    });
+    vehicles[0].blockData = vehicleBlockData;
+  }
   return { vehicles };
 };
 
