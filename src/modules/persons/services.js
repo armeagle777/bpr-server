@@ -214,11 +214,13 @@ const getCompanyByHvhhDb = async (req) => {
 };
 
 const getPropertiesBySsnDb = async (req) => {
-  const kadastrUrl = process.env.KADASTR_CERTIFICATE_URL;
   const { ssn } = req.params;
   await createLog({ req, fields: { ssn } });
 
-  const axiosOptions = getCadastreRequestOptions("ssn", ssn);
+  const axiosOptions = getCadastreRequestOptions(
+    { ssn: ssn },
+    "get_realty_gip/v1"
+  );
   const { data } = await axios(axiosOptions);
 
   if (!data?.cad_get_realty_gip_response?.cad_get_realty) return [];
