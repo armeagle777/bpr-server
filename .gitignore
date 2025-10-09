@@ -12,7 +12,7 @@ ecosystem.config.js
 .prettierrc.json
 .vscode
 /src/utils/data.json
-
+src/utils/data.json
 
 
 
