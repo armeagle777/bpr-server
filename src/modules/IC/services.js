@@ -27,7 +27,10 @@ const getWeaponsDataDB = async (req) => {
 const searchPersonsByImageDB = async (req) => {
   const body = req.body;
   const { imageBase64 } = body;
-  const searchProps = { imageBase64 };
+  const searchProps = {
+    imageBase64,
+    requesterpsn: "",
+  };
 
   await createLog({
     req,
@@ -37,7 +40,7 @@ const searchPersonsByImageDB = async (req) => {
 
   const axiosOptions = getICRequestOptions(
     searchProps,
-    "face_recognition_find/v1"
+    "face_recongition_find/v1"
   );
   const { data } = await axios(axiosOptions);
   return data?.face_recognition_find_response?.persons || [];
