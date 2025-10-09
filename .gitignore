@@ -11,6 +11,7 @@ pdf
 ecosystem.config.js
 .prettierrc.json
 .vscode
+/src/utils/data.json
 
 
 
