@@ -29,7 +29,7 @@ const searchPersonsByImageDB = async (req) => {
   const { imageBase64 } = body;
   const searchProps = {
     imageBase64,
-    requesterpsn: "",
+    requesterpsn: process.env.IMAGE_SEARCH_REQUESTER_PSN,
   };
 
   await createLog({
