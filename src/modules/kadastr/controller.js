@@ -1,4 +1,8 @@
-const { getPropertyByCertificateDb } = require("./services");
+const {
+  getPropertyByCertificateDb,
+  getAllRegions,
+  getAllCommunities,
+} = require("./services");
 
 const getPropertyByCertificate = async (req, res, next) => {
   try {
@@ -10,6 +14,28 @@ const getPropertyByCertificate = async (req, res, next) => {
   }
 };
 
+const getOptionsRegions = async (req, res, next) => {
+  try {
+    const regions = await getAllRegions(req);
+
+    res.status(200).json(regions);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getOptionsCommunities = async (req, res, next) => {
+  try {
+    const communities = await getAllCommunities(req);
+
+    res.status(200).json(communities);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
+  getOptionsRegions,
+  getOptionsCommunities,
   getPropertyByCertificate,
 };

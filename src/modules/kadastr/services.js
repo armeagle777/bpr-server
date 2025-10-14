@@ -41,5 +41,7 @@ async function getAllCommunities() {
 }
 
 module.exports = {
+  getAllRegions,
+  getAllCommunities,
   getPropertyByCertificateDb,
 };

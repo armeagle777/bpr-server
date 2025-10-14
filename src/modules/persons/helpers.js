@@ -1,4 +1,5 @@
 const qs = require("qs");
+const { parse, differenceInYears } = require("date-fns");
 
 const EkengIntegration = require("../../integrations/EkengIntegration");
 const { defaultAddress, defaultDocument } = require("../../utils/constants");
@@ -53,8 +54,42 @@ const formatBprData = (data) => {
   return { addresses, documents, ...restInfo };
 };
 
+const filterPersons = (data, filters) => {
+  return data.filter((item) => {
+    //Age Filtering
+    const birthDate = item.documents.find((doc) => doc.Person.Birth_Date)
+      ?.Person?.Birth_Date;
+    const date = parse(birthDate, "dd/MM/yyyy", new Date());
+    const age = differenceInYears(new Date(), date);
+    const ageCheck =
+      (filters.age.min === null || age >= filters.age.min) &&
+      (filters.age.max === null || age <= filters.age.max);
+
+    // Gender Filtering
+    const sex = item.documents.find((doc) => doc.Person?.Genus)?.Person?.Genus;
+    const genderCheck =
+      (filters.gender?.trim() === "MALE" && sex?.trim() === "M") ||
+      (filters.gender === "FEMALE" && sex === "F") ||
+      filters.gender === "";
+
+    let marzCheck = true;
+    if (filters.marz != "") {
+      marzCheck = Array.isArray(item.addresses)
+        ? item.addresses.some(
+            (addr) =>
+              addr.RegistrationAddress &&
+              addr.RegistrationAddress.Region === filters.marz
+          )
+        : false;
+    }
+
+    return ageCheck && genderCheck && marzCheck;
+  });
+};
+
 module.exports = {
   formatBprData,
+  filterPersons,
   getLicensesAxiosConfigs,
   getBordercrossAxiosConfigs,
   getRoadPoliceRequestOptions,

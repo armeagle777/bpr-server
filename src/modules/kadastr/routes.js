@@ -1,6 +1,10 @@
 const express = require("express");
 
-const { getPropertyByCertificate } = require("./controller");
+const {
+  getPropertyByCertificate,
+  getOptionsRegions,
+  getOptionsCommunities,
+} = require("./controller");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { permissionsMap } = require("../../utils/constants");
@@ -13,6 +17,13 @@ kadastrRoutes.get(
   authMiddleware,
   rolesMiddleware([ADMIN.uid, KADASTR_CERTIFICATE.uid]),
   getPropertyByCertificate
+);
+
+kadastrRoutes.get("/options/regions", authMiddleware, getOptionsRegions);
+kadastrRoutes.get(
+  "/options/communities",
+  authMiddleware,
+  getOptionsCommunities
 );
 
 module.exports = kadastrRoutes;
