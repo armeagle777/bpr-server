@@ -72,18 +72,49 @@ const filterPersons = (data, filters) => {
       (filters.gender === "FEMALE" && sex === "F") ||
       filters.gender === "";
 
-    let marzCheck = true;
-    if (filters.marz != "") {
-      marzCheck = Array.isArray(item.addresses)
+    // --- Region Filtering ---
+    let regionCheck = true;
+    if (filters.region?.label != "") {
+      regionCheck = Array.isArray(item.addresses)
         ? item.addresses.some(
             (addr) =>
               addr.RegistrationAddress &&
-              addr.RegistrationAddress.Region === filters.marz
+              addr.RegistrationAddress.Region === filters.region.label
           )
         : false;
     }
 
-    return ageCheck && genderCheck && marzCheck;
+    // --- Community Filtering ---
+    let communityCheck = true;
+    if (filters.community?.label) {
+      communityCheck = Array.isArray(item.addresses)
+        ? item.addresses.some(
+            (addr) =>
+              addr.RegistrationAddress &&
+              addr.RegistrationAddress.Community === filters.community.label
+          )
+        : false;
+    }
+
+    // --- Settlement Filtering ---
+    let settlementCheck = true;
+    if (filters.settlement) {
+      settlementCheck = Array.isArray(item.addresses)
+        ? item.addresses.some(
+            (addr) =>
+              addr.RegistrationAddress &&
+              addr.RegistrationAddress.Residence === filters.settlement
+          )
+        : false;
+    }
+
+    return (
+      ageCheck &&
+      genderCheck &&
+      regionCheck &&
+      communityCheck &&
+      settlementCheck
+    );
   });
 };
 

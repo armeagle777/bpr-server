@@ -91,7 +91,7 @@ cronService.start();
 app.listen(PORT, async () => {
   try {
     await sequelize.sync({
-      alter: true,
+      // alter: true,
     });
     console.log("Connections connected and synced successfully.");
     console.log("App is running on port ", PORT);

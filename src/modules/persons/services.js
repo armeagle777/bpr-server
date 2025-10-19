@@ -49,7 +49,9 @@ const getSearchedPersonsDb = async (req) => {
     patronomicName,
     age,
     gender,
-    marz,
+    region,
+    community,
+    settlement,
   } = body;
 
   const searchData = {
@@ -69,8 +71,14 @@ const getSearchedPersonsDb = async (req) => {
 
   const formatedPersons = persons.map((person) => formatBprData(person));
 
-  if (age?.min || age?.max || gender || marz)
-    return filterPersons(formatedPersons, { age, marz, gender });
+  if (age?.min || age?.max || gender || region || community || settlement)
+    return filterPersons(formatedPersons, {
+      age,
+      region,
+      gender,
+      community,
+      settlement,
+    });
 
   return formatedPersons;
 };

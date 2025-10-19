@@ -220,6 +220,60 @@ const Permission = sequelize.define(
 Permission.belongsToMany(Role, { through: "Permission_Roles" });
 Role.belongsToMany(Permission, { through: "Permission_Roles" });
 
+const Region = sequelize.define(
+  "Region",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    region_code: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    tableName: "regions",
+    timestamps: false,
+  }
+);
+
+Region.associate = (models) => {
+  Region.hasMany(models.Community, { foreignKey: "region_id" });
+};
+
+const Community = sequelize.define(
+  "Community",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    region_id: { type: DataTypes.INTEGER, allowNull: false },
+    community_code: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    tableName: "communities",
+    timestamps: false,
+  }
+);
+
+Community.associate = (models) => {
+  Community.belongsTo(models.Region, { foreignKey: "region_id" });
+  Community.hasMany(models.Settlement, { foreignKey: "community_id" });
+};
+
+const Settlement = sequelize.define(
+  "Settlement",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    community_id: { type: DataTypes.INTEGER, allowNull: false },
+    settlement_code: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    tableName: "settlements",
+    timestamps: false,
+  }
+);
+
+Settlement.associate = (models) => {
+  Settlement.belongsTo(models.Community, { foreignKey: "community_id" });
+};
+
 sequelize.authenticate();
 
 module.exports = {
@@ -232,4 +286,7 @@ module.exports = {
   Like,
   LikeType,
   Permission,
+  Region,
+  Community,
+  Settlement,
 };

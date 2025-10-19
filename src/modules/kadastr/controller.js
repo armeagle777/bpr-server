@@ -2,6 +2,7 @@ const {
   getPropertyByCertificateDb,
   getAllRegions,
   getAllCommunities,
+  getAllSettlements,
 } = require("./services");
 
 const getPropertyByCertificate = async (req, res, next) => {
@@ -34,8 +35,19 @@ const getOptionsCommunities = async (req, res, next) => {
   }
 };
 
+const getOptionsSettlements = async (req, res, next) => {
+  try {
+    const settlements = await getAllSettlements(req);
+
+    res.status(200).json(settlements);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getOptionsRegions,
   getOptionsCommunities,
+  getOptionsSettlements,
   getPropertyByCertificate,
 };

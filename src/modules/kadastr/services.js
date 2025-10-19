@@ -4,6 +4,7 @@ const { createLog } = require("../log/services");
 const { getCadastreRequestOptions } = require("./helpers");
 const { SEARCH_BASES } = require("./constants");
 const { getCurrentDate } = require("../../utils/common");
+const { Community, Region, Settlement } = require("../../config/database");
 
 const getPropertyByCertificateDb = async (req) => {
   const { searchBase } = req.query;
@@ -30,18 +31,41 @@ const getPropertyByCertificateDb = async (req) => {
 };
 
 async function getAllRegions() {
-  const axiosOptions = getCadastreRequestOptions({}, "get_all_regions/v1");
-  const { data } = await axios(axiosOptions);
-  return data?.get_all_regions_response?.data || [];
+  const regions = await Region.findAll({
+    attributes: ["id", "region_code", "name"],
+    order: [["name", "ASC"]],
+  });
+
+  return regions;
 }
-async function getAllCommunities() {
-  const axiosOptions = getCadastreRequestOptions({}, "get_communities/v1");
-  const { data } = await axios(axiosOptions);
-  return data?.get_communities_response?.data || [];
+
+async function getAllCommunities(req) {
+  const { regionId } = req.query;
+  if (!regionId) return [];
+  const communities = await Community.findAll({
+    where: { region_id: regionId },
+    attributes: ["id", "community_code", "name"],
+    order: [["name", "ASC"]],
+  });
+
+  return communities;
+}
+
+async function getAllSettlements(req) {
+  const { communityId } = req.query;
+  if (!communityId) return [];
+  const settlements = await Settlement.findAll({
+    where: { community_id: communityId },
+    attributes: ["id", "settlement_code", "name"],
+    order: [["name", "ASC"]],
+  });
+
+  return settlements;
 }
 
 module.exports = {
   getAllRegions,
   getAllCommunities,
+  getAllSettlements,
   getPropertyByCertificateDb,
 };

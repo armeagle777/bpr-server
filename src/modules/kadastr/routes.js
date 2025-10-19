@@ -4,6 +4,7 @@ const {
   getPropertyByCertificate,
   getOptionsRegions,
   getOptionsCommunities,
+  getOptionsSettlements,
 } = require("./controller");
 const { rolesMiddleware } = require("../../middlewares/rolesMiddleware");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
@@ -24,6 +25,11 @@ kadastrRoutes.get(
   "/options/communities",
   authMiddleware,
   getOptionsCommunities
+);
+kadastrRoutes.get(
+  "/options/settlements",
+  authMiddleware,
+  getOptionsSettlements
 );
 
 module.exports = kadastrRoutes;
