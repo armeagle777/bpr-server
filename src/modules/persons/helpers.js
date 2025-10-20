@@ -72,49 +72,56 @@ const filterPersons = (data, filters) => {
       (filters.gender === "FEMALE" && sex === "F") ||
       filters.gender === "";
 
-    // --- Region Filtering ---
-    let regionCheck = true;
-    if (filters.region?.label != "") {
-      regionCheck = Array.isArray(item.addresses)
-        ? item.addresses.some(
-            (addr) =>
-              addr.RegistrationAddress &&
-              addr.RegistrationAddress.Region === filters.region.label
-          )
+    // --- Address Filtering (combined logic) ---
+    let addressCheck = true;
+    const { region, community, settlement, street, building, apartment } =
+      filters;
+
+    const hasAddressFilters =
+      region?.label ||
+      community?.label ||
+      settlement ||
+      street?.trim() ||
+      building?.trim() ||
+      apartment?.trim();
+
+    if (hasAddressFilters) {
+      addressCheck = Array.isArray(item.addresses)
+        ? item.addresses.some((addr) => {
+            const reg = addr.RegistrationAddress;
+            if (!reg) return false;
+
+            // region
+            if (region?.label && reg.Region !== region.label) return false;
+
+            // community
+            if (community?.label && reg.Community !== community.label)
+              return false;
+
+            // settlement
+            if (settlement && reg.Residence !== settlement) return false;
+
+            // street (contains, case-insensitive)
+            if (street?.trim()) {
+              const streetFilter = street.trim().toLowerCase();
+              const streetValue = reg.Street?.toLowerCase() || "";
+              if (!streetValue.includes(streetFilter)) return false;
+            }
+
+            // building (exact match)
+            if (building?.trim() && reg.Building?.trim() !== building.trim())
+              return false;
+
+            // apartment (exact match)
+            if (apartment?.trim() && reg.Apartment?.trim() !== apartment.trim())
+              return false;
+
+            return true; // all filters satisfied in this address
+          })
         : false;
     }
 
-    // --- Community Filtering ---
-    let communityCheck = true;
-    if (filters.community?.label) {
-      communityCheck = Array.isArray(item.addresses)
-        ? item.addresses.some(
-            (addr) =>
-              addr.RegistrationAddress &&
-              addr.RegistrationAddress.Community === filters.community.label
-          )
-        : false;
-    }
-
-    // --- Settlement Filtering ---
-    let settlementCheck = true;
-    if (filters.settlement) {
-      settlementCheck = Array.isArray(item.addresses)
-        ? item.addresses.some(
-            (addr) =>
-              addr.RegistrationAddress &&
-              addr.RegistrationAddress.Residence === filters.settlement
-          )
-        : false;
-    }
-
-    return (
-      ageCheck &&
-      genderCheck &&
-      regionCheck &&
-      communityCheck &&
-      settlementCheck
-    );
+    return ageCheck && genderCheck && addressCheck;
   });
 };
 
