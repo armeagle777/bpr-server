@@ -78,9 +78,9 @@ const filterPersons = (data, filters) => {
       filters;
 
     const hasAddressFilters =
-      region?.label ||
-      community?.label ||
-      settlement ||
+      region?.trim() ||
+      community?.trim() ||
+      settlement?.trim() ||
       street?.trim() ||
       building?.trim() ||
       apartment?.trim();
@@ -92,11 +92,10 @@ const filterPersons = (data, filters) => {
             if (!reg) return false;
 
             // region
-            if (region?.label && reg.Region !== region.label) return false;
+            if (region && reg.Region !== region) return false;
 
             // community
-            if (community?.label && reg.Community !== community.label)
-              return false;
+            if (community && reg.Community !== community) return false;
 
             // settlement
             if (settlement && reg.Residence !== settlement) return false;
