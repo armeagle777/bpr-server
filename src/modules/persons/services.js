@@ -3,11 +3,7 @@ const qs = require("qs");
 
 const ApiError = require("../../exceptions/api-error");
 const { createLog } = require("../log/services");
-const {
-  getRoadPoliceRequestOptions,
-  formatBprData,
-  filterPersons,
-} = require("./helpers");
+const { getRoadPoliceRequestOptions, formatBprData } = require("./helpers");
 const { getCadastreRequestOptions } = require("../kadastr/helpers");
 const { fetchPersonWpLightData } = require("../wp/helpers");
 const { getPersonAVVDataDB } = require("../AVV/services");
@@ -47,14 +43,8 @@ const getSearchedPersonsDb = async (req) => {
     birthDate,
     documentNumber,
     patronomicName,
-    age,
-    gender,
-    region,
-    community,
-    settlement,
-    street,
-    building,
-    apartment,
+    // age,
+    // gender,
   } = body;
 
   const searchData = {
@@ -74,27 +64,15 @@ const getSearchedPersonsDb = async (req) => {
 
   const formatedPersons = persons.map((person) => formatBprData(person));
 
-  if (
-    age?.min ||
-    age?.max ||
-    gender ||
-    region ||
-    community ||
-    settlement ||
-    street ||
-    building ||
-    apartment
-  )
-    return filterPersons(formatedPersons, {
-      age,
-      gender,
-      region,
-      community,
-      settlement,
-      street,
-      building,
-      apartment,
-    });
+  // if (
+  //   age?.min ||
+  //   age?.max ||
+  //   gender ||
+  // )
+  //   return filterPersons(formatedPersons, {
+  //     age,
+  //     gender,
+  //   });
 
   return formatedPersons;
 };

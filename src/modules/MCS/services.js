@@ -5,6 +5,7 @@ const {
   getMcsAddressesRequestOptions,
   getMcsPersonsRequestOptions,
   buildPersonSearchByAddressBody,
+  filterPersons,
 } = require("./helpers");
 const ApiError = require("../../exceptions/api-error");
 const { logTypesMap } = require("../../utils/constants");
@@ -163,7 +164,20 @@ async function getPersonsByAddress(addressFilters) {
   const requestOptions = getMcsPersonsRequestOptions("by-addr", body);
   const { data } = await axios(requestOptions);
   if (!data?.ssn_list?.length) return [];
-  return await getPersonsDetailsBySsnList(data.ssn_list);
+  const personsDetailData = await getPersonsDetailsBySsnList(data.ssn_list);
+
+  if (
+    addressFilters?.age?.min ||
+    addressFilters?.age?.max ||
+    addressFilters?.gender
+  ) {
+    return filterPersons(personsDetailData, {
+      age: addressFilters.age,
+      gender: addressFilters.gender,
+    });
+  }
+
+  return personsDetailData;
 }
 
 // Search  persons' f_name ?, l_name ?, p_name ?, b_date ? by birth region and community
@@ -214,7 +228,16 @@ async function searchPersonByBirthAddress(filters) {
   const requestOptions = getMcsPersonsRequestOptions("by-birth-addr", body);
   const { data } = await axios(requestOptions);
   if (!data?.ssn_list?.length) return [];
-  return await getPersonsDetailsBySsnList(data.ssn_list);
+  const personsDetailData = await getPersonsDetailsBySsnList(data.ssn_list);
+
+  if (filters?.age?.min || filters?.age?.max || filters?.gender) {
+    return filterPersons(personsDetailData, {
+      age: filters.age,
+      gender: filters.gender,
+    });
+  }
+
+  return personsDetailData;
 }
 
 // Search  person's f_name ?, l_name ?, p_name ?, b_date ? by registered region and community
@@ -247,7 +270,16 @@ async function searchPersonsByAddress(type, filters, requiredFields) {
   const requestOptions = getMcsPersonsRequestOptions(type, body);
   const { data } = await axios(requestOptions);
   if (!data?.ssn_list?.length) return [];
-  return await getPersonsDetailsBySsnList(data.ssn_list);
+  const personsDetailData = await getPersonsDetailsBySsnList(data.ssn_list);
+
+  // Filter by age and gender
+  if (filters?.age?.min || filters?.age?.max || filters?.gender)
+    return filterPersons(personsDetailData, {
+      age: filters.age,
+      gender: filters.gender,
+    });
+
+  return personsDetailData;
 }
 
 module.exports = {

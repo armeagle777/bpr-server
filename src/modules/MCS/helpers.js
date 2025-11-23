@@ -1,3 +1,5 @@
+const { parse, differenceInYears } = require("date-fns");
+
 const MCSAddressOptionsIntegration = require("../../integrations/MCSAddressOptionsIntegration");
 const MCSPersonsIntegration = require("../../integrations/MCSPersonsIntegration");
 
@@ -76,7 +78,31 @@ const buildPersonSearchByAddressBody = (filters, requiredFields = []) => {
   };
 };
 
+const filterPersons = (data, filters) => {
+  return data.filter((item) => {
+    //Age Filtering
+    const birthDate = item.avv_documents?.find((doc) => doc.person?.birth_date)
+      ?.person?.birth_date;
+    const date = parse(birthDate, "dd/MM/yyyy", new Date());
+    const age = differenceInYears(new Date(), date);
+    const ageCheck =
+      (filters.age.min === null || age >= filters.age.min) &&
+      (filters.age.max === null || age <= filters.age.max);
+
+    // Gender Filtering
+    const sex = item.avv_documents?.find((doc) => doc.person?.genus)?.person
+      ?.genus;
+    const genderCheck =
+      (filters.gender?.trim() === "MALE" && sex?.trim() === "M") ||
+      (filters.gender === "FEMALE" && sex === "F") ||
+      filters.gender === "";
+
+    return ageCheck && genderCheck;
+  });
+};
+
 module.exports = {
+  filterPersons,
   getMcsAddressesRequestOptions,
   getMcsPersonsRequestOptions,
   buildPersonSearchByAddressBody,
