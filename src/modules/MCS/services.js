@@ -151,7 +151,8 @@ async function getPersonsByAddress(addressFilters) {
   };
   const requestOptions = getMcsPersonsRequestOptions("by-addr", body);
   const { data } = await axios(requestOptions);
-  return data?.ssn_list || [];
+  if (!data?.ssn_list?.length) return [];
+  return await getPersonsDetailsBySsnList(data.ssn_list);
 }
 
 // Search  persons' f_name ?, l_name ?, p_name ?, b_date ? by birth region and community
@@ -234,7 +235,8 @@ async function searchPersonsByAddress(type, filters, requiredFields) {
   const body = buildPersonSearchByAddressBody(filters, requiredFields);
   const requestOptions = getMcsPersonsRequestOptions(type, body);
   const { data } = await axios(requestOptions);
-  return data?.ssn_list || [];
+  if (!data?.ssn_list?.length) return [];
+  return await getPersonsDetailsBySsnList(data.ssn_list);
 }
 
 module.exports = {
