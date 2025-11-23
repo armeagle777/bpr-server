@@ -1,11 +1,13 @@
 const axios = require("axios");
 
+const { createLog } = require("../log/services");
 const {
   getMcsAddressesRequestOptions,
   getMcsPersonsRequestOptions,
   buildPersonSearchByAddressBody,
 } = require("./helpers");
 const ApiError = require("../../exceptions/api-error");
+const { logTypesMap } = require("../../utils/constants");
 
 const getCommunitiesDB = async (req) => {
   try {
@@ -81,6 +83,15 @@ const searchPersonsDB = async (req) => {
     building,
     appartment,
   } = body || {};
+
+  const sanitizedProps = Object.fromEntries(
+    Object.entries(body)?.filter(([_, v]) => Boolean(v))
+  );
+  await createLog({
+    req,
+    fields: sanitizedProps,
+    LOG_TYPE_NAME: logTypesMap.mcsAddressSearch.name,
+  });
 
   // Case of searching by birth region and community , otherwise === "LIVING"
   if (addressType === "BIRTH") return await searchPersonByBirthAddress(body);
