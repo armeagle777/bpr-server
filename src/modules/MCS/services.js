@@ -147,13 +147,15 @@ async function getPersonsByAddress(addressFilters) {
     (!apartment && !building)
   )
     throw ApiError.BadRequest("Որոնման պարամետրերը պակաս են");
-
   const body = {
     request: {
       number: "1101",
       department: "999",
     },
-    regist_in_addr: "EVER_REGISTERED", //  "CURRENTLY_REGISTERED"
+    regist_in_addr:
+      addressFilters.registrationType === "EVER"
+        ? "EVER_REGISTERED"
+        : "CURRENTLY_REGISTERED",
     region,
     community,
     residence,

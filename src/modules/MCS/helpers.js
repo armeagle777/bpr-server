@@ -49,7 +49,10 @@ const buildPersonSearchByAddressBody = (filters, requiredFields = []) => {
 
   return {
     request: { number: "1103", department: "999" },
-    regist_in_addr: "EVER_REGISTERED", // OR "CURRENTLY_REGISTERED"
+    regist_in_addr:
+      filters.registrationType === "EVER"
+        ? "EVER_REGISTERED"
+        : "CURRENTLY_REGISTERED",
     ...(region && { region }),
     ...(community && { community }),
     ...(street && { street }),
