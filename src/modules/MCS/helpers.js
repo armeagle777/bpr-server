@@ -1,5 +1,6 @@
 const { parse, differenceInYears } = require("date-fns");
 
+const ApiError = require("../../exceptions/api-error");
 const MCSAddressOptionsIntegration = require("../../integrations/MCSAddressOptionsIntegration");
 const MCSPersonsIntegration = require("../../integrations/MCSPersonsIntegration");
 
