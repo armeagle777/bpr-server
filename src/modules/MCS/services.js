@@ -52,7 +52,11 @@ const getStreetsDB = async (req) => {
     const community = req.query?.community;
     const residence = req.query?.residence;
 
-    if (!region || !community || (!residence && region !== "ԵՐԵՎԱՆ"))
+    if (
+      !region ||
+      !community ||
+      (!residence && region !== "ԵՐԵՎԱՆ" && community !== "ԳՅՈՒՄՐԻ")
+    )
       return null;
 
     const getStreetsRequestOptions = getMcsAddressesRequestOptions(
@@ -124,7 +128,7 @@ async function getPersonsDetailsBySsnList(pnums) {
       number: "1101",
       department: "999",
     },
-    registered_addresses: "CURRENT",
+    registered_addresses: "ALL",
     ssn_list: pnums,
   };
   const getBulkPersonsReqOptions = getMcsPersonsRequestOptions(
@@ -142,7 +146,7 @@ async function getPersonsByAddress(addressFilters) {
   if (
     !region ||
     !community ||
-    (!residence && region !== "ԵՐԵՎԱՆ") ||
+    (!residence && region !== "ԵՐԵՎԱՆ" && community !== "ԳՅՈՒՄՐԻ") ||
     !street ||
     (!apartment && !building)
   )

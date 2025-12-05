@@ -9,7 +9,10 @@ const getPersonAVVDataDB = async (params) => {
     const response = await axios(axiosOptions);
     const { status, result } = response.data;
 
-    if (status === "failed" || !result.length) {
+    if (
+      status === "failed" &&
+      !response?.data?.message?.includes("Error code: 10")
+    ) {
       throw ApiError.BadGateway("Ծառայությունը ժամանակավորապես անհասանելի է");
     }
 
